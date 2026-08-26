@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Meridian Lift Services — lift maintenance, repair and modernisation</title>
+  <meta name="description" content="Planned lift maintenance, 24-hour call-out and modernisation. Fixed visit calendar, one named engineer per building, response times written into the contract.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/site.css">
+  <script src="/js/site.js"></script>
+  <noscript>
+    <style>
+      /* No scripts: the disclosure button is inert, so the menu stays open and the
+         pinned hero collapses to an ordinary section instead of parking on 250vh. */
+      .nav-toggle { display: none; }
+      .mobile-menu[hidden] { display: block; position: static; box-shadow: none; padding-inline: 0; }
+      .site-head { position: static; }
+      .head-inner { flex-wrap: wrap; height: auto; padding-block: 0.75rem; }
+      .pin-spacer { height: auto; }
+      .hero { position: static; height: auto; min-height: 0; padding-block: 3rem; }
+      @media (min-width: 64rem) {
+        .mobile-menu[hidden] { display: none; }
+        .head-inner { height: var(--head-h); padding-block: 0; }
+      }
+    </style>
+  </noscript>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-head">
+    <div class="head-inner wrap">
+      <a class="wordmark" href="/">
+        <svg class="wordmark-mark" viewBox="0 0 26 32" aria-hidden="true" focusable="false" width="26" height="32">
+          <title>Meridian Lift Services</title>
+          <path d="M3 2v28M23 2v28M8 11l5-5 5 5" fill="none" stroke="currentColor" stroke-width="2"/>
+          <rect x="7" y="17" width="12" height="10" fill="currentColor"/>
+        </svg>
+        <span class="wordmark-text">
+          <span class="wordmark-name">Meridian</span>
+          <span class="wordmark-sub">Lift Services</span>
+        </span>
+      </a>
+
+      <nav class="nav-desktop" aria-label="Primary">
+        <ul class="nav-list" role="list">
+          <li><a href="/services/">Services</a></li>
+          <li><a href="/maintenance-plans/">Plans</a></li>
+          <li><a href="/references/">Clients</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </nav>
+
+      <a class="call-link" href="tel:+1-555-0142">
+        <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <title>Telephone</title>
+          <path d="M5.2 1.6 6.9 5 5.5 6.4a8.6 8.6 0 0 0 4.1 4.1L11 9.1l3.4 1.7-.6 2.6a1.4 1.4 0 0 1-1.7 1.1C6.3 13.7 2.3 9.7 1.6 3.8A1.4 1.4 0 0 1 2.7 2.1z" fill="currentColor"/>
+        </svg>
+        <span class="call-number">+1 555-0142</span>
+        <span class="sr-only">Call the 24-hour service line</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="nav-toggle-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="sr-only">Menu</span>
+      </button>
+    </div>
+
+    <div class="mobile-menu" id="mobile-menu" hidden>
+      <nav aria-label="Mobile">
+        <ul class="mobile-list" role="list">
+        <li><a href="/" aria-current="page">Home</a></li>
+        <li><a href="/services/">Services</a></li>
+        <li><a href="/maintenance-plans/">Plans</a></li>
+        <li><a href="/references/">Clients</a></li>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </nav>
+      <a class="btn" href="/contact/">Book a service call</a>
+    </div>
+  </header>
+
+  <div class="pin-spacer">
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <div class="hero-inner wrap">
+        <div class="hero-copy">
+          <p class="eyebrow">Lift maintenance &middot; since 2004</p>
+          <h1 id="hero-title">Elevators that stay in service.</h1>
+          <p class="lede">Planned maintenance, repair and modernisation for passenger and goods lifts &mdash; one named engineer per building.</p>
+          <div class="hero-actions">
+            <a class="btn btn-hero" href="/contact/">Book a service call</a>
+            <a class="link-arrow" href="/maintenance-plans/">Compare maintenance plans</a>
+          </div>
+        </div>
+
+        <div class="hero-scene">
+          <div class="scene-head">
+            <span class="scene-label">Car position</span>
+            <span class="readout">
+              <span class="readout-dot" aria-hidden="true"></span>
+              <span id="floor-readout">Floor G</span>
+            </span>
+          </div>
+
+          <div class="shaft" aria-hidden="true">
+            <div class="rooftop">
+              <svg viewBox="0 0 240 60" preserveAspectRatio="none" focusable="false">
+                <title>Rooftop plant room and skyline above the shaft</title>
+                <rect x="18" y="34" width="34" height="26" fill="currentColor" opacity="0.3"/>
+                <rect x="58" y="42" width="20" height="18" fill="currentColor" opacity="0.22"/>
+                <rect x="162" y="30" width="26" height="30" fill="currentColor" opacity="0.3"/>
+                <rect x="196" y="40" width="30" height="20" fill="currentColor" opacity="0.22"/>
+                <rect x="86" y="18" width="68" height="42" fill="currentColor" opacity="0.88"/>
+                <rect x="117" y="1" width="5" height="17" fill="currentColor"/>
+              </svg>
+            </div>
+
+            <ol class="floor-marks">
+            <li class="floor-mark"><span>G</span></li>
+            <li class="floor-mark"><span>01</span></li>
+            <li class="floor-mark"><span>02</span></li>
+            <li class="floor-mark"><span>03</span></li>
+            <li class="floor-mark"><span>04</span></li>
+            <li class="floor-mark"><span>05</span></li>
+            <li class="floor-mark"><span>06</span></li>
+            <li class="floor-mark"><span>07</span></li>
+            <li class="floor-mark"><span>08</span></li>
+            <li class="floor-mark"><span>09</span></li>
+            <li class="floor-mark"><span>10</span></li>
+            <li class="floor-mark"><span>11</span></li>
+            <li class="floor-mark"><span>12</span></li>
+            </ol>
+
+            <div class="guide-rail"></div>
+
+            <div class="car">
+              <div class="car-frame"></div>
+              <div class="car-tip"></div>
+            </div>
+
+            <div class="pit-floor"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <main id="main">
+    <section class="slab" aria-labelledby="figures-title">
+      <div class="wrap">
+        <div class="stats-slab">
+          <div class="stack rv">
+            <h2 id="figures-title">Maintenance you can audit.</h2>
+            <p class="lede">Every figure here comes out of our own service log. We publish the denominator next to the number, because a percentage without one is a slogan.</p>
+          </div>
+
+          <section class="stats rv rv-d1" aria-label="Service figures for 2025">
+            <div class="stat">
+              <span class="stat-value">2,418</span>
+              <span class="stat-label">Lift units under live maintenance</span>
+              <span class="stat-note">Counted 31 December 2025.</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">38 min</span>
+              <span class="stat-label">Median call-out response, daytime</span>
+              <span class="stat-note">11,806 call-outs. Median, not average.</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value">94.1%</span>
+              <span class="stat-label">Faults cleared on the first visit</span>
+              <span class="stat-note">Excludes jobs held for parts.</span>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="slab slab-sunk" aria-labelledby="work-title">
+      <div class="wrap">
+        <div class="slab-head rv">
+          <p class="eyebrow">What we do</p>
+          <h2 id="work-title">Three contracts, one engineer who knows your building.</h2>
+          <p class="lede">Most of our work is unglamorous and scheduled. The rest is the phone ringing at 02:40 because a car has stopped between floors with someone inside.</p>
+        </div>
+
+        <div class="card-grid rv rv-d1">
+          <article class="card">
+            <span class="card-index">01</span>
+            <h3>Planned maintenance</h3>
+            <p>Fixed-date visits, not "sometime this quarter". Door gear, brakes, ropes, controller logs and safety circuits, checked against a written schedule you get a copy of.</p>
+            <a class="link-arrow" href="/services/">Maintenance detail</a>
+          </article>
+          <article class="card">
+            <span class="card-index">02</span>
+            <h3>24-hour call-out</h3>
+            <p>One number, answered by a duty controller rather than a queue. Entrapments take priority over everything else on the board, day or night.</p>
+            <a class="link-arrow" href="/services/">Call-out terms</a>
+          </article>
+          <article class="card">
+            <span class="card-index">03</span>
+            <h3>Repair and modernisation</h3>
+            <p>Controller swaps, drive replacements, door operator upgrades and full car refurbishments &mdash; costed per unit, with the parts lead time stated up front.</p>
+            <a class="link-arrow" href="/services/">Modernisation work</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="slab" aria-labelledby="callout-title">
+      <div class="wrap">
+        <div class="split">
+          <div class="stack-lg rv">
+            <p class="eyebrow">How a call-out runs</p>
+            <h2 id="callout-title">The commitments we will put in a contract.</h2>
+            <p>Response times are the part of this trade most often promised and least often measured. Ours are written into the contract, logged per job, and reported back to you every quarter whether the quarter went well or not.</p>
+            <ul class="checklist" role="list">
+              <li>An entrapment is attended ahead of every other job on the board.</li>
+              <li>The duty controller calls you back within ten minutes with an engineer name and an arrival window.</li>
+              <li>If we miss a contracted response window, the visit is not charged &mdash; you do not have to ask.</li>
+              <li>Every visit leaves a signed report on site and a copy in your portal the same day.</li>
+            </ul>
+          </div>
+
+          <dl class="spec-list rv rv-d1">
+            <div>
+              <dt>Entrapment</dt>
+              <dd>Attend within 60 minutes, any hour, every day of the year.</dd>
+            </div>
+            <div>
+              <dt>Lift out of service</dt>
+              <dd>Attend within 4 hours during working hours, 8 hours otherwise.</dd>
+            </div>
+            <div>
+              <dt>Intermittent fault</dt>
+              <dd>Attend by the end of the next working day.</dd>
+            </div>
+            <div>
+              <dt>Planned visit missed</dt>
+              <dd>Rebooked within 10 working days and credited to the account.</dd>
+            </div>
+            <div>
+              <dt>Reporting</dt>
+              <dd>Quarterly performance pack, per unit, including the jobs we were late to.</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="slab slab-sunk" aria-labelledby="clients-title">
+      <div class="wrap">
+        <div class="slab-head rv">
+          <p class="eyebrow">Clients</p>
+          <h2 id="clients-title">Buildings that stopped thinking about their lifts.</h2>
+        </div>
+
+        <div class="split">
+          <figure class="quote rv">
+            <blockquote>"We moved four towers across in one weekend and the handover was the least dramatic thing that happened that year. The first quarterly report listed two jobs they were late to, before we noticed."</blockquote>
+            <figcaption><b>Dana Whitlock</b>Head of Estates, Ashmere Property Trust</figcaption>
+          </figure>
+
+          <div class="stack-lg rv rv-d1">
+            <p>Meridian holds contracts on residential blocks, two hospitals, a university campus and a cold-store distribution site. The mix matters: a goods lift in a chilled warehouse fails differently from a passenger lift in a 1970s tower, and an engineer who only sees one of them gets slower at the other.</p>
+            <a class="link-arrow" href="/references/">Read client references</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slab" aria-labelledby="cta-title">
+      <div class="wrap">
+        <div class="cta rv">
+          <div class="stack">
+            <h2 id="cta-title">Send us your asset list.</h2>
+            <p class="lede">Give us the make, model and last examination date for each unit and you will get a written quotation within five working days &mdash; or a straight answer that we are not the right firm for it.</p>
+          </div>
+          <div class="cta-actions">
+            <a class="btn" href="/contact/">Request a quotation</a>
+            <a class="btn btn-ghost" href="/maintenance-plans/">See the plans</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <a class="foot-mark" href="/">
+            <svg class="" viewBox="0 0 26 32" aria-hidden="true" focusable="false" width="22" height="27">
+          <title>Meridian Lift Services</title>
+          <path d="M3 2v28M23 2v28M8 11l5-5 5 5" fill="none" stroke="currentColor" stroke-width="2"/>
+          <rect x="7" y="17" width="12" height="10" fill="currentColor"/>
+        </svg>
+            Meridian
+          </a>
+          <p>Passenger and goods lift maintenance, repair and modernisation. One named engineer per building, a fixed visit calendar, and a call-out line answered by a person at any hour.</p>
+          <p class="fiction">Meridian Lift Services is a fictional company. This site is the test fixture for the site-quality-rig.</p>
+        </div>
+
+        <div>
+          <h2 class="foot-title">Pages</h2>
+          <nav aria-label="Footer">
+            <ul class="foot-list" role="list">
+            <li><a href="/">Home</a></li>
+            <li><a href="/services/">Services</a></li>
+            <li><a href="/maintenance-plans/">Maintenance plans</a></li>
+            <li><a href="/references/">Clients & references</a></li>
+            <li><a href="/about/">About us</a></li>
+            <li><a href="/contact/">Contact</a></li>
+            </ul>
+          </nav>
+        </div>
+
+        <div>
+          <h2 class="foot-title">Get in touch</h2>
+          <ul class="foot-list" role="list">
+            <li><a href="tel:+1-555-0142">+1 555-0142 &middot; 24 hours</a></li>
+            <li><a href="mailto:service@meridianlift.example">service@meridianlift.example</a></li>
+            <li><a href="/contact/">Unit 12, Ashmere Works, Northgate</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="foot-bottom">
+        <p>Figures on this site are illustrative and describe a company that does not exist.</p>
+        <p>Built as a static fixture &middot; no trackers, no cookies</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "lang": "en",
+  "pages": [
+    { "file": "index.html", "path": "/", "label": "Home" },
+    { "file": "services/index.html", "path": "/services", "label": "Services" },
+    { "file": "maintenance-plans/index.html", "path": "/maintenance-plans", "label": "Maintenance plans" },
+    { "file": "about/index.html", "path": "/about", "label": "About" },
+    { "file": "contact/index.html", "path": "/contact", "label": "Contact" },
+    { "file": "references/index.html", "path": "/references", "label": "References" }
+  ]
+}
