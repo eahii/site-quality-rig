@@ -1,0 +1,10 @@
+node_modules/
+dist/
+shots/
+controls/*/dist/
+*.log
+.DS_Store
+# private boot docs — never published
+CLAUDE.md
+docs/BRIEF.md
+private/
