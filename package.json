@@ -8,7 +8,16 @@
     "node": ">=18"
   },
   "scripts": {
-    "build": "node scripts/build.js"
+    "build": "node scripts/build.js",
+    "serve": "node scripts/serve-fixture.js",
+    "test": "node scripts/run-checks.js",
+    "check:viewports": "node checks/measure-viewports.js",
+    "check:hero": "node checks/check-hero.js",
+    "check:contrast": "node checks/check-contrast.js",
+    "check:motion": "node checks/check-motion.js",
+    "check:harden": "node checks/check-harden.js",
+    "check:links": "node checks/check-links.js",
+    "check:deploy": "node checks/check-deploy.js --local"
   },
   "dependencies": {
     "playwright": "^1.62.1",

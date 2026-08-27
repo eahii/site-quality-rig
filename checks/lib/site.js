@@ -29,6 +29,14 @@ function root() {
   return path.resolve(flag('root', 'SITE_ROOT', path.join(REPO, 'dist')));
 }
 
+/* Receipt-grade label for whichever root a run measured. NOT a basename: every built site
+   directory is also called "dist", so a basename cannot say WHICH dist was measured, and a
+   negative control pointed at a mutated copy would stamp the same word as a main run. */
+function rootLabel(p = root()) {
+  const r = path.relative(REPO, p);
+  return (r && !r.startsWith('..') ? r : p).replace(/\\/g, '/');
+}
+
 /* site.json is always read from the repo root, never from --root. The asymmetry is
    deliberate: the manifest and the contracts describe THIS repo's site, so a control can
    point --root at a mutated copy of the build without the manifest drifting with it. */
@@ -148,6 +156,6 @@ async function settleImages(page, timeoutMs = 6000) {
 }
 
 module.exports = {
-  REPO, ARGS, flag, root, siteManifest, pages, viewports, engines, shots, shotLabels,
-  outDir, loadContract, todoSlots, settleImages,
+  REPO, ARGS, flag, root, rootLabel, siteManifest, pages, viewports, engines, shots,
+  shotLabels, outDir, loadContract, todoSlots, settleImages,
 };

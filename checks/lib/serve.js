@@ -37,6 +37,13 @@ async function serve(root, opts = {}) {
       file = path.join(file, 'index.html');
     }
     if (!fs.existsSync(file) || fs.statSync(file).isDirectory()) {
+      /* Real static hosts answer a miss with the site's own 404 page, at status 404. Without
+         this, a built 404 page is the one page in the site that no check can ever render. */
+      const notFound = path.join(base, '404.html');
+      if (fs.existsSync(notFound) && fs.statSync(notFound).isFile()) {
+        res.writeHead(404, { 'content-type': TYPES['.html'], 'cache-control': 'no-store', ...extraHeaders });
+        return fs.createReadStream(notFound).pipe(res);
+      }
       res.writeHead(404, { 'content-type': 'text/plain', ...extraHeaders });
       return res.end('404 ' + p);
     }

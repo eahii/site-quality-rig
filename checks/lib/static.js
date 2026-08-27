@@ -210,9 +210,14 @@ function resolveToDistFile(url, fromFile, distDir) {
   if (clean.startsWith('/')) p = clean.slice(1);
   else p = path.posix.normalize(path.posix.join(path.posix.dirname(fromFile.replace(/\\/g, '/')), clean));
   if (p === '' || p === '.' || p.endsWith('/')) p = path.posix.join(p, 'index.html');
+  /* A candidate must be a FILE. fs.existsSync is true for a directory, so without the
+     isFile() test /services "resolves" to the dist/services directory — the dead-link test
+     then passes on a path no host serves, and the anchor lookup for it, keyed by file,
+     misses and reports every fragment on that page as dead. */
   const candidates = [p, p + '.html', path.posix.join(p, 'index.html')];
   for (const c of candidates) {
-    if (fs.existsSync(path.join(distDir, c))) return c;
+    const abs = path.join(distDir, c);
+    if (fs.existsSync(abs) && fs.statSync(abs).isFile()) return c;
   }
   return null;
 }
