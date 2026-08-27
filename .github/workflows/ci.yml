@@ -2,10 +2,27 @@ name: ci
 
 # The required gate: chromium only, battery then negative controls.
 #
-# Engine policy: the checkers are engine-parameterised and the full chromium+webkit battery
-# costs ~20 min wall (measured on the author's machine, 2026-08-27). Chromium alone is what
-# every push is gated on, because a gate slow enough to be skipped is not a gate. WebKit is
-# not dropped — it moves to full-battery.yml, on a daily schedule and on demand.
+# Engine policy, and the measurements it rests on. Re-measured 2026-08-27 at 611824e on the
+# author's machine — node v22.22.2, playwright 1.62.1, browsers already installed:
+#
+#   npm test                          chromium+webkit   869 cells    525 s
+#   npm test -- --engines chromium    chromium only     555 cells    260 s
+#   npm run test:controls             chromium only     7 controls   101 s
+#
+# An earlier version of this file put the two-engine battery at "~20 min" and rested the split
+# on that. The figure was wrong by a factor of about two; it is corrected here rather than
+# quietly dropped, and the split is kept for reasons that are not about wall time:
+#
+#   - the negative controls are chromium-only by design, so this job is already a one-engine
+#     instrument; adding webkit to it mixes two cadences in one required check;
+#   - the one engine-specific flake this repo has a receipt for is a webkit one — float32
+#     layout rects made a genuine 44px control measure 43.999755859375 and the row went red in
+#     6 of 12 identical runs (checks/measure-viewports.js:123-127). A required gate is the
+#     worst place for that class of red and a dated nightly receipt is the right place;
+#   - webkit is not dropped. full-battery.yml runs both engines daily and on demand.
+#
+# What is measured nowhere: any of this on a GitHub runner. No workflow in this repo has ever
+# executed. The timeouts below are headroom against that unknown, not a prediction.
 
 on:
   push:
@@ -28,9 +45,9 @@ jobs:
     # Pinned rather than ubuntu-latest: the environment is part of every stamp this repo
     # prints, and a runner image that moves underneath the receipts makes them unreproducible.
     runs-on: ubuntu-24.04
-    # Measured 2026-08-27: controls ~7 min, chromium battery under half of the ~20 min
-    # two-engine run. CI runners are slower than the machine those numbers came from, so this
-    # is headroom, not a target.
+    # 260 s + 101 s on the machine in the note above, i.e. about six minutes of work. The
+    # runner is slower by an unmeasured factor and installs a browser first, so 45 is headroom
+    # against an unknown rather than a target.
     timeout-minutes: 45
 
     steps:

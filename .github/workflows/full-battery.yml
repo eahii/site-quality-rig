@@ -1,13 +1,17 @@
 name: full-battery
 
-# The two-engine battery, kept out of the required gate on purpose.
+# The two-engine battery, kept out of the required gate on purpose. The engine policy and the
+# numbers behind it are in ci.yml; the short version is that webkit is a dated receipt here
+# rather than a tax on every push.
 #
-# Judgement (2026-08-27): no push trigger. The measured cost is ~20 min wall for
-# chromium+webkit, and about half of that re-proves on every push exactly what ci.yml already
-# proved on the same commit. A daily run bounds any webkit-only regression to under 24 h,
-# which is the honest trade at this repo's commit rate: every push is gated on chromium, and
-# webkit is a dated receipt rather than a tax on every push. If the commit rate rises or a
-# webkit-only defect ever ships, add `push: branches: [main]` here — the cost is known.
+# Measured 2026-08-27 at 611824e on the author's machine: 525 s for the battery itself,
+# chromium+webkit, 869 cells, browsers already installed. The delta this job carries over the
+# required gate is therefore about 265 s of measuring plus a second engine install. That delta
+# is small enough that moving webkit into ci.yml is a one-line change if a webkit-only defect
+# ever ships — `npm test` without `--engines` is already the two-engine run.
+#
+# No push trigger: a daily run bounds a webkit-only regression to under 24 h, which is the
+# honest trade at this repo's commit rate.
 
 on:
   schedule:
@@ -26,8 +30,8 @@ jobs:
   two-engine:
     name: full battery (chromium + webkit)
     runs-on: ubuntu-24.04
-    # ~20 min measured for the battery itself (2026-08-27), plus two engine installs on a
-    # slower machine than the one that number came from.
+    # 525 s measured for the battery itself (2026-08-27), plus two engine installs on a runner
+    # slower than the machine that number came from by an unmeasured factor.
     timeout-minutes: 60
 
     steps:
