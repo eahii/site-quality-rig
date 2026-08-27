@@ -1,0 +1,45 @@
+{
+  "_status": "FILLED 2026-08-27 from the built fixture (node scripts/build.js), checked in chromium at 320x568 and 1280x640. Every selector was counted in the real DOM; every longest is a real string the fixture's own copy already puts in that slot, never lorem and never a synthetic worst case.",
+  "_longest_note": "longest is chosen by measured single-line width in the slot's own computed font, not by character count. The three stat labels are all exactly 33 characters, so a character count picks one of them at random: measured unwrapped, they are 297.4px, 286.2px and 265.4px, and the widest is the one that has to fit.",
+  "_components_note": "Injecting the longest real string into every instance of a slot is the case that a design drawn with the shortest one never sees. stat-label is the 3-up figure row, where the shortest label sets the row height everybody else is drawn against. card-title spans four pages: the widest real title (346.7px) is 53% wider than the median, so the injection is a real stress rather than a formality. plan-name puts the 320.8px 'Comprehensive' into all three plan cards, two of which are drawn with an 8-9 character name.",
+  "_card_overlap_note": "The .card selector also matches the plan cards, whose heading is an h2 rather than an h3, so the card-title injection finds no target inside them. That is intentional: plan-name covers those cards, and one component per heading level keeps a failure attributable to a single slot.",
+  "_grids_note": "card-grid deliberately matches the grid on all five pages that have one, not only the services page: the item counts differ (3, 6, 3, 3, 4) and a grid drawn for six meets three. Item counts were read from the DOM — every host has at least 2 items, which is what makes N plus/minus 1 meaningful rather than a silent skip.",
+  "_compounds_note": "compounds are the fixture's real unbreakable tokens: strings with no space and no soft hyphen that a narrow column cannot wrap out of trouble. Both were found by walking the rendered text of all six pages and keeping every token of 12 characters or more — these two, at 31 and 28 characters, are the only ones long enough to threaten a 320px column. No phone number is listed: the header and footer numbers are formatted with spaces and hyphens and wrap on their own.",
+  "status": "FILLED",
+  "components": [
+    {
+      "name": "stat-label",
+      "selector": ".stat",
+      "text_selector": ".stat-label",
+      "longest": "Median call-out response, daytime"
+    },
+    {
+      "name": "card-title",
+      "selector": ".card",
+      "text_selector": "h3",
+      "longest": "Ashmere Property Trust, 14 units"
+    },
+    {
+      "name": "plan-name",
+      "selector": ".card-plan",
+      "text_selector": "h2",
+      "longest": "Comprehensive"
+    }
+  ],
+  "grids": [
+    {
+      "name": "card-grid",
+      "selector": ".card-grid",
+      "item_selector": ":scope > .card"
+    },
+    {
+      "name": "process-steps",
+      "selector": ".process",
+      "item_selector": ":scope > li"
+    }
+  ],
+  "compounds": [
+    "MLS-TRACTION-2200-XR-SERVICEKIT",
+    "service@meridianlift.example"
+  ]
+}

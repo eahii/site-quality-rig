@@ -1,0 +1,97 @@
+{
+  "_status": "FILLED 2026-08-27. Every number below was measured on the built fixture (node scripts/build.js, served by checks/lib/serve.js) with Playwright in chromium AND webkit at 320x568, 390x844, 1000x800, 1023x800, 1280x640, 1280x800, 1440x900 and 2560x1440, at frame 1 (scrolled the page once end to end, then back to 0). Nothing here was read off the stylesheet.",
+  "_selectors_note": "These selectors are the fixture site's own. They are the rig's only site-specific input: the checkers refuse to invent a composition, so pointing the rig at a different site means replacing this file, never editing a checker.",
+  "_cta_note": "cta names both call-to-action treatments the fixture uses, the filled/outlined button and the underlined arrow link. The viewports checker unions this with its own [class*=btn] / [class*=cta] net and then judges only the leaves of the match set, so naming .link-arrow here is what actually widens the audit — .btn is already caught by the net.",
+  "_fold_edge_note": "index.html has a designed fold edge. #hero is position:sticky beneath a sticky header at height calc(100svh - var(--head-h)), so its bottom edge is meant to land on the viewport bottom. Measured bottom minus window.innerHeight = +1px at every viewport in both engines; the 1px is the section's own bottom border. tolerance_px 2 covers that and leaves no room for a second pixel of drift.",
+  "_elements_note": "The car shaft and the car itself are aria-hidden decoration, so the checker's rendered() test rejects them on purpose and they cannot be contract elements. .hero-scene is the smallest element that contains the car and is still in the accessibility tree; its measured bottom is 568px at 320x568 (viewport 568) and 1016px at 2560x1440, i.e. inside the fold everywhere.",
+  "_band_note": "The two index bands split at 960px, not at the 1024px nav breakpoint: 960px is where the hero itself changes from a stacked block to a two-column composition. Splitting at the nav breakpoint would put two different hero layouts in one band and hide a regression in whichever half was not measured.",
+  "_never_in_fold_note": "#main and .stats sit below a 250svh pin spacer, so at frame 1 their measured top is roughly three and a half viewports down (1989px at 320x568, 5041px at 2560x1440). They are declared because a collapsed pin is the most likely way this hero breaks, and without the declaration that failure would surface as nothing at all.",
+  "_flowing_note": "The five content pages have no designed fold edge: their first section flows and no element is drawn to end at the viewport bottom. fold_edge 'flowing' skips the plus/minus tolerance edge assertion BY DECLARATION, not by leaving last_in_fold out, so a genuinely missing last_in_fold can still fail loudly on index.html. Their elements[] is the identity block only. Worst measured h1 bottom across all five pages and both engines is 335.7px against the shortest cell's 568px viewport.",
+  "_flowing_lede_note": "The intro lede is deliberately NOT a contract element. Its worst measured bottom is 501.6px at 320x568 (maintenance-plans, chromium), 66px of slack, and the fixture renders in a system font stack whose metrics differ from machine to machine. A contract element needs more headroom than one font substitution can eat, or the gate goes red for a reason nobody edited.",
+  "_nav_breakpoint_note": "1024 is the fixture's own nav breakpoint. Measured: nav_toggle rendered and desktop_nav not at 320, 1000 and 1023; the reverse at 1280 and 2560. The viewports checker reads the number from here instead of holding a constant, so a site with a different breakpoint needs no checker edit.",
+  "_nav_toggle_trailing_note": "40 is the fixture's widest page gutter (--gutter is 2.5rem from 60rem up). Measured gap between the toggle's trailing edge and the header's: 20px in all 60 cells of the rig's default matrix that sit under the nav breakpoint (320, 360, 390, 414 and 768, both engines), and 40px at 1000x800 and 1023x800 — widths the default matrix never visits, which is why the tolerance cannot be read off that matrix alone. The gutter is the whole of the gap; a tolerance below 40 would fail the 960-1023 band for being correctly gutter-aligned.",
+  "_contrast_note": "Registers name the grounds a reviewer can point at, so the contrast checker can prove it measured text on each one rather than sampling only the page ground. The base register — everything not inside a named register — is implicit and is never declared. Measured presence: footer-inverse carries visible text on all 6 pages; filled-control on 5 of 6 (about/index.html has no filled button outside the mobile menu, which is display:none from 1024 up).",
+  "_contrast_selector_note": "filled-control excludes .btn-hero and .btn-ghost. Both carry the .btn class but are light-on-light overrides of it, and folding them into one bucket would let a passing light button stand in as evidence that the dark ground was measured.",
+  "_motion_note": "Every reveal class in the fixture starts with rv (.rv, .rv-in, .rv-d1, .rv-d2), so the one prefix covers the whole set. No extra motion selector is invented to fill the slot. Counted in the built pages: index 10 reveal elements, about 6, services 5, references 5, maintenance-plans 4, contact 0. The pattern is a naming contract, not a per-page presence claim — contact/index.html carries no scroll reveal at all, so a motion checker that asserts at least one reveal per page will go red there, and that red is about the page, not about this slot.",
+  "status": "FILLED",
+  "page": [
+    "index.html",
+    "services/index.html",
+    "maintenance-plans/index.html",
+    "about/index.html",
+    "contact/index.html",
+    "references/index.html"
+  ],
+  "tolerance_px": 2,
+  "selectors": {
+    "header": "header",
+    "nav_toggle": ".nav-toggle",
+    "desktop_nav": ".nav-desktop",
+    "cta": ".btn, .link-arrow",
+    "contact_affordance": ".call-link",
+    "nav_breakpoint_px": 1024,
+    "nav_toggle_trailing_tolerance_px": 40
+  },
+  "compositions": [
+    {
+      "name": "home-stacked",
+      "pages": ["index.html"],
+      "min_width": 0,
+      "max_width": 959,
+      "elements": [
+        "header",
+        "#hero h1",
+        ".hero-actions .btn-hero",
+        "#floor-readout",
+        ".hero-scene"
+      ],
+      "last_in_fold": "#hero",
+      "never_in_fold": ["#main", ".stats"]
+    },
+    {
+      "name": "home-columns",
+      "pages": ["index.html"],
+      "min_width": 960,
+      "max_width": 99999,
+      "elements": [
+        "header",
+        "#hero h1",
+        ".hero-actions .btn-hero",
+        "#floor-readout",
+        ".hero-scene"
+      ],
+      "last_in_fold": "#hero",
+      "never_in_fold": ["#main", ".stats"]
+    },
+    {
+      "name": "content-page-flowing",
+      "pages": [
+        "services/index.html",
+        "maintenance-plans/index.html",
+        "about/index.html",
+        "contact/index.html",
+        "references/index.html"
+      ],
+      "min_width": 0,
+      "max_width": 99999,
+      "fold_edge": "flowing",
+      "elements": [
+        "header",
+        ".slab-open .eyebrow",
+        "h1"
+      ],
+      "never_in_fold": []
+    }
+  ],
+  "_reveal_optional_note": "Resolution of the red the _motion_note above predicted, decided 2026-08-27 rather than by editing the fixture: contact/index.html genuinely carries no scroll reveal, and a rig that can only measure a site whose every page reveals is a weaker instrument than one that can be told where a reveal is not expected. reveal_optional_pages is that telling — a declared exemption, the same shape as hero-contract's cross_check:null and deploy-contract's form:null. It is self-expiring: a listed page that later DOES carry a matching class token fails as a stale declaration, so the exemption cannot outlive the fact it was granted for. Every page NOT listed still fails loudly when the pattern matches nothing on it, which is the rename-detector the coverage row exists to be.",
+  "motion": {
+    "reveal_class_pattern": "rv",
+    "reveal_optional_pages": ["contact/index.html"]
+  },
+  "contrast": {
+    "registers": [
+      { "name": "footer-inverse", "selector": ".site-foot" },
+      { "name": "filled-control", "selector": ".btn:not(.btn-hero):not(.btn-ghost)" }
+    ]
+  }
+}

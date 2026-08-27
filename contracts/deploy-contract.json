@@ -1,0 +1,26 @@
+{
+  "_note": "What a DEPLOYED origin must answer, expressed as data. The static checkers read the built site off local disk and structurally cannot see the failure mode that only exists in transit: an origin that serves something other than what was built, that lost a noindex mechanism on the way, or whose form endpoint is dead. check-deploy.js asserts the relationships; this file says what the values are. FILLED 2026-08-27 against the built fixture (node scripts/build.js) served by scripts/serve-fixture.js.",
+  "_platform_note": "Deliberately platform-neutral, and deliberately a file. The load-bearing property is that the checker never carries a copy of these values: a gate that hardcodes what the host is supposed to send cannot notice when the host config and the gate drift apart, and that drift is silent by nature. An adapter that reads a real platform config (vercel.json, netlify.toml, a Caddyfile, an nginx server block) would emit exactly this shape and drop in without the checker changing a line.",
+  "_headers_note": "Every header here is asserted on every page response, by exact value after trimming. X-Robots-Tag is in the same map as the rest rather than special-cased: one comparison rule for every header is one thing to get right, and the checker treating a header as ordinary data is the whole point of reading the contract from a file. This fixture is a demonstration artifact and must never be indexed, hence noindex.",
+  "_robots_meta_note": "The second, independent noindex mechanism. A response header is set by the host and a meta tag is baked into the build, so they fail in different ways — a host misconfiguration drops the header and leaves the tag, a wrong build flag drops the tag and leaves the header. Asserting both is what makes either failure visible.",
+  "_byte_identity_note": "The served bytes must equal the local built file. A mismatch is honest drift by default: a deployed origin is routinely older than the local build while work is in flight, and an instrument that fails on that teaches people to stop running it. --require-current escalates drift to a failing row — that is the post-deploy mode, the one that answers 'is the live origin THIS build'. Set false to declare the origin is not expected to be byte-identical (a host that rewrites HTML, injects an analytics snippet, or minifies at the edge); the checker then prints the declaration instead of the comparison.",
+  "_form_note": "The submit endpoint is answered by the host, not by a file in the build, so no static check can reach it. Three probes: a valid POST must be accepted, a POST missing a required field must be rejected server-side (client-side validation is not a contract), and a POST with the honeypot filled must be accepted silently. The valid POST is expected to answer demo:true — a probe that triggered a real delivery would mean an instrument sent a message to a human. Probes carry an instrument-labelled string in every required field: honest instrument data, never a fabricated person. Set form to null to declare this origin has no submit endpoint — a declaration the checker prints, not a silent skip.",
+  "status": "FILLED",
+
+  "required_headers": {
+    "X-Robots-Tag": "noindex",
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "strict-origin-when-cross-origin",
+    "X-Frame-Options": "DENY"
+  },
+
+  "robots_meta": "noindex",
+
+  "byte_identity": true,
+
+  "form": {
+    "path": "/api/contact",
+    "required": ["name", "phone"],
+    "honeypot": "company"
+  }
+}

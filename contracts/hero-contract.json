@@ -1,0 +1,53 @@
+{
+  "_note": "What the hero scene IS, expressed as geometry a machine can measure. Every selector, literal and tolerance below is data, not code: check-hero.js asserts the relationships, this file says which elements stand in them. FILLED 2026-08-27 from the built fixture (node scripts/build.js), measured in chromium and webkit at 14 viewport cells from 320x568 to 2560x1440.",
+  "_why_note": "The origin project's hero shipped for weeks with a 3px horizontal offset between the moving element and the line it travels on. It passed two reviewers and every other gate that was green at the time, because no instrument ever asserted where the element was — overflow, contrast, tap targets and fold height were all measured, and the one thing the scene is (an object on a line, moving between two ends) was not. A checker family can be complete and still be blind in the middle of the frame. Hence a contract that names the centre, the ends and the end-state literal.",
+  "status": "FILLED",
+  "page": "index.html",
+  "cells": "390x844,1280x800",
+  "_cells_note": "Default cells for --cells. Two is enough for geometry: the scene's custom properties switch once, at the 60rem breakpoint, so one cell each side of it covers both drawn sizes. Measured spread and contact gap are identical (0.000px) at all 14 cells tried, so more cells buy repetition, not coverage.",
+
+  "selectors": {
+    "scene": "#hero",
+    "rail": ".guide-rail",
+    "frame": ".car > div:first-child",
+    "tip": ".car-tip",
+    "ground": ".pit-floor",
+    "readout": "#floor-readout",
+    "reveal": ".rooftop"
+  },
+  "_selectors_note": "frame is written as a child combinator rather than a class so the assertion breaks loudly if the moving element's inner box is restructured — the box that carries the geometry must stay the first child, and a renamed class that silently stopped being measured is exactly the failure this file exists to prevent.",
+
+  "centerline": ["rail", "frame", "tip"],
+  "center_tolerance_px": 0.5,
+  "_centerline_note": "The law: the elements that travel together share one vertical centre. They may differ in width — the moving box is wider than the line it runs on — but never in centre. 0.5px is subpixel-only; measured spread is 0.000px in both engines at every cell, so any real regression clears this tolerance by an order of magnitude (the origin defect was 3px).",
+
+  "contact": {
+    "from": { "edge": "bottom", "of": "tip" },
+    "to": { "edge": "top", "of": "ground" },
+    "cross_check": { "selector": ".floor-marks", "edge": "bottom", "tolerance_px": 0.5 }
+  },
+  "ground_tolerance_px": 2,
+  "_contact_note": "Frame 1 only, and directional: this scene's moving element ASCENDS, so it starts resting on the ground and the contact is the tip's BOTTOM edge against the ground's TOP edge. A scene whose element descends states the opposite edges here and needs no code change. Ground is MEASURED from the DOM, never a hardcoded pixel: the fold, the scene's own height and the ground band's thickness all move with the viewport.",
+  "_cross_check_note": "A second element whose position is an independent expression of the same ground line (its bottom edge is pinned to the same offset by a different declaration). If the two disagree, the ground line has been moved in one place and not the other, and the contact assertion above would be measuring against a surface that is no longer the floor. Measured delta is 0.000px at every cell in both engines. Set to null to declare that this site has no independent second expression of the ground line — a skip must be declared, never inferred.",
+
+  "climax": "Floor 12",
+  "reveal_min_opacity": 0.9,
+  "_climax_note": "The literal the readout must show at the end of the pinned scrub — the authored destination. A hero edit that quietly moves the destination (a floor count changed, an arrival curve retuned) fails here rather than shipping a scene that stops short. reveal_min_opacity is deliberately far above the reveal element's RESTING opacity (measured 0.220 at frame 1): a bare 'is it visible' test would pass in every frame of the scrub and assert nothing at all. Measured end-state opacity is 1.000.",
+
+  "pin_class_pattern": "pin-spacer",
+  "pin_inset_px": 4,
+  "pin_min_distance_px": 50,
+  "end_frame_tolerance_px": 8,
+  "_pin_note": "The scrub distance is DERIVED from the pin spacer's own geometry (spacer height minus scene height), never copied from the scroll distance written in the site's script — an edit to that number moves this measurement with it. pin_class_pattern is matched against the class list of the scene's parent; when nothing matches, the end state is UNVERIFIABLE and the checker fails rather than skipping. pin_inset_px is how far inside the end of the pin the end state is sampled. Measured distances: 2110px at 390x844, 2000px at 1280x800.",
+  "_end_frame_note": "How far the scene may have slipped from its pinned offset in the frame the end state is read in. The sample is taken inside the pin, so a correct scene sits exactly at its pinned offset and this tolerance absorbs subpixel only. It is also what VERIFIES the derivation above: an end position derived wrongly lands somewhere else on the page, and opacity and textContent pass just as happily when the scene is a thousand pixels above the viewport.",
+
+  "rail_rest_tolerance_px": 0.5,
+  "_rest_note": "Frame-1 geometry is only meaningful at rest. The rail is sampled for a vertical transform until it holds still, so an entry animation still in flight is reported as 'geometry unmeasurable' instead of being blamed on the layout. This fixture's rail carries no vertical animation (measured translateY 0), so the wait returns immediately; the guard stays because a rail that starts moving is precisely the case that would silently corrupt every number below it.",
+
+  "reduced_motion": {
+    "readout_reads": "Floor G",
+    "no_running_animation_on": ".car",
+    "scrub_must_be_off": true
+  },
+  "_reduced_motion_note": "Under prefers-reduced-motion the scrub must be OFF, not merely slower: the readout holds its resting literal, the moving element carries no running CSS animation, and — scrub_must_be_off — scrolling into the scrub range moves nothing. The scroll probe is what makes this row real, and it was added because a negative control proved the row without it was decorative: a build that ignored the reduced-motion query entirely still passed, because at scroll position 0 a live scrub paints exactly the resting frame. The probe compares the contact gap and the readout at 0 against the same two inside the range, so it is independent of where the page has scrolled to."
+}
