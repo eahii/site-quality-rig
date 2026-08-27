@@ -87,11 +87,13 @@ narrowed matrix — the receipt is that the assertion can fire in this repo, not
 matrix; the full two-engine matrix runs green separately under `npm test`.
 
 **Every receipt below was captured from one run of `npm run build && npm run test:controls` at
-`f94132d`, and every commit after that one touches documentation only.** Check that rather
-than believing it:
+`f94132d`. Nothing these receipts were produced by has changed since: every commit after that
+one touches documentation or CI configuration only.** Check that rather than believing it — the
+second command prints nothing:
 
 ```
 git diff --stat f94132d..HEAD
+git diff --stat f94132d..HEAD -- checks controls contracts fixture scripts site.json package-lock.json
 ```
 
 What is between the fences is that run's stdout. Two substitutions run through all of it and
