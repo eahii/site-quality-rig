@@ -40,14 +40,15 @@ git diff --stat 611824e..HEAD -- checks controls contracts fixture scripts site.
 **Negative controls: 7 of 7 fired.** Those receipts come from a separate run at `sha=f94132d` and
 are pasted verbatim, exit codes included, into [`docs/CONTROLS.md`](docs/CONTROLS.md): per control
 the defect, the mechanism it was derived from, the baseline exit code and the mutated exit code.
-Command: `npm run build && npm run test:controls` (chromium).
+Command: `npm run build && npm run test:controls` (chromium). The same command re-run at
+`611824e` on the machine above fired 7 of 7 again, in 101 s.
 
 ## Quickstart
 
 ```
 npm install && npx playwright install chromium webkit
 npm run build && npm test            # the battery, both engines — 869 cells, 526 s above
-npm run test:controls                # the seven injected defects, chromium — 101 s above
+npm run test:controls                # the seven injected defects, chromium — 101 s, same machine
 ```
 
 No API key. No network at runtime: the fixture is served from an ephemeral local port, and
