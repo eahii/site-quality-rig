@@ -208,11 +208,15 @@ async function gridMutate(page, grid, delta) {
   const fold = S.loadContract('fold-contract.json', 'FOLD_CONTRACT');
   const H = slots.json;
   const tol = fold.json.tolerance_px ?? 2;
-  const stamp = {};
+  /* NOT-GREEN is stamped whenever --wip is ACTIVE, not only when a page was actually
+     downgraded. Because: --wip relaxes this run's failure policy whether or not the relaxation
+     happened to fire, and a stamp that appears only on a downgrade makes a permissive run
+     indistinguishable from a strict one on the days nothing is missing. */
+  const stamp = wip ? { wip: 'NOT-GREEN' } : {};
 
   console.log(`harden: root=${rootDir} slots=${slots.path} status=${H.status}`);
   for (const p of missing) {
-    if (wip) { stamp.wip = 'NOT-GREEN'; rep.note(`PENDING page ${p.file} not built — --wip run, NOT-GREEN`); }
+    if (wip) rep.note(`PENDING page ${p.file} not built — --wip run, NOT-GREEN`);
     else rep.fail(`page-missing ${p.file}`, `declared in site.json but absent from ${rootDir}`);
   }
 

@@ -293,7 +293,12 @@ function contactProblems(boxes, cfg) {
   const rootDir = S.root();
   const { declared, built, wip } = S.pages(rootDir);
   const page1 = k.page;
-  const meta = { root: rel(rootDir), contract: rel(contract.path), page: page1 };
+  /* NOT-GREEN is stamped whenever --wip is ACTIVE, not only when a page was actually
+     downgraded. Because: --wip relaxes this run's failure policy whether or not the relaxation
+     happened to fire, and a stamp that appears only on a downgrade makes a permissive run
+     indistinguishable from a strict one on the days nothing is missing — which is the exact
+     question the stamp is read to answer. */
+  const meta = { root: rel(rootDir), contract: rel(contract.path), page: page1, ...(wip ? { wip: 'NOT-GREEN' } : {}) };
 
   if (!declared.some((p) => p.file === page1)) {
     rep.fail(`page ${page1}`, `not declared in site.json (or excluded by --pages) — the hero page must be in the manifest to be measured`);
@@ -304,7 +309,7 @@ function contactProblems(boxes, cfg) {
        receipt can never be mistaken for a green one. */
     if (wip) rep.note(`page-missing ${page1} — not built under ${rootDir} (--wip)`);
     else rep.fail(`page-missing ${page1}`, `not built under ${rootDir} — the hero cannot be measured`);
-    return rep.finish(wip ? { ...meta, wip: 'NOT-GREEN' } : meta);
+    return rep.finish(meta);
   }
 
   const CELLS = cellsFrom(k.cells);
