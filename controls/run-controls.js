@@ -38,7 +38,13 @@ const rel = (p) => path.relative(REPO, p).replace(/\\/g, '/') || '.';
    `args(root)` is written once and called twice — with the pristine dist for the baseline and
    with the fixture for the mutated run — so the two runs cannot drift apart by an edit to one
    of them. `expect` holds VERBATIM fragments captured from real runs, never guesses: an
-   unrelated red must not be able to satisfy a control. */
+   unrelated red must not be able to satisfy a control.
+
+   `sameLine: true` says the fragments are two halves of ONE printed row, so they are required
+   to co-occur on a single line: matched against the whole output they could in principle be
+   satisfied by two unrelated rows. Controls whose fragments genuinely belong to different
+   rows (links, viewports, harden, motion, deploy) cannot use it and keep whole-output
+   matching — a stated limitation, recorded in docs/CONTROLS.md with its reason. */
 const CONTROLS = [
   {
     name: 'links',
@@ -93,6 +99,7 @@ const CONTROLS = [
       '< 3.0 (min 1.11,',
       '#hero-title "Elevators that stay in service."',
     ],
+    sameLine: true,
   },
   {
     name: 'hero',
@@ -103,6 +110,7 @@ const CONTROLS = [
       'frame 1: rail / frame / tip are not on one centerline',
       'spread 8.00px > 0.5px (rail 195.00, frame 195.00, tip 187.00',
     ],
+    sameLine: true,
   },
   {
     /* Deploy is a table entry, not a bypass. It needs an ORIGIN rather than a directory, so
@@ -230,6 +238,11 @@ for (const c of selected) {
     failed.push(`${c.name} (wrong failing line)`);
     continue;
   }
+  if (c.sameLine && !m.out.split('\n').some((l) => c.expect.every((s) => l.includes(s)))) {
+    console.log(`!! ${c.name}: every expected fragment appears, but no single row carries them all — this defect prints them on one row, so they were satisfied by unrelated rows`);
+    failed.push(`${c.name} (fragments on different rows)`);
+    continue;
+  }
   const verdict = c.judge ? c.judge(m.out) : null;
   if (verdict) {
     console.log(`!! ${c.name}: ${verdict}`);
@@ -238,7 +251,7 @@ for (const c of selected) {
   }
 
   fired++;
-  console.log(`FIRED  ${c.name}: baseline exit 0 on ${rel(PRISTINE)}, mutated exit ${m.code} (expected ${wantCode}), matched ${c.expect.map((s) => JSON.stringify(s)).join(' + ')}`);
+  console.log(`FIRED  ${c.name}: baseline exit 0 on ${rel(PRISTINE)}, mutated exit ${m.code} (expected ${wantCode}), matched ${c.expect.map((s) => JSON.stringify(s)).join(' + ')}${c.sameLine ? ' on one row' : ''}`);
 }
 
 console.log(`\n${'='.repeat(78)}`);

@@ -2,10 +2,13 @@
 /* Negative control for checks/check-hero.js — one defect on index.html:
    `.car-tip{margin-left:-8px!important}`.
 
-   This is the replay of the defect the instrument exists for. The origin project's hero
-   shipped for weeks with the moving element's tip sitting 3px left of the line it travels on
-   — a leftover negative margin from a narrower shape. It passed two reviewers and every gate
-   that was green at the time, because nothing in the battery ever asserted WHERE the tip was.
+   This is a replay of the defect class the instrument exists for: a hero in which the moving
+   element's tip sat a few px off the line it travels on, while a battery that measured
+   overflow, contrast, tap targets and fold height stayed green — because none of those
+   assert WHERE the tip is. That is the engineering reason a geometry contract exists.
+   (Unverifiable-from-here provenance: the defect was found in a private project of my own,
+   and nothing about that history can be reproduced from this repo. What is reproducible here
+   is the paragraph below.)
 
    .car-tip in this fixture is centred by `left:50%; transform:translateX(-50%)` and carries
    no margin, so the injected -8px is the entire offset: rail, frame and tip all measure a

@@ -9,8 +9,13 @@
 
    Written in oklch on purpose. The checker resolves every foreground colour through a real
    2D canvas rather than parsing the string, so an oklch value exercises the resolution path
-   end to end — and a colour the engine refuses comes back as an UNRESOLVABLE COLOUR failure
-   instead of a silent 1:1, which is the other thing this control demonstrates is live. */
+   end to end: the ratio it reports for this pair is 1.11:1, which is the authored value and
+   not the 1:1 an unparsed string would collapse to.
+
+   What this control does NOT exercise is the failure branch of that path. Every cell of
+   every run reports `0 unresolvable`, so check-contrast.js:314 (UNRESOLVABLE COLOUR — the
+   row for a colour the engine refuses) never executes here. It is recorded unarmed in
+   docs/CONTROLS.md. */
 
 const F = require('../fixture');
 

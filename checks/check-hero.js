@@ -426,9 +426,11 @@ function contactProblems(boxes, cfg) {
           }
         }
         /* Sampled at scroll 0, the row above cannot tell a honoured reduce query from an
-           ignored one: a live scrub paints exactly the resting frame at progress 0. A
-           negative control proved it — a build that ignored the query entirely passed. So
-           scroll into the scrub range and require that nothing moved. */
+           ignored one: a live scrub paints exactly the resting frame at progress 0. So
+           scroll into the scrub range and require that nothing moved. That argument is a
+           mechanism argument, not a receipt: no control in this repo injects a build that
+           ignores the query, so the two rows below have never been observed firing and
+           docs/CONTROLS.md records them unarmed. */
         if (rm.scrub_must_be_off) {
           const span = await rmPage.evaluate((c) => {
             const scene = document.querySelector(c.sel.scene);
