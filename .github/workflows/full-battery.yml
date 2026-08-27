@@ -1,0 +1,75 @@
+name: full-battery
+
+# The two-engine battery, kept out of the required gate on purpose.
+#
+# Judgement (2026-08-27): no push trigger. The measured cost is ~20 min wall for
+# chromium+webkit, and about half of that re-proves on every push exactly what ci.yml already
+# proved on the same commit. A daily run bounds any webkit-only regression to under 24 h,
+# which is the honest trade at this repo's commit rate: every push is gated on chromium, and
+# webkit is a dated receipt rather than a tax on every push. If the commit rate rises or a
+# webkit-only defect ever ships, add `push: branches: [main]` here — the cost is known.
+
+on:
+  schedule:
+    # 04:17 UTC, off the top of the hour where GitHub's scheduled-run queue is most congested.
+    # Two things a reader should know before citing this as "runs daily": cron only ever fires
+    # on the default branch, and GitHub disables scheduled workflows after 60 days without
+    # repository activity. Check the run history, not this line.
+    - cron: '17 4 * * *'
+  # Dispatch can target any branch, which is how demo/failing-gate gets a two-engine red run.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  two-engine:
+    name: full battery (chromium + webkit)
+    runs-on: ubuntu-24.04
+    # ~20 min measured for the battery itself (2026-08-27), plus two engine installs on a
+    # slower machine than the one that number came from.
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - run: npm ci
+
+      - name: Resolve the pinned playwright version
+        id: pw
+        run: |
+          version=$(node -p "require('./package-lock.json').packages['node_modules/playwright'].version")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      # Distinct key from ci.yml's: this job needs a second engine on disk, and a cache entry
+      # holding only chromium would restore, satisfy the key, and never grow webkit.
+      - name: Cache playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ steps.pw.outputs.version }}-chromium-webkit
+
+      # webkit needs system libraries beyond chromium's; --with-deps is what installs them.
+      - run: npx playwright install --with-deps chromium webkit
+
+      - run: npm run build
+
+      # No --engines flag: the checkers default to chromium,webkit, which is the whole point
+      # of this job. The negative controls are not repeated here — they are chromium-only by
+      # design and ci.yml already runs them on every push.
+      - name: Battery (7 checkers, both engines)
+        run: npm test
+
+      - name: Preserve screenshots from the red run
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shots-two-engine
+          path: shots/
+          if-no-files-found: ignore
+          retention-days: 7

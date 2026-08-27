@@ -1,0 +1,88 @@
+name: ci
+
+# The required gate: chromium only, battery then negative controls.
+#
+# Engine policy: the checkers are engine-parameterised and the full chromium+webkit battery
+# costs ~20 min wall (measured on the author's machine, 2026-08-27). Chromium alone is what
+# every push is gated on, because a gate slow enough to be skipped is not a gate. WebKit is
+# not dropped — it moves to full-battery.yml, on a daily schedule and on demand.
+
+on:
+  push:
+    branches:
+      - main
+      # demo/failing-gate carries a committed fixture defect on purpose, so this workflow is
+      # EXPECTED to finish red there. That red run is the point: it is the linkable evidence
+      # that these gates fire, without anyone having to clone the repo to see it.
+      - demo/failing-gate
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  chromium-gate:
+    name: chromium gate (battery + negative controls)
+    # Pinned rather than ubuntu-latest: the environment is part of every stamp this repo
+    # prints, and a runner image that moves underneath the receipts makes them unreproducible.
+    runs-on: ubuntu-24.04
+    # Measured 2026-08-27: controls ~7 min, chromium battery under half of the ~20 min
+    # two-engine run. CI runners are slower than the machine those numbers came from, so this
+    # is headroom, not a target.
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # package.json declares node >=18. Running the gate on 20 rather than on the author's
+      # local v22.22.2 (the runtime stamped in docs/CONTROLS.md) is deliberate: it keeps a
+      # 22-only API from slipping in behind a green check.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - run: npm ci
+
+      - name: Resolve the pinned playwright version
+        id: pw
+        run: |
+          version=$(node -p "require('./package-lock.json').packages['node_modules/playwright'].version")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      # A speed-up, never a correctness dependency: the install below runs unconditionally, so
+      # a cache miss costs download time and changes nothing about what is verified.
+      - name: Cache playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ steps.pw.outputs.version }}-chromium
+
+      - run: npx playwright install --with-deps chromium
+
+      - run: npm run build
+
+      # scripts/run-checks.js forwards every argument to every checker, so one flag narrows
+      # the whole battery to one engine.
+      - name: Battery (7 checkers, chromium)
+        run: npm test -- --engines chromium
+
+      # controls/run-controls.js requires a checker to be GREEN on the pristine build before it
+      # will credit that checker's red on a mutated copy. demo/failing-gate ships a deliberately
+      # broken fixture, so no baseline there can be green and the suite cannot reach 7/7 — that
+      # is the baseline rule working as designed, not a regression, so it is not a signal there.
+      - name: Negative controls (7 defect injections)
+        if: github.ref_name != 'demo/failing-gate' && github.head_ref != 'demo/failing-gate'
+        run: npm run test:controls
+
+      # Only on red: a green run's screenshots are not evidence of anything worth downloading.
+      - name: Preserve screenshots from the red run
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shots-chromium-gate
+          path: shots/
+          if-no-files-found: ignore
+          retention-days: 7
