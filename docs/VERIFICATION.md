@@ -345,5 +345,11 @@ re-run: their receipts are stamped at shas the identity decision above is about 
 re-running them now buys a number that has to be thrown away. The last two-engine and control runs
 this repo has are the cold-clone ones quoted further up, at `fdba9e0`, before these fixes.
 
+**Re-run once more against a clean tree**, after every fix above was committed, so that one
+receipt in this repo stamps the bytes it actually measured: at `473ccd8`, `7/7 checkers PASS`,
+the same 555 cells with the same per-checker denominators, `BATTERY_EXIT=0 WALL_SECONDS=261`, and
+`links: 231/231 cells OK — PASS [sha=473ccd8 root=dist pages=7 strict=false]`, `LINKS_EXIT=0`.
+The commit that adds this paragraph is the only thing between that sha and this sentence.
+
 *This file describes work at `fdba9e0` and the changes made on top of it on 2026-08-29. It will
 need re-checking after the identity rewrite, and after the first CI run that ever happens.*
