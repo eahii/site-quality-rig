@@ -379,7 +379,7 @@ The commit that adds this paragraph is the only thing between that sha and this 
 
 Added after the review above, which is left exactly as it was written. Two bullets in *What
 remains unverified by anyone* and criterion 4 in *Acceptance criteria* were true when written and
-are not true now; each carries a pointer here rather than an edit.
+are not true now; each keeps its original wording with a dated correction appended, pointing here.
 
 The repo was pushed to `github.com/eahii/site-quality-rig` (**private**, so the run URLs below are
 404 without access) and `ci.yml` executed for the first time. Environment: `ubuntu-24.04`, node
@@ -407,15 +407,22 @@ Three things a skeptic should take from this rather than from the green run:
 2. It survived because the control suite was deliberately not re-run after the rewording — a
    decision recorded in *Green after the fixes* above. The gap between "the receipts are stamped"
    and "the suite was re-run" is exactly where it lived.
-3. It is the second time in this repo's short history that a gate was found decorative by running
-   it rather than by reading it. That is evidence for the method and against the artifact, and
-   both halves belong in the same sentence.
+3. It was found by *running* the suite, not by reading it, and reading had three chances. The
+   README and `docs/CONTROLS.md` each reasoned explicitly about the heading edit and concluded
+   nothing executable moved. This page's own review went further and edited
+   `controls/run-controls.js` — the very file holding the stale fragment — to reword the `hero`
+   entry's `defect:` label (*vocabulary residue from another trade*, above), six lines below the
+   stale `contrast` fragment, and did not notice it. That is evidence for the method and against
+   the artifact, and both halves belong in the same sentence.
 
 **What is now measured, and what still is not.** Measured: the Node 20 path, the cache keys, the
 timeout headroom (450 s against a 45-minute limit), and that every cell count on a runner matches
-the author's machine exactly — 231/72/19/72/144/8/9. Not measured **as of those two runs**: the
-browser cache on a *hit* — the red run skipped the post step that saves it, so both of them paid
-the 26 s download, and the first run able to hit the cache is whichever one follows the green one;
+the author's machine exactly — 231/72/19/72/144/8/9. A third run, 33256223839, was green on the
+same 555 cells and 7/7 controls in 450 s (battery 288 s, controls 116 s), and was the first to hit
+the browser cache: restore 5 s, install 20 s against 26 s on a miss. The cache is therefore worth
+about 6 s, not 26 — `--with-deps` still does its apt work on a hit — which is recorded because a
+speed-up nobody has measured is the kind of claim this repo is supposed to refuse. Still not
+measured:
 `full-battery.yml`, which has still never executed on any runner; and anything on Windows, macOS
 or node 18. Criterion 4 is now **partly** met rather than unmet: CI has run, but
 `demo/failing-gate` still does not exist, so there is no preserved intentional red run to link.

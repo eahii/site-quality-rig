@@ -62,10 +62,12 @@ git diff --stat 611824e..HEAD
 git diff --stat 611824e..HEAD -- checks controls contracts fixture scripts site.json package-lock.json
 ```
 
-**CI has now run: 2 runs, 1 red, 1 green, 2026-08-29.** Until that date this section said no
-workflow here had ever executed anywhere, which was true and was the largest single hole in this
-repo's evidence. `ci.yml` ran for the first time on a GitHub `ubuntu-24.04` runner under node
-v20.20.2 — not the author's v22.22.2, which is the point of pinning 20 in the workflow.
+**CI has now run — first execution 2026-08-29.** Until that date this section said no workflow
+here had ever executed anywhere, which was true and was the largest single hole in this repo's
+evidence. `ci.yml` ran for the first time on a GitHub `ubuntu-24.04` runner under node v20.20.2 —
+not the author's v22.22.2, which is the point of pinning 20 in the workflow. The two runs below
+are the first red and the first green; for what has happened since, read the
+[run history](https://github.com/eahii/site-quality-rig/actions) rather than this paragraph.
 
 | run | commit | outcome | job | what it printed |
 |---|---|---|---|---|

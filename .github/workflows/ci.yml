@@ -32,9 +32,20 @@ name: ci
 #   whole job                                      450 s
 #
 # So the runner is about 12-16% slower per step, and the 45-minute timeout below is roughly 6x
-# the observed job. It stays where it is: two runs are not a distribution, and the cache step is
-# the obvious source of variance. Note that the browser cache only populates after a green run —
-# a red run skips the post step that saves it, so the first green run pays the download twice.
+# the observed job. It stays where it is: three runs are not a distribution.
+#
+# The next run, 33256223839, was the first to hit the browser cache, and it is the reason the
+# cache step is documented rather than trusted:
+#
+#   cache restore                                    5 s
+#   npx playwright install            chromium      20 s   (cache HIT, vs 26 s on a miss)
+#   battery / controls / whole job         288 s / 116 s / 450 s
+#
+# The cache saves about 6 s, not the 26 s the miss line above might suggest, because
+# `--with-deps` still does its apt work on a hit. Keeping it is fine — it costs nothing and the
+# step is a stated speed-up, never a correctness dependency — but nobody should cite it as a
+# meaningful saving. Note also that the cache only populates after a GREEN run: a red run skips
+# the post step that saves it, which is why runs 1 and 2 both paid the full download.
 #
 # Every cell count above matched the author's machine exactly, which is what pinning buys: the
 # runner and the local machine resolved the same Chrome for Testing build (151.0.7922.34) via
