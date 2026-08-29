@@ -83,50 +83,56 @@ down here instead of being called handled.
 
 ## The controls
 
-`sha=f94132d`, node v22.22.2, playwright 1.62.1, chromium, 2026-08-27. Browser controls run a
-narrowed matrix — the receipt is that the assertion can fire in this repo, not a second full
-matrix; the full two-engine matrix runs green separately under `npm test`.
+`sha=44deb74`, node v22.22.2, playwright 1.62.1, chromium, 2026-08-29, against a clean tree.
+Browser controls run a narrowed matrix — the receipt is that the assertion can fire in this repo,
+not a second full matrix; the full two-engine matrix runs green separately under `npm test`
+(869 of 869 cells at the same sha, 536 s, README).
 
 **Every receipt below was captured from one run of `npm run build && npm run test:controls` at
-`f94132d`.** Check what has changed under them rather than believing a sentence:
+`44deb74`**, which fired 7 of 7 controls in 102 s. Check what has changed under them rather than
+believing a sentence:
 
 ```
-git diff --stat f94132d..HEAD
-git diff --stat f94132d..HEAD -- checks controls contracts fixture scripts site.json package-lock.json
+git diff --stat 44deb74..HEAD -- checks controls contracts fixture scripts site.json package-lock.json
 ```
 
-The second command prints twelve files, and this is the whole of what changed in them.
+That command prints nothing as this is written: the only commit between `44deb74` and this sentence
+is the one that pastes these receipts in. If it prints a file, this page is older than the code.
 
-Five are annotation only. `checks/check-hero.js` and `checks/lib/site.js` are comment text
-(historical claims relabelled as provenance after an independent review, 2026-08-29).
-`contracts/hero-contract.json` and `contracts/harness-slots.json` changed only inside their
-`_`-prefixed note strings; no checker reads a `_`-prefixed key, so those cannot move a verdict.
-`controls/run-controls.js` had one `defect:` label reworded — that label **is** printed, in the
-`== defect:` banner line of each control's console output, but no banner line appears inside any
-fence below, so no receipt on this page quotes it.
+**These receipts replace an earlier capture at `f94132d`, and the differences are worth naming.**
+Every cell count is identical across the two captures — 231/231 baseline and 175/204 mutated for
+links, 36/36 and 26/36 for harden, 12/12 and 6/12 for motion, 4/4 and 1/4 for contrast and for
+hero, 1/1 and 0/1 for viewports, 9/9 and 0/9 for deploy — as is every measured figure inside them:
+the same `h-overflow 225px`, the same `spread 8.00px`, the same `1.11:1`, the same 54 unpainted
+elements. Three things moved:
 
-The other seven are the fixture's own pages, edited on 2026-08-29 for locale consistency: the
-telephone number, the plan prices, one invented staff surname, and the hero heading. **One of
-those edits is visible in a receipt below.** The contrast receipt quotes
-`#hero-title "Elevators that stay in service."` on three lines; that heading now reads *Lifts that
-stay in service.*, so a re-run today prints the new string in those three rows. Nothing else in
-them moves — the control recolours the heading, and the quoted string is the row's label, not an
-input to the ratio, the floor or the cell count. The receipts have not been re-captured since
-`f94132d` and are deliberately not edited to match: a receipt corrected to fit later bytes is not
-a receipt.
+- every `sha=` stamp, from `f94132d` to `44deb74`;
+- the hero heading quoted on three of the contrast rows, from "Elevators that stay in service." to
+  "Lifts that stay in service.", because the fixture heading was reworded on 2026-08-29;
+- two byte-length pairs in the deploy receipt — `12876/12914` became `12882/12920` and
+  `6683/10483` became `6692/10492` — because the fixture pages that control mutates are a few bytes
+  longer than they were. What the assertion is actually about, the drift itself, is unchanged: 38 B
+  for the stripped `robots` meta and 3800 B for the removed directory, at both captures.
 
-**Correction, 2026-08-29, written beside the paragraph above rather than over it.** That paragraph
-is right about the three rows and wrong about the repo. The heading string is not an input to the
-ratio, the floor or the cell count — but it *was* an input to the contrast control's `expect` list
-in `controls/run-controls.js`, which requires that label on the same row as the ratio before it
-will credit the control as fired. Rewording the fixture heading therefore broke the contrast
-control, and the paragraph missed it by asking what the checker prints instead of what the harness
-requires. Nothing caught it locally because the control suite was not re-run after the rewording
+**Re-capturing is not the same as correcting, and the difference is the whole rule here.** A
+receipt edited to fit later bytes is forbidden on this page and still is. A receipt re-taken by
+running the suite again and pasting what it printed is the only thing that ever retires the risk
+below, and it is what these are.
+
+**Kept for the record: what this page said before, and why it was wrong.** Until 2026-08-29 the
+paragraph here reasoned about the same fixture edits without re-running, and concluded that the
+reworded heading changed nothing in the receipts because "the quoted string is the row's label, not
+an input to the ratio, the floor or the cell count." That is true of the *checker* and false of the
+*harness*: the string was also an input to the contrast control's `expect` list in
+`controls/run-controls.js`, which requires that label on the same row as the ratio before it will
+credit the control as fired. Rewording the fixture heading therefore broke the contrast control,
+and the paragraph missed it by asking what the checker prints instead of what the harness requires.
+Nothing caught it locally, because the control suite was not re-run after the rewording
 (`docs/VERIFICATION.md`, "Green after the fixes", records that decision). The first CI run this
-repo has ever had caught it: run 33255193219, `6/7 controls fired — 1 control(s) failed to fail:
-contrast (wrong failing line)`. The `expect` fragment is now the heading the fixture actually
-carries. The coupling is the thing to remember: **fixture copy quoted in an `expect` fragment is
-executable, and changing that copy is changing an assertion.**
+repo ever had caught it: run 33255193219, `6/7 controls fired — 1 control(s) failed to fail:
+contrast (wrong failing line)`. It was fixed in `62d9804`. The coupling is the thing to remember:
+**fixture copy quoted in an `expect` fragment is executable, and changing that copy is changing an
+assertion.**
 
 What is between the fences is that run's stdout. Two substitutions run through all of it and
 are the only edits: absolute paths are shortened to `<repo>/`, and the deploy control's
@@ -154,7 +160,7 @@ pages alphabetically, so the four index-specific defects sit between the `contac
 ```
 fixture links: dist -> controls/links/dist, mutated dist/index.html (markup), dist/references (removed)
 baseline (pristine dist) $ node checks/check-links.js --root dist
-  -> links: 231/231 cells OK — PASS  [sha=f94132d root=dist pages=7 strict=false]  exit=0
+  -> links: 231/231 cells OK — PASS  [sha=44deb74 root=dist pages=7 strict=false]  exit=0
 
 mutated $ node checks/check-links.js --root controls/links/dist
 FAIL  site.json pages[] references/index.html
@@ -177,7 +183,7 @@ note  contact/index.html <form> "/api/contact": declared submit endpoint -- answ
 note  18 root-absolute asset reference(s) -- links.root_absolute_assets="note"
 note  153 root-absolute page link(s) -- this build assumes it is served at the domain root
 
-links: 175/204 cells OK — FAIL  [sha=f94132d root=controls/links/dist pages=6 strict=false]
+links: 175/204 cells OK — FAIL  [sha=44deb74 root=controls/links/dist pages=6 strict=false]
 exit=1
 ```
 
@@ -203,7 +209,7 @@ on a contracted element rather than on decoration.
 ```
 fixture viewports: dist -> controls/viewports/dist, mutated dist/index.html (markup), dist/index.html (style)
 baseline (pristine dist) $ node checks/measure-viewports.js --root dist --engines chromium --viewports 320x568 --pages index.html --shots 0
-  -> viewports: 1/1 cells OK — PASS  [sha=f94132d root=dist engines=chromium cells=1 pages=1]  exit=0
+  -> viewports: 1/1 cells OK — PASS  [sha=44deb74 root=dist engines=chromium cells=1 pages=1]  exit=0
 
 mutated $ node checks/measure-viewports.js --root controls/viewports/dist --engines chromium --viewports 320x568 --pages index.html --shots 0
 viewports: root=<repo>/controls/viewports/dist pages declared=1 built=1 contract=<repo>/contracts/fold-contract.json status=FILLED
@@ -214,7 +220,7 @@ FAIL  chromium se1 320x568 index.html
         overflowing (unclipped): html.js>body>div.control-overflow[0..480]
         tap targets <44px: body>header.site-head>div.head-inner>a.call-link 20x20
 
-viewports: 0/1 cells OK — FAIL  [sha=f94132d root=controls/viewports/dist engines=chromium cells=1 pages=1]
+viewports: 0/1 cells OK — FAIL  [sha=44deb74 root=controls/viewports/dist engines=chromium cells=1 pages=1]
 exit=1
 ```
 
@@ -274,7 +280,7 @@ the first and marked as elided on the other seven, and that is the only thing dr
 ```
 fixture harden: dist -> controls/harden/dist, mutated dist/index.html (style), dist/services/index.html (style)
 baseline (pristine dist) $ node checks/check-harden.js --root dist --engines chromium --pages index.html,services/index.html,maintenance-plans/index.html --viewports 1280x640,1440x900 --shots 0
-  -> harden: 36/36 cells OK — PASS  [sha=f94132d root=dist engines=chromium cells=2 components=3 grids=2]  exit=0
+  -> harden: 36/36 cells OK — PASS  [sha=44deb74 root=dist engines=chromium cells=2 components=3 grids=2]  exit=0
 
 mutated $ node checks/check-harden.js --root controls/harden/dist --engines chromium --pages index.html,services/index.html,maintenance-plans/index.html --viewports 1280x640,1440x900 --shots 0
 harden: root=<repo>/controls/harden/dist slots=<repo>/contracts/harness-slots.json status=FILLED
@@ -310,7 +316,7 @@ FAIL  chromium mbp services/index.html grid process-steps N+1
         h-overflow 150px
         overflowing: section.slab>div.wrap>ol.process>li div.wrap>ol.process>li>h2 div.wrap>ol.process>li>p
 
-harden: 26/36 cells OK — FAIL  [sha=f94132d root=controls/harden/dist engines=chromium cells=2 components=3 grids=2]
+harden: 26/36 cells OK — FAIL  [sha=44deb74 root=controls/harden/dist engines=chromium cells=2 components=3 grids=2]
 exit=1
 ```
 
@@ -353,7 +359,7 @@ the four rows at `iphone-pro` and `laptop-720` are elided whole, being the same 
 ```
 fixture motion: dist -> controls/motion/dist, mutated dist/index.html (style)
 baseline (pristine dist) $ node checks/check-motion.js --root dist --engines chromium --pages index.html --shots 0
-  -> motion: 12/12 cells OK — PASS  [sha=f94132d root=dist engines=chromium cells=3]  exit=0
+  -> motion: 12/12 cells OK — PASS  [sha=44deb74 root=dist engines=chromium cells=3]  exit=0
 
 mutated $ node checks/check-motion.js --root controls/motion/dist --engines chromium --pages index.html --shots 0
 motion: root=<repo>/controls/motion/dist pages=1 reveal-pattern=/rv/i reveal-optional=[contact/index.html] contract=<repo>/contracts/fold-contract.json status=FILLED
@@ -371,7 +377,7 @@ FAIL  chromium se1 index.html scripts-removed
         ... and 42 more
 [4 rows elided: the same two rows again at iphone-pro and at laptop-720]
 
-motion: 6/12 cells OK — FAIL  [sha=f94132d root=controls/motion/dist engines=chromium cells=3]
+motion: 6/12 cells OK — FAIL  [sha=44deb74 root=controls/motion/dist engines=chromium cells=3]
 exit=1
 ```
 
@@ -406,20 +412,20 @@ and says so.
 ```
 fixture contrast: dist -> controls/contrast/dist, mutated dist/index.html (style)
 baseline (pristine dist) $ node checks/check-contrast.js --root dist --engines chromium --pages index.html
-  -> contrast: 4/4 cells OK — PASS  [sha=f94132d root=dist engines=chromium cells=3 pages=1]  exit=0
+  -> contrast: 4/4 cells OK — PASS  [sha=44deb74 root=dist engines=chromium cells=3 pages=1]  exit=0
 
 mutated $ node checks/check-contrast.js --root controls/contrast/dist --engines chromium --pages index.html
 contrast: root=<repo>/controls/contrast/dist pages=1 registers=footer-inverse(.site-foot), filled-control(.btn:not(.btn-hero):not(.btn-ghost))
 
 FAIL  chromium se1 index.html [132 nodes (base:115 footer-inverse:16 filled-control:1), 30 unpainted, 0 unresolvable]
-        1.11:1 < 3.0 (min 1.11, 29px/650) #hero-title "Elevators that stay in service."
+        1.11:1 < 3.0 (min 1.11, 29px/650) #hero-title "Lifts that stay in service."
 FAIL  chromium iphone-pro index.html [105 nodes (base:88 footer-inverse:16 filled-control:1), 30 unpainted, 0 unresolvable]
-        1.11:1 < 3.0 (min 1.11, 30px/650) #hero-title "Elevators that stay in service."
+        1.11:1 < 3.0 (min 1.11, 30px/650) #hero-title "Lifts that stay in service."
 FAIL  chromium laptop-720 index.html [148 nodes (base:131 footer-inverse:16 filled-control:1), 25 unpainted, 0 unresolvable]
-        1.11:1 < 3.0 (min 1.11, 62px/650) #hero-title "Elevators that stay in service."
+        1.11:1 < 3.0 (min 1.11, 62px/650) #hero-title "Lifts that stay in service."
 note  warn: dead-selector guard not evaluated — measured 1 of 6 declared pages, and a register may legitimately live on a page this run skipped
 
-contrast: 1/4 cells OK — FAIL  [sha=f94132d root=controls/contrast/dist engines=chromium cells=3 pages=1]
+contrast: 1/4 cells OK — FAIL  [sha=44deb74 root=controls/contrast/dist engines=chromium cells=3 pages=1]
 exit=1
 ```
 
@@ -447,7 +453,7 @@ bottom edge still meets the ground.
 ```
 fixture hero: dist -> controls/hero/dist, mutated dist/index.html (style)
 baseline (pristine dist) $ node checks/check-hero.js --root dist --cells 390x844 --shots 0 --engines chromium
-  -> hero: 4/4 cells OK — PASS  [sha=f94132d root=dist contract=contracts/hero-contract.json page=index.html engines=chromium cells=1]  exit=0
+  -> hero: 4/4 cells OK — PASS  [sha=44deb74 root=dist contract=contracts/hero-contract.json page=index.html engines=chromium cells=1]  exit=0
 
 mutated $ node checks/check-hero.js --root controls/hero/dist --cells 390x844 --shots 0 --engines chromium
 hero: root=<repo>/controls/hero/dist page=index.html contract=contracts/hero-contract.json cells=390x844
@@ -459,7 +465,7 @@ FAIL  chromium 390x844 end-state climax
 FAIL  chromium 390x844 reduced-motion frame1
         frame 1 (reduce): rail / frame / tip are not on one centerline — spread 8.00px > 0.5px (rail 195.00, frame 195.00, tip 187.00; tip 10x6px)
 
-hero: 1/4 cells OK — FAIL  [sha=f94132d root=controls/hero/dist contract=contracts/hero-contract.json page=index.html engines=chromium cells=1]
+hero: 1/4 cells OK — FAIL  [sha=44deb74 root=controls/hero/dist contract=contracts/hero-contract.json page=index.html engines=chromium cells=1]
 exit=1
 ```
 
@@ -504,7 +510,7 @@ the first and marked as elided on the other five. That is the only thing dropped
 
 ```
 baseline (pristine dist) $ node checks/check-deploy.js --local --require-current
-  -> deploy: 9/9 cells OK — PASS  [sha=f94132d origin=local-fixture root=dist pages=6 drift=0 form=3-probes strict=false]  exit=0
+  -> deploy: 9/9 cells OK — PASS  [sha=44deb74 origin=local-fixture root=dist pages=6 drift=0 form=3-probes strict=false]  exit=0
 
 mutated $ node controls/deploy/run.js
 fixture deploy: dist -> controls/deploy/dist, mutated dist/services/index.html (markup), dist/about (removed)
@@ -517,13 +523,13 @@ FAIL  index.html (http://127.0.0.1:PORT/)
 FAIL  services/index.html (http://127.0.0.1:PORT/services)
         [same four response-header lines, elided]
         served body carries no <meta name="robots" ... noindex> — the build's own noindex mechanism did not survive the deploy
-        served bytes != dist/services/index.html (12876 B served vs 12914 B local) — the origin is not this build
+        served bytes != dist/services/index.html (12882 B served vs 12920 B local) — the origin is not this build
 FAIL  maintenance-plans/index.html (http://127.0.0.1:PORT/maintenance-plans)
         [same four response-header lines, elided]
 FAIL  about/index.html (http://127.0.0.1:PORT/about)
         HTTP 404, expected 200
         [same four response-header lines, elided]
-        served bytes != dist/about/index.html (6683 B served vs 10483 B local) — the origin is not this build
+        served bytes != dist/about/index.html (6692 B served vs 10492 B local) — the origin is not this build
 FAIL  contact/index.html (http://127.0.0.1:PORT/contact)
         [same four response-header lines, elided]
 FAIL  references/index.html (http://127.0.0.1:PORT/references)
@@ -538,7 +544,7 @@ FAIL  form honeypot POST (http://127.0.0.1:PORT/api/contact)
         body null — a filled honeypot must answer a silent {ok:true}, so a bot never learns it was caught
 note  origin=http://127.0.0.1:PORT build=dist pages=6 form-probes=3 drift=2 MODE=require-current MODE=negative-control
 
-deploy: 0/9 cells OK — FAIL  [sha=f94132d origin=http://127.0.0.1:PORT root=dist pages=6 drift=2 form=3-probes strict=false]
+deploy: 0/9 cells OK — FAIL  [sha=44deb74 origin=http://127.0.0.1:PORT root=dist pages=6 drift=2 form=3-probes strict=false]
 
 negative control fired: 9 cell(s) failed against an origin known to be broken — the assertions are live. exit 0.
 check-deploy exit=0
@@ -568,7 +574,7 @@ node scripts/count-emit-sites.js /tmp/rows.txt
 
 `scripts/count-emit-sites.js` counts **failure-emit sites** — the places in `checks/` that can
 put a line inside a failing row (`p.push`, `probs.push`, `endProbs.push`, `<report>.fail`) —
-and reports how many of them printed. Its output at `f94132d`, against the receipts above:
+and reports how many of them printed. Its output at `44deb74`, against the receipts above — byte-identical to what it printed at `f94132d`:
 
 ```
 file                        sites  probeable  printed
@@ -589,7 +595,7 @@ measure-viewports.js          57         50        4
 *Too high.* Sites that share a probe are credited together. Hand-checking the 13 matches
 against the run kills two of them: `check-deploy.js:145` (the *wrong header value* row) shares
 the probe `response header ` with `:144` (the *absent header* row), and only `:144` printed;
-`check-hero.js:251` (ground contact) has the head `frame 1: `, which was matched by the
+`check-hero.js:261` (ground contact) has the head `frame 1: `, which was matched by the
 centreline message `frame 1: rail / frame / tip …` from a different site. **11 probeable sites
 are confirmed printed.**
 
@@ -602,7 +608,7 @@ same log by hand finds 11 of them printed: `check-links.js:152` (`dead link …`
 
 Second: the census itself is a floor. A message returned as an array literal from a helper and
 handed straight to `rep.row()` is not a `.push` and is not counted at all — and three such
-sites printed: `check-hero.js:220` (the centreline row, in all three of its phases),
+sites printed: `check-hero.js:230` (the centreline row, in all three of its phases),
 `check-links.js:166` (the `<h1>` count) and `check-motion.js:248` (the scripts-removed row). So
 the population is **at least 182**, not 179, and the hand count adds **14** printed messages
 the script cannot credit.
@@ -612,12 +618,12 @@ script credits, plus the 14 it cannot see. Against a population of at least 182,
 least 157 assertions never observed firing.** About one in seven is armed. Both halves of that
 ratio are approximate for the reasons just given; the direction is not. (A few counted sites
 are *routers* rather than authors — `endProbs.push(...centerlineProblems(…))` at
-`check-hero.js:394` prints a message written at `:220` — and are credited to the author, not
+`check-hero.js:404` prints a message written at `:230` — and are credited to the author, not
 counted twice.) A run of `npm test` *walks* far more of this code than 25 sites; walking an
 assertion is not firing it, and only firing separates a live gate from a decorative one.
 
 **One class deserves separating.** Of the 179, 14 guard a malformed *contract* rather than a
-broken site: `check-deploy.js:104-108` (5) and `check-hero.js:58-78` (9) refuse to measure when
+broken site: `check-deploy.js:104-108` (5) and `check-hero.js:63-83` (9) refuse to measure when
 a contract is empty, unfilled, or names a selector nothing defines. Firing those needs a broken
 contract fixture, not a broken page — a different kind of control, and one this repo does not
 have. They are counted as unarmed above, which is honest but reads harsher than it is.
@@ -625,8 +631,10 @@ have. They are counted as unarmed above, which is honest but reads harsher than 
 ### What is NOT armed, by family
 
 Every family below is unarmed: no control in this repo has been observed printing it. Line
-numbers are at `f94132d`; the full site-by-site list is what `count-emit-sites.js` prints under
-*not printed by that run*.
+numbers are at `44deb74`; the full site-by-site list is what `count-emit-sites.js` prints under
+*not printed by that run*. Only `check-hero.js` moved between `f94132d` and `44deb74` — comment
+text, +5 lines before its line 146 and +10 after its line 186 — so its numbers here are the ones
+that were re-derived, and every other file's are unchanged.
 
 | Family | Sites | Why nothing fired it |
 |---|---|---|
@@ -635,18 +643,18 @@ numbers are at `f94132d`; the full site-by-site list is what `count-emit-sites.j
 | viewports: heading outline (`268-274`) and CTA / interactive-name family (`280-291`) | 12 | The links control fires *its own* h1 assertion (`check-links.js:166`), not this one — different checker, different row. The CTA rows need a CTA that is not a real `a[href]`/`button`, disabled, unreachable, or nameless. |
 | viewports: fold-contract composition (`335-360`), `lang` (`277`), dead fragments (`278`) | 13 | A defect that moves the fold edge past its tolerance, bleeds a `never_in_fold` element into view, or breaks the declared `lang` — without breaking anything else. |
 | viewports: `contact_affordance` **rendered** leg (`331-333`) | 1 | The tap-target law is what catches the shrunk affordance; the rendered leg needs a `display:none` fixture, which would then be invisible to the tap-target law. One defect, one row. |
-| hero: pin discovery (`365-368`) | 4 | Missing scene, no pin spacer, too short a scrub, a scroll that did not land. All four are "the end state cannot be measured" — they need a broken pin, and the injected margin leaves the pin intact. |
-| hero: `frame1 ground-contact` (`236-251`) | 3 + 1 | The injected offset is horizontal, so the tip still meets the ground. A vertical-offset fixture would fire it. (Three counted sites; the missing-selector message at `:235` is an array literal the census does not count.) |
-| hero: end-state sub-assertions (`388-401`) | 6 of 7 | The `end-state climax` ROW is red, but on its centreline check — scene-in-frame, reveal opacity and the readout literal rode along untested. The seventh site is the router that printed the centreline message. Needs a fixture that moves the destination without touching the centreline. |
-| hero: reduced-motion sub-assertions (`419-425`) | 4 | The same shape as the row above, recorded for the same reason: `reduced-motion frame1` is red on its centreline check, while the resting-readout and running-animation legs never printed. |
-| hero: scrub-off under reduce (`458`, `461`) | 2 | The two rows that would catch a build ignoring `prefers-reduced-motion` entirely. The argument for them in the source is a sampling argument — at scroll 0 an ignored query looks identical to an honoured one — not a receipt. No fixture here disables the query check. |
+| hero: pin discovery (`375-378`) | 4 | Missing scene, no pin spacer, too short a scrub, a scroll that did not land. All four are "the end state cannot be measured" — they need a broken pin, and the injected margin leaves the pin intact. |
+| hero: `frame1 ground-contact` (`246-261`) | 3 + 1 | The injected offset is horizontal, so the tip still meets the ground. A vertical-offset fixture would fire it. (Three counted sites; the missing-selector message at `:245` is an array literal the census does not count.) |
+| hero: end-state sub-assertions (`398-411`) | 6 of 7 | The `end-state climax` ROW is red, but on its centreline check — scene-in-frame, reveal opacity and the readout literal rode along untested. The seventh site is the router that printed the centreline message. Needs a fixture that moves the destination without touching the centreline. |
+| hero: reduced-motion sub-assertions (`429-435`) | 4 | The same shape as the row above, recorded for the same reason: `reduced-motion frame1` is red on its centreline check, while the resting-readout and running-animation legs never printed. |
+| hero: scrub-off under reduce (`468`, `471`) | 2 | The two rows that would catch a build ignoring `prefers-reduced-motion` entirely. The argument for them in the source is a sampling argument — at scroll 0 an ignored query looks identical to an honoured one — not a receipt. No fixture here disables the query check. |
 | motion: leg C (real JS-off, flat-plate pixel evidence) | 1 | The hero carries no reveal class, so the first view still paints and the greyscale stdev stays well above the flat-plate threshold. (An array literal handed to `rep.row`, so the census does not count it either.) |
 | motion: `NO-ELEMENTS-MEASURED`, smooth-scroll under reduce, empty-text rows (`214`, `217`, `219`, `249`) | 4 | Vacuity and belt-and-braces rows. The fixture keeps its interactive elements, keeps its text, and declares no `scroll-behavior:smooth`. |
 | contrast: unresolvable colour (`314`) | 1 | The oklch injection *resolves* — every cell reports `0 unresolvable`. Firing this needs a colour the engine refuses, which is a different injection from the one this control makes. |
 | contrast: register coverage (`328`, `331`, `334`) | 3 | A fixture whose text on a named register is systematically occluded or emptied, and one whose page measures no text at all. |
 | harden: token spill, text-clipped, fold-gap rows (`160-164`) | 5 | The two injected regressions produce document-level overflow, not token spill, clipping, or a broken `last_in_fold` gap. |
 | links: empty fragment (`74`), stray page (`108`), stale allowance (`140`) | 3 | The removed directory and the four injected elements do not produce an empty `#`, an undeclared built page, or a `links.allow_dead` entry whose target came back. |
-| contract-validation branches (`check-deploy.js:104-108`, `check-hero.js:58-78`) | 14 | See the paragraph above: these guard the contract, not the site. A control for them would inject a malformed contract. |
+| contract-validation branches (`check-deploy.js:104-108`, `check-hero.js:63-83`) | 14 | See the paragraph above: these guard the contract, not the site. A control for them would inject a malformed contract. |
 
 **One assertion is armed only compoundly, which is not the same as armed.** The deploy drift row
 (`check-deploy.js:163`) did print — twice — but only on pages that were failing other rows at

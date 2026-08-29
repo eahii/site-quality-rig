@@ -9,6 +9,10 @@ It is not a summary of good news. Of the seven acceptance criteria this repo was
 unmet and two are partial. Nine findings follow: five were fixed, four were accepted unfixed, and
 each accepted one says why.
 
+*As written on 2026-08-29. The unmet criterion — 4, CI evidence — was met later the same day; the
+two corrections at the end of this file say how, and the rest of the verdicts stand. Everything
+above and below them is left exactly as the review left it.*
+
 ---
 
 ## Who ran it, and how
@@ -52,7 +56,7 @@ them; the verdicts are its, not the author's.
 | 1 | Runs from a cold clone, offline, no API key | MET |
 | 2 | A neutral fixture site ships in-repo, not a snapshot of anyone's real site | MET |
 | 3 | Every negative control ports and fires, with discipline | MET — 7, where 6 were asked for |
-| 4 | CI green on the default branch, a preserved red run on `demo/failing-gate`, both linked from the README | **UNMET** |
+| 4 | CI green on the default branch, a preserved red run on `demo/failing-gate`, both linked from the README | **UNMET** *(met later the same day — corrections below)* |
 | 5 | README in English, in the prescribed order | **PARTIAL** |
 | 6 | No emoji headers, no Features / Roadmap / Contributing sections, no dead badges | MET |
 | 7 | Commit history spread across real sessions, messages state the *because*, nothing backdated | **PARTIAL** |
@@ -74,6 +78,13 @@ behaviour, Node 20 versus the local v22.22.2, and timeout headroom is untested p
 and `ci.yml` has run. The criterion moves from unmet to partly met — CI runs are now linkable, but
 `demo/failing-gate` still does not exist, so the intentional red run it calls for still does not.
 See the correction section at the end of this file.**
+
+**— Superseded again, later on 2026-08-29: `demo/failing-gate` now exists. It is `44deb74` plus one
+commit changing one CSS declaration, its CI run 33257439952 is red on `contrast FAIL 1/19` with 54
+measured rows naming that declaration, and both it and the green `main` run 33256643910 are linked
+from the README's Results section. The criterion is **met**. What it asked for is done; what it was
+*for* — evidence that these gates fire — now rests on three artifacts rather than one: that branch,
+the seven negative controls, and the unplanned red run that found a real defect.**
 
 ### Criterion 7 is partial, for a reason that is visible in the log
 
@@ -277,9 +288,13 @@ adding a check anyone would run. Recorded so a reader knows it was a decision.
 - **CI has never run, anywhere.** Nothing in `.github/workflows/` has been executed. Runner
   behaviour, the Node 20 path, the cache keys and the timeouts are all untested.
   **— No longer true as of 2026-08-29, after this review; left in place because it is what the
-  review found. `ci.yml` has now run twice on `ubuntu-24.04` (runs 33255193219 red, 33255702213
-  green). The Node 20 path, the cache keys and the timeouts were exercised; see the correction
-  section at the end of this file for what they measured and what the red run caught.**
+  review found. `ci.yml` had run five times on `ubuntu-24.04` when this line was written — four on
+  `main` (33255193219 red, then 33255702213, 33256223839 and 33256643910 green) and one on
+  `demo/failing-gate` (33257439952, red on purpose); pushing this commit adds another, and the run
+  history is the only current answer. The Node 20 path, the cache keys,
+  the timeouts and the branch condition that skips the controls on `demo/failing-gate` were all
+  exercised; see the correction sections at the end of this file. `full-battery.yml` has still
+  never executed on any runner.**
 - **A genuinely cold install.** Every run has been on a machine with warm npm and playwright
   caches. First-run download size and wall time for a stranger are unmeasured.
 - **Anything but this platform.** Linux, node v22.22.2, playwright 1.62.1, one machine.
@@ -307,7 +322,10 @@ adding a check anyone would run. Recorded so a reader knows it was a decision.
 
 ---
 
-## One open decision that will invalidate every sha on this page
+## The one open decision that would have invalidated every sha — resolved 2026-08-29
+
+*Written as an open decision by the pass above; the resolution is appended below it rather than
+written over it.*
 
 All 16 commits are authored under a personal address that has not been decided on for a public
 repo. The sanitization pass flagged it, and it is tracked as an open decision rather than as a
@@ -316,16 +334,34 @@ history and therefore changes **every** sha, including the ones quoted throughou
 README and `docs/CONTROLS.md`. That re-stamping is deliberately not done here, because doing it
 before the decision would mean doing it twice.
 
-Until it happens, every `sha=` in this repo's prose is a pointer into a history that is going to be
-replaced. The pass that resolves it needs to re-stamp these, and nothing else:
+**— Decided 2026-08-29: the history is not rewritten, and the address stays.** It is already public
+in this author's other public repositories, so a rewrite buys no privacy that is not already gone,
+while changing every sha this repo cites and orphaning `d5efe08`'s own claim to have corrected a
+figure *beside* it rather than by rewriting the commit — a rewrite to tidy the history would
+falsify the one commit whose point is that history is not tidied. The decision costs nothing that
+was available and closes the largest piece of pending churn in these files.
 
-| file | lines |
+So the shas below are permanent pointers, not debt. The inventory the pass above wrote as a
+re-stamping list had already rotted by the time it was read — its line numbers were correct at
+`fdba9e0` and every edit since moved them, which is what a hand-maintained line list does. It is
+replaced by counts and the command that re-derives them, in the same spirit as
+`scripts/count-emit-sites.js`: a census beats a list.
+
+```
+grep -rnoE '\b[0-9a-f]{7}\b' README.md docs/*.md .github/workflows/*.yml
+```
+
+| file | sha citations |
 |---|---|
-| `README.md` | 13, 29 (x2), 35, 45, 46, 56, 60, 169, 187, 202 (x2), 203 (x2), 216, 329 (x2) |
-| `docs/CONTROLS.md` | 85, 90, 93, 94, 132, 155, 181, 192, 252, 288, 331, 349, 384, 397, 425, 437, 482, 516, 546, 603 |
-| `docs/VERIFICATION.md` | this file — the `fdba9e0` stamps in the cold-clone and dirty-tree receipts, and the `473ccd8` stamps in the clean-tree re-run below them |
-| `.github/workflows/ci.yml` | 5 |
-| `.github/workflows/full-battery.yml` | 7 |
+| `README.md` | 34 |
+| `docs/CONTROLS.md` | 27 |
+| `docs/VERIFICATION.md` | 42 (this file) |
+| `.github/workflows/ci.yml` | 1 |
+| `.github/workflows/full-battery.yml` | 1 |
+
+105 citations of 15 distinct shas, counted on 2026-08-29 over the tree this commit records. The
+command above has no false positives in this repo today, but it matches any seven-character hex
+token, so it is a starting point for a reader rather than an oracle.
 
 `contracts/hero-contract.json` deliberately carries no sha; it uses the date-and-method style of
 `contracts/fold-contract.json` so this pass adds no new sha debt.
@@ -366,6 +402,24 @@ should know about. And the two-engine battery and the control suite were deliber
 re-run: their receipts are stamped at shas the identity decision above is about to invalidate, so
 re-running them now buys a number that has to be thrown away. The last two-engine and control runs
 this repo has are the cold-clone ones quoted further up, at `fdba9e0`, before these fixes.
+
+**— Corrected 2026-08-29, and the decision above is the reason it could be.** The identity question
+was settled without a rewrite (see the section below), so a re-run no longer buys a number that has
+to be thrown away. Both suites have now been run, at `44deb74` on a clean tree, same machine, node
+v22.22.2, playwright 1.62.1:
+
+```
+npm run build && npm test          7/7 checkers PASS, 869/869 cells, BATTERY_EXIT=0   WALL_SECONDS=536
+npm run test:controls              7/7 controls fired, CONTROLS_EXIT=0                CONTROLS_WALL_SECONDS=102
+```
+
+Every per-checker denominator is the one the README's table decomposes — 231 / 144 / 37 / 144 / 288
+/ 16 / 9 — and every per-control baseline and mutated count matches the previous capture exactly.
+The control receipts in `docs/CONTROLS.md` were re-taken from that run rather than left as the
+older ones; that file names the three things that differ from the `f94132d` capture and why. The
+paragraph above is left standing because the decision it records was correct at the time and is
+where the contrast-control break survived: not re-capturing a receipt is a choice, not re-running
+the suite is how a broken gate stays quiet.
 
 **Re-run once more against a clean tree**, after every fix above was committed, so that one
 receipt in this repo stamps the bytes it actually measured: at `473ccd8`, `7/7 checkers PASS`,
@@ -428,6 +482,47 @@ or node 18. Criterion 4 is now **partly** met rather than unmet: CI has run, but
 `demo/failing-gate` still does not exist, so there is no preserved intentional red run to link.
 The red run above is an accident that is being kept, which is not the same artifact.
 
-*This file describes work at `fdba9e0` and the changes made on top of it on 2026-08-29, plus the
-CI correction above. It will still need re-checking after the identity decision recorded further
-up this page is resolved.*
+---
+
+## Correction: the deliberate red run, and the receipts re-taken, 2026-08-29
+
+Later the same day, and again appended rather than written over the sections it corrects.
+
+**`demo/failing-gate` exists, and criterion 4 is met.** The branch is `44deb74` plus one commit
+that changes one declaration in `fixture/css/site.css`: `.lede`'s colour taken off the measured
+palette and written as a one-off grey, `oklch(0.68 0.014 252)`. Its run,
+[33257439952](https://github.com/eahii/site-quality-rig/actions/runs/33257439952) at `264f7bb`,
+job 329 s, went red on the battery step with `contrast FAIL 1/19` and `battery: 6/7 checkers
+PASS — FAIL (contrast)`; the other six checkers passed in the same run. The first of the 54
+measured rows it printed:
+
+```
+FAIL  chromium se1 index.html [132 nodes (base:115 footer-inverse:16 filled-control:1), 30 unpainted, 0 unresolvable]
+        2.75:1 < 4.5 (min 2.75, 16px/400) #hero>div.hero-inner>div.hero-copy>p.lede "Planned maintenance, repair and modernis"
+```
+
+2.75:1 on the page ground, 2.54:1 on the sunk slabs, against the 4.5:1 floor. The same defect was
+run locally on the branch's own tree before it was pushed and produced the same verdicts, so the
+red is the fixture's and not the runner's. The workflow's `if:` condition skipped the negative
+controls on that branch, which is the baseline rule holding rather than an exemption: a control
+credits a red only after the same checker exits 0 on the pristine build, and no baseline on a
+deliberately broken fixture can be green.
+
+**What the branch is and is not.** It is a permanent git branch, so the defect and its commit
+message stay readable; the run's screenshot artifact is not permanent (`retention-days: 7`). It is
+one commit off `44deb74`, so its copy of `README.md` predates this correction — read `main` for the
+current page. And it proves one thing only: that this checker, on this defect, on a runner, prints
+a row a stranger can read. The seven negative controls remain the broader claim, and the coverage
+count in `docs/CONTROLS.md` remains the limit on both.
+
+**The receipts were re-taken at `44deb74`.** Figures and method are under *Green after the fixes*
+above. The short version: 7/7 checkers and 869/869 cells in 536 s, 7/7 controls in 102 s, every
+denominator and every per-control count identical to the previous captures, and
+`scripts/count-emit-sites.js` printing byte-identical totals to its `f94132d` output. Three
+strings in the control receipts changed, all named in `docs/CONTROLS.md`. **No number moved that
+the previous pass had argued could not move** — but it is now a measurement rather than an
+argument, which is the only reason to trust it.
+
+*This file describes work at `fdba9e0`, the changes made on top of it on 2026-08-29, and the two
+corrections above. The identity decision it was waiting on is now resolved, in the section that
+records it: the history is not rewritten, so the shas quoted throughout this file stay valid.*

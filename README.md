@@ -10,8 +10,8 @@ which that checker went red because of it, because a gate that has never gone re
 
 ## Results
 
-`npm run build && npm test`, run 2026-08-27 at `sha=611824e` on this repo's own fixture site —
-node v22.22.2, playwright 1.62.1, chromium + webkit, 525 s wall.
+`npm run build && npm test`, run 2026-08-29 at `sha=44deb74` on this repo's own fixture site,
+against a clean tree — node v22.22.2, playwright 1.62.1, chromium + webkit, 536 s wall.
 
 | checker | cells OK | how that denominator is built |
 |---|---|---|
@@ -25,91 +25,121 @@ node v22.22.2, playwright 1.62.1, chromium + webkit, 525 s wall.
 | **battery** | **869 / 869** | the seven above, summed. 7 of 7 checkers PASS. |
 
 Every checker prints its own denominator and its own `sha=` stamp; the summary table is rebuilt
-from those stamps, so it structurally cannot report a number a checker did not print. Two
-independent full runs the same day — one at `60863e4`, one at `611824e`, whose only difference is
-two files under `.github/` — produced identical cell counts. On 2026-08-29 a reviewer with no
-access to how this repo was built cloned it fresh, installed from scratch and ran the same
-battery: same 869 cells, 7 of 7 PASS, 524 s. That pass also found things wrong here, and both
+from those stamps, so it structurally cannot report a number a checker did not print. The same 869
+cells have now come back from four full runs: two on 2026-08-27 at `60863e4` and `611824e`, whose
+only difference is two files under `.github/`; one on 2026-08-29 from a reviewer with no access to
+how this repo was built, on a fresh clone outside the project with a from-scratch install, 524 s;
+and the one stamped above, 536 s. That reviewer's pass also found things wrong here, and both
 halves of it are written down in [`docs/VERIFICATION.md`](docs/VERIFICATION.md).
 
-Since the `611824e` measurement twelve source files have changed, and the second command below
-prints exactly those twelve. Five are annotation only: `checks/check-hero.js` and
-`checks/lib/site.js` are comment text (historical claims relabelled as provenance after the review
-above); `contracts/hero-contract.json` and `contracts/harness-slots.json` changed only in their
-`_`-prefixed note strings, which no checker reads (`grep -rn '_note' checks/ scripts/` prints
-nothing); and `controls/run-controls.js` had one `defect:` label reworded, a string printed in a
-control's banner line and in no assertion.
+Twelve source files changed between `611824e` and the run above. Five are annotation only:
+`checks/check-hero.js` and `checks/lib/site.js` are comment text (historical claims relabelled as
+provenance after the review); `contracts/hero-contract.json` and `contracts/harness-slots.json`
+changed only in their `_`-prefixed note strings, which no checker reads (`grep -rn '_note' checks/
+scripts/` prints nothing); and `controls/run-controls.js` had one `defect:` label reworded, a
+string printed in a control's banner line and in no assertion. The other seven are the fixture's
+own pages, edited on 2026-08-29 so that one fictional company reads as one place — the telephone
+number moved into `01632 96xxxx`, the range Ofcom reserves for fiction and drama, the plan prices
+to the currency that goes with it, one invented staff surname replaced, and the hero heading
+changed from "Elevators that stay in service." to "Lifts that stay in service." on a site that says
+*lift* everywhere else.
 
-The other seven are the fixture's own pages, edited on 2026-08-29 so that one fictional company
-reads as one place — the telephone number moved into `01632 96xxxx`, the range Ofcom reserves for
-fiction and drama, the plan prices to the currency that goes with it, one invented staff surname
-replaced, and the hero heading changed from "Elevators that stay in service." to "Lifts that stay
-in service." on a site that says *lift* everywhere else. That is real page content, so unlike the
-five above it *can* move a cell count. It was re-run: the one-engine battery on a clean tree at
-`sha=66b480d`, 2026-08-29, same machine — 555 of 555 cells, 7 of 7 checkers PASS, 261 s. **The
-two-engine table above has not been re-run since those edits**, and neither have the control
-receipts in [`docs/CONTROLS.md`](docs/CONTROLS.md), which quote the old hero heading on three
-lines and say so there. Read the diff rather than believing this paragraph.
-
-Added 2026-08-29, because the paragraph above was not careful enough: that hero-heading edit did
-move something executable. The old heading was also an assertion input in
-`controls/run-controls.js`, which broke the contrast control silently. Not re-capturing a receipt
-is a choice; not re-running the suite is how the break survived. The controls have since been run
-— see the CI table below — and the receipts in `docs/CONTROLS.md` are still the older ones.
+The argument at the time was that none of that could move a number. It was an argument, and it was
+wrong once already — the hero heading was also an assertion input in `controls/run-controls.js`,
+which broke the contrast control silently until CI caught it (below). So the argument has been
+replaced with a measurement: the table above and the control receipts in
+[`docs/CONTROLS.md`](docs/CONTROLS.md) were both re-taken at `44deb74` on a clean tree. **No cell
+count moved** — 869 in the battery, and every per-control baseline and mutated count identical to
+the previous capture. Three things in the control receipts did move, and all three are in the file:
+every `sha=` stamp, the hero heading quoted on three of the contrast rows, and two byte-length
+figures in the deploy receipt, because the fixture pages that control mutates are a few bytes
+longer than they were.
 
 ```
-git diff --stat 611824e..HEAD
-git diff --stat 611824e..HEAD -- checks controls contracts fixture scripts site.json package-lock.json
+git diff --stat 44deb74..HEAD -- checks controls contracts fixture scripts site.json package-lock.json
 ```
 
-**CI has now run — first execution 2026-08-29.** Until that date this section said no workflow
-here had ever executed anywhere, which was true and was the largest single hole in this repo's
-evidence. `ci.yml` ran for the first time on a GitHub `ubuntu-24.04` runner under node v20.20.2 —
-not the author's v22.22.2, which is the point of pinning 20 in the workflow. The two runs below
-are the first red and the first green; for what has happened since, read the
+That command prints nothing as this is written: the only commit between `44deb74` and this sentence
+is the one that writes these numbers down. If it prints a file, the numbers above are older than
+the code they claim to describe.
+
+**CI runs, and both outcomes are linkable.** `ci.yml` executed for the first time on 2026-08-29;
+until that date this section said no workflow here had ever run anywhere, which was true and was
+the largest single hole in this repo's evidence. Every run below is on a GitHub `ubuntu-24.04`
+runner under node v20.20.2 — not the author's v22.22.2, which is the point of pinning 20 in the
+workflow. For runs after this commit, read the
 [run history](https://github.com/eahii/site-quality-rig/actions) rather than this paragraph.
 
-| run | commit | outcome | job | what it printed |
-|---|---|---|---|---|
-| [33255193219](https://github.com/eahii/site-quality-rig/actions/runs/33255193219) | `f25a18e` | **red** | 445 s | battery 7/7 PASS, 555 cells; controls **6/7** — `contrast (wrong failing line)` |
-| [33255702213](https://github.com/eahii/site-quality-rig/actions/runs/33255702213) | `62d9804` | **green** | 450 s | battery 7/7 PASS, 555 cells (290 s); controls **7/7 fired** (117 s) |
+| run | branch | commit | outcome | job | what it proves |
+|---|---|---|---|---|---|
+| [33256643910](https://github.com/eahii/site-quality-rig/actions/runs/33256643910) | `main` | `44deb74` | **green** | 449 s | battery 7/7 PASS, 555 cells; controls **7/7 fired** — the same tree the receipts above are stamped at |
+| [33257439952](https://github.com/eahii/site-quality-rig/actions/runs/33257439952) | `demo/failing-gate` | `264f7bb` | **red** | 329 s | battery **6/7** — `contrast FAIL 1/19`, 54 rows, on a defect committed on purpose |
 
-The red run is not a demo. It caught a real defect that every local run had missed: the contrast
-control asserted a hero heading the fixture had stopped carrying, so that control could not fire.
-Reproduced locally at `f25a18e` before it was fixed, so it was a repo defect and not a runner
-difference; fixed in `62d9804`; the reasoning that let it through is corrected in
-[`docs/CONTROLS.md`](docs/CONTROLS.md). **The first CI execution this project ever had found a
-gate that had quietly stopped working** — which is the argument this repo exists to make, arriving
-at the repo's own expense.
+**The red run is the point of the second row, and it is a branch rather than an accident.**
+`demo/failing-gate` is `44deb74` plus one commit changing one declaration in `fixture/css/site.css`
+— the lede's colour taken off the measured palette and written as a one-off grey, the shape a
+"soften the intro paragraph" tweak really has. It renders as an unremarkable light grey; nothing
+about the page looks wrong. `checks/check-contrast.js` never reads the declaration: it screenshots
+the page with every glyph made transparent, reads the background actually painted under each text
+rect, and grades the worst decile of those pixels. The run prints 54 such rows, across six pages
+and three viewport cells:
 
-Two limits on the links above. The repository is **private** at the time of writing, so both URLs
-are 404 to anyone without access; they become checkable when it is made public. And
-`demo/failing-gate` still does not exist, so there is still no *preserved, intentional* red run to
-link — the acceptance criterion in [`docs/VERIFICATION.md`](docs/VERIFICATION.md) is now partly
-met, not met. Every non-CI number on this page was still produced on a developer machine.
+```
+FAIL  chromium se1 index.html [132 nodes (base:115 footer-inverse:16 filled-control:1), 30 unpainted, 0 unresolvable]
+        2.75:1 < 4.5 (min 2.75, 16px/400) #hero>div.hero-inner>div.hero-copy>p.lede "Planned maintenance, repair and modernis"
+[17 more red cells carrying 53 more rows of the same shape, and the other six checkers' output]
+battery: 6/7 checkers PASS — FAIL (contrast)
+```
 
-**Negative controls: 7 of 7 fired.** Those receipts come from a separate run at `sha=f94132d` and
-are pasted verbatim, exit codes included, into [`docs/CONTROLS.md`](docs/CONTROLS.md): per control
-the defect, the mechanism it was derived from, the baseline exit code and the mutated exit code.
-Command: `npm run build && npm run test:controls` (chromium). The same command re-run at
-`611824e` on the machine above fired 7 of 7 again, in 101 s; the independent reviewer of
-2026-08-29, on their own clone and their own install, got 7 of 7 in 103 s.
+2.75:1 on the page ground and 2.54:1 on the sunk slabs, against the 4.5:1 floor WCAG AA sets for
+text at this size and weight. One cause, one red checker: the other six passed in the same run, so
+the log names the gate that caught it instead of going red everywhere at once. The commit message
+on that branch and a comment beside the declaration both say it is deliberate, what the defect is,
+and which gate catches it.
+
+The negative-control step is skipped on that branch by `ci.yml`, and that is the baseline rule
+working rather than an exemption — a control credits a checker's red on a mutated copy only after
+the same checker exits 0 on the pristine build, and on a deliberately broken fixture no baseline
+can be green. The branch is a permanent artifact; the run's screenshot bundle is not,
+`retention-days: 7` in the workflow.
+
+**A third run is worth more than either, because nobody arranged it.** The very first CI execution
+this project ever had, [33255193219](https://github.com/eahii/site-quality-rig/actions/runs/33255193219)
+at `f25a18e`, went red on `6/7 controls fired — 1 control(s) failed to fail: contrast (wrong
+failing line)`. The contrast control asserted a hero heading the fixture had stopped carrying, so
+the checker still went red on the injected defect but the harness could no longer confirm it went
+red *for that defect* — the exact distinction the control layer exists to draw, and a gate that had
+been unable to fire since the rewording. Reproduced locally at `f25a18e` before it was fixed, so it
+was a repo defect and not a runner difference; fixed in `62d9804`; the reasoning that let it
+through is corrected in [`docs/CONTROLS.md`](docs/CONTROLS.md). **The first CI execution this
+project ever had found a gate that had quietly stopped working**, which is the argument this repo
+exists to make, arriving at the repo's own expense.
+
+**One limit on all three links.** The repository is **private** as this is written, so the URLs are
+404 to anyone without access; they become checkable when it is made public.
+
+**Negative controls: 7 of 7 fired**, re-run 2026-08-29 at `sha=44deb74` on a clean tree, chromium,
+102 s. The receipts are pasted verbatim, exit codes included, into
+[`docs/CONTROLS.md`](docs/CONTROLS.md): per control the defect, the mechanism it was derived from,
+the baseline exit code and the mutated exit code. Command: `npm run build && npm run test:controls`.
+Earlier captures of the same suite: 7 of 7 at `f94132d` and again at `611824e` in 101 s on this
+machine, and 7 of 7 in 103 s on the independent reviewer's own clone and install on 2026-08-29.
 
 ## Quickstart
 
 ```
 npm install && npx playwright install chromium webkit
-npm run build && npm test            # the battery, both engines — 869 cells, 525 s above
-npm run test:controls                # the seven injected defects, chromium — 101 s, same machine
+npm run build && npm test            # the battery, both engines — 869 cells, 536 s above
+npm run test:controls                # the seven injected defects, chromium — 102 s, same machine
 ```
 
 No API key. No network at runtime: the fixture is served from an ephemeral local port, and
 external URLs are noted rather than fetched. Every argument is forwarded to every checker, so
-`npm test -- --engines chromium` narrows the whole battery to one engine — 555 cells, 260 s at
-`611824e` on the same machine, and 555 cells, 7 of 7 PASS, 261 s when it was re-run there on a
-clean tree at `66b480d` on 2026-08-29. That one-engine run is what
-`.github/workflows/ci.yml` is *configured* to execute on each push. That workflow has never been
-executed by anything; see the note above.
+`npm test -- --engines chromium` narrows the whole battery to one engine — 555 cells, and 7 of 7
+PASS every time it has been run: 260 s at `611824e` and 261 s at `66b480d` on this machine, 289 s
+on the CI runner at `44deb74`. That one-engine run is what `.github/workflows/ci.yml` executes on
+every push to `main` and to `demo/failing-gate`, followed by the control suite on `main` only; the
+green and red runs it has produced are linked above.
 
 ## The checks
 
@@ -258,9 +288,11 @@ fixture and catches it.
 
 **Most of this battery's own assertions have never been observed firing.** Seven controls fire
 seven checkers, which is a much smaller claim than "the checkers work", and
-[`docs/CONTROLS.md`](docs/CONTROLS.md) counts the gap rather than gesturing at it. At `f94132d`,
-`scripts/count-emit-sites.js` counts **179 failure-emit sites** in `checks/` — the places that can
-put a line inside a failing row — of which 143 carry a probeable literal prefix. Hand-checking the
+[`docs/CONTROLS.md`](docs/CONTROLS.md) counts the gap rather than gesturing at it. Re-run at
+`44deb74` on 2026-08-29 against the control log described there — and printing the same three
+numbers it printed at `f94132d` — `scripts/count-emit-sites.js` counts **179 failure-emit sites**
+in `checks/` — the places that can put a line inside a failing row — of which 143 carry a probeable
+literal prefix. Hand-checking the
 script's matches against the run log, and adding the printed messages the script structurally
 cannot see, gives **25 source locations observed authoring a printed failure line, against a
 population of at least 182: about one in seven**. Both halves of that ratio are approximate, and
