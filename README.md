@@ -51,17 +51,40 @@ two-engine table above has not been re-run since those edits**, and neither have
 receipts in [`docs/CONTROLS.md`](docs/CONTROLS.md), which quote the old hero heading on three
 lines and say so there. Read the diff rather than believing this paragraph.
 
+Added 2026-08-29, because the paragraph above was not careful enough: that hero-heading edit did
+move something executable. The old heading was also an assertion input in
+`controls/run-controls.js`, which broke the contrast control silently. Not re-capturing a receipt
+is a choice; not re-running the suite is how the break survived. The controls have since been run
+— see the CI table below — and the receipts in `docs/CONTROLS.md` are still the older ones.
+
 ```
 git diff --stat 611824e..HEAD
 git diff --stat 611824e..HEAD -- checks controls contracts fixture scripts site.json package-lock.json
 ```
 
-**No CI run has ever executed, anywhere.** This repo has no remote, `demo/failing-gate` does not
-exist yet, and there is therefore no run to link. The two files under `.github/workflows/` are
-configuration that GitHub has never executed — `ci.yml` says so in its own header. Every number on
-this page was produced by running the battery on a developer machine, never by CI. That is the
-largest single hole in this repo's evidence, and it is recorded as unmet rather than as pending in
-[`docs/VERIFICATION.md`](docs/VERIFICATION.md).
+**CI has now run: 2 runs, 1 red, 1 green, 2026-08-29.** Until that date this section said no
+workflow here had ever executed anywhere, which was true and was the largest single hole in this
+repo's evidence. `ci.yml` ran for the first time on a GitHub `ubuntu-24.04` runner under node
+v20.20.2 — not the author's v22.22.2, which is the point of pinning 20 in the workflow.
+
+| run | commit | outcome | job | what it printed |
+|---|---|---|---|---|
+| [33255193219](https://github.com/eahii/site-quality-rig/actions/runs/33255193219) | `f25a18e` | **red** | 445 s | battery 7/7 PASS, 555 cells; controls **6/7** — `contrast (wrong failing line)` |
+| [33255702213](https://github.com/eahii/site-quality-rig/actions/runs/33255702213) | `62d9804` | **green** | 450 s | battery 7/7 PASS, 555 cells (290 s); controls **7/7 fired** (117 s) |
+
+The red run is not a demo. It caught a real defect that every local run had missed: the contrast
+control asserted a hero heading the fixture had stopped carrying, so that control could not fire.
+Reproduced locally at `f25a18e` before it was fixed, so it was a repo defect and not a runner
+difference; fixed in `62d9804`; the reasoning that let it through is corrected in
+[`docs/CONTROLS.md`](docs/CONTROLS.md). **The first CI execution this project ever had found a
+gate that had quietly stopped working** — which is the argument this repo exists to make, arriving
+at the repo's own expense.
+
+Two limits on the links above. The repository is **private** at the time of writing, so both URLs
+are 404 to anyone without access; they become checkable when it is made public. And
+`demo/failing-gate` still does not exist, so there is still no *preserved, intentional* red run to
+link — the acceptance criterion in [`docs/VERIFICATION.md`](docs/VERIFICATION.md) is now partly
+met, not met. Every non-CI number on this page was still produced on a developer machine.
 
 **Negative controls: 7 of 7 fired.** Those receipts come from a separate run at `sha=f94132d` and
 are pasted verbatim, exit codes included, into [`docs/CONTROLS.md`](docs/CONTROLS.md): per control

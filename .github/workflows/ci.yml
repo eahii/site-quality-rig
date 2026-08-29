@@ -23,8 +23,22 @@ name: ci
 #     that class of red, and a dated nightly is the right place;
 #   - webkit is not dropped. full-battery.yml runs both engines daily and on demand.
 #
-# What is measured nowhere: any of this on a GitHub runner. No workflow in this repo has ever
-# executed. The timeouts below are headroom against that unknown, not a prediction.
+# Measured on a runner for the first time on 2026-08-29, run 33255702213, ubuntu-24.04, node
+# v20.20.2, playwright 1.62.1, cold browser install:
+#
+#   npm test -- --engines chromium    555 cells    290 s   (260 s on the machine above)
+#   npm run test:controls             7 controls   117 s   (101 s on the machine above)
+#   npx playwright install            chromium      26 s   (cache miss; see the note below)
+#   whole job                                      450 s
+#
+# So the runner is about 12-16% slower per step, and the 45-minute timeout below is roughly 6x
+# the observed job. It stays where it is: two runs are not a distribution, and the cache step is
+# the obvious source of variance. Note that the browser cache only populates after a green run —
+# a red run skips the post step that saves it, so the first green run pays the download twice.
+#
+# Every cell count above matched the author's machine exactly, which is what pinning buys: the
+# runner and the local machine resolved the same Chrome for Testing build (151.0.7922.34) via
+# playwright 1.62.1, so no pixel assertion had to be made environment-aware.
 
 on:
   push:

@@ -70,6 +70,11 @@ criterion is not partly done, it is not done. Everything the workflows assert ab
 behaviour, Node 20 versus the local v22.22.2, and timeout headroom is untested prediction, which
 `ci.yml`'s own header already says.
 
+**— Superseded 2026-08-29, after this review: the publishing decision was made, the remote exists
+and `ci.yml` has run. The criterion moves from unmet to partly met — CI runs are now linkable, but
+`demo/failing-gate` still does not exist, so the intentional red run it calls for still does not.
+See the correction section at the end of this file.**
+
 ### Criterion 7 is partial, for a reason that is visible in the log
 
 All 16 commits carry dates on **2026-08-27**, between 01:26 and 14:34 — one working day, not
@@ -271,10 +276,17 @@ adding a check anyone would run. Recorded so a reader knows it was a decision.
 
 - **CI has never run, anywhere.** Nothing in `.github/workflows/` has been executed. Runner
   behaviour, the Node 20 path, the cache keys and the timeouts are all untested.
+  **— No longer true as of 2026-08-29, after this review; left in place because it is what the
+  review found. `ci.yml` has now run twice on `ubuntu-24.04` (runs 33255193219 red, 33255702213
+  green). The Node 20 path, the cache keys and the timeouts were exercised; see the correction
+  section at the end of this file for what they measured and what the red run caught.**
 - **A genuinely cold install.** Every run has been on a machine with warm npm and playwright
   caches. First-run download size and wall time for a stranger are unmeasured.
 - **Anything but this platform.** Linux, node v22.22.2, playwright 1.62.1, one machine.
   `package.json` declares `node >=18` and nothing has ever tested that claim.
+  **— Partly answered 2026-08-29: the full battery and all seven controls ran green on
+  `ubuntu-24.04` under node v20.20.2. That is a second node major, not a second OS; Windows,
+  macOS and node 18 remain untested, and `>=18` is still an untested lower bound.**
 - **History from a private project of my own.** The 3px hero offset, the 6-of-12 WebKit flake, the 1600/1920
   nav wrap, the velocity-sensitive pin: none can be reproduced from this repo, all are now labelled
   as such, and a reader should treat every one of them as an unverifiable story that explains a
@@ -361,5 +373,54 @@ the same 555 cells with the same per-checker denominators, `BATTERY_EXIT=0 WALL_
 `links: 231/231 cells OK — PASS [sha=473ccd8 root=dist pages=7 strict=false]`, `LINKS_EXIT=0`.
 The commit that adds this paragraph is the only thing between that sha and this sentence.
 
-*This file describes work at `fdba9e0` and the changes made on top of it on 2026-08-29. It will
-need re-checking after the identity rewrite, and after the first CI run that ever happens.*
+---
+
+## Correction: the first CI runs, 2026-08-29
+
+Added after the review above, which is left exactly as it was written. Two bullets in *What
+remains unverified by anyone* and criterion 4 in *Acceptance criteria* were true when written and
+are not true now; each carries a pointer here rather than an edit.
+
+The repo was pushed to `github.com/eahii/site-quality-rig` (**private**, so the run URLs below are
+404 without access) and `ci.yml` executed for the first time. Environment: `ubuntu-24.04`, node
+**v20.20.2** — the runner installs 20 per the workflow, against the author's v22.22.2 — playwright
+1.62.1, Chrome for Testing 151.0.7922.34.
+
+| run | commit | outcome | job | battery | controls |
+|---|---|---|---|---|---|
+| 33255193219 | `f25a18e` | red | 445 s | 7/7 PASS, 555 cells | **6/7**, contrast did not fire |
+| 33255702213 | `62d9804` | green | 450 s | 7/7 PASS, 555 cells, 290 s | **7/7 fired**, 117 s |
+
+**What the red run caught, and why it matters here.** The contrast control's `expect` list in
+`controls/run-controls.js` required the row label `#hero-title "Elevators that stay in service."`.
+The fixture heading had been reworded to *Lifts that stay in service.* on 2026-08-29, so the
+control could no longer be credited as fired — the checker still went red on the injected defect,
+but the harness could not confirm it went red *for that defect*, which is the whole distinction
+this harness exists to draw. `docs/CONTROLS.md` had reasoned explicitly about that rewording and
+concluded "nothing else in them moves", having asked what the checker prints and not what the
+harness requires; the correction is written beside that paragraph.
+
+Three things a skeptic should take from this rather than from the green run:
+
+1. The defect was **reproduced locally at `f25a18e` before being fixed**, with byte-identical
+   output. It was a repo defect that CI merely executed, not a runner difference.
+2. It survived because the control suite was deliberately not re-run after the rewording — a
+   decision recorded in *Green after the fixes* above. The gap between "the receipts are stamped"
+   and "the suite was re-run" is exactly where it lived.
+3. It is the second time in this repo's short history that a gate was found decorative by running
+   it rather than by reading it. That is evidence for the method and against the artifact, and
+   both halves belong in the same sentence.
+
+**What is now measured, and what still is not.** Measured: the Node 20 path, the cache keys, the
+timeout headroom (450 s against a 45-minute limit), and that every cell count on a runner matches
+the author's machine exactly — 231/72/19/72/144/8/9. Not measured **as of those two runs**: the
+browser cache on a *hit* — the red run skipped the post step that saves it, so both of them paid
+the 26 s download, and the first run able to hit the cache is whichever one follows the green one;
+`full-battery.yml`, which has still never executed on any runner; and anything on Windows, macOS
+or node 18. Criterion 4 is now **partly** met rather than unmet: CI has run, but
+`demo/failing-gate` still does not exist, so there is no preserved intentional red run to link.
+The red run above is an accident that is being kept, which is not the same artifact.
+
+*This file describes work at `fdba9e0` and the changes made on top of it on 2026-08-29, plus the
+CI correction above. It will still need re-checking after the identity decision recorded further
+up this page is resolved.*
