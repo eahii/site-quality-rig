@@ -11,7 +11,7 @@ which that checker went red because of it, because a gate that has never gone re
 ## Results
 
 `npm run build && npm test`, run 2026-08-27 at `sha=611824e` on this repo's own fixture site —
-node v22.22.2, playwright 1.62.1, chromium + webkit, 526 s wall.
+node v22.22.2, playwright 1.62.1, chromium + webkit, 525 s wall.
 
 | checker | cells OK | how that denominator is built |
 |---|---|---|
@@ -64,7 +64,7 @@ Command: `npm run build && npm run test:controls` (chromium). The same command r
 
 ```
 npm install && npx playwright install chromium webkit
-npm run build && npm test            # the battery, both engines — 869 cells, 526 s above
+npm run build && npm test            # the battery, both engines — 869 cells, 525 s above
 npm run test:controls                # the seven injected defects, chromium — 101 s, same machine
 ```
 

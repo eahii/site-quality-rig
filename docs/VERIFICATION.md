@@ -109,9 +109,18 @@ WALL_SECONDS=524.37
 ```
 
 869 cells, the same denominators the README's table decomposes, at a different sha on a different
-clone. The README quotes 526 s for the same battery at `611824e` and `.github/workflows/ci.yml`
-quotes 525 s for what is described as the same run; that one-second discrepancy is unreconciled,
-and no log of that run is in this repo. It is left as it is rather than quietly harmonised.
+clone. The README quoted 526 s for the same battery at `611824e` and `.github/workflows/ci.yml`
+quoted 525 s for what is described as the same run; that one-second discrepancy was unreconciled,
+and no log of that run is in this repo. It was left as it was rather than quietly harmonised.
+
+*Resolved 2026-08-29, and worth saying how, because it is not a re-measurement.* No log of the
+`611824e` run survives, so neither figure can be re-derived from this repo and neither is more
+"true" than the other on the evidence here. The repo carried the run's wall time in seven places:
+five said 525 s (`ci.yml`, two lines of `full-battery.yml`, and the bodies of `d5efe08` and
+`c18e692`) and two said 526 s (`README.md`). The README's two were changed to 525 s so that one
+run has one number; the five were not renumbered, and no commit body was touched. That makes the
+artifact self-consistent and nothing more — the figure is still a single unlogged run on one
+developer machine, and the next full battery re-stamps it with a figure that has a log.
 
 **The negative controls, from the same cold clone.** `7/7 controls fired`,
 `CONTROLS_WALL_SECONDS=103.01`, against the 101 s the README reports from the author's machine.
