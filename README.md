@@ -27,21 +27,38 @@ node v22.22.2, playwright 1.62.1, chromium + webkit, 526 s wall.
 Every checker prints its own denominator and its own `sha=` stamp; the summary table is rebuilt
 from those stamps, so it structurally cannot report a number a checker did not print. Two
 independent full runs the same day — one at `60863e4`, one at `611824e`, whose only difference is
-two files under `.github/` — produced identical cell counts, and a third run taken after this
-README was written reproduced them again. Nothing the battery measures has changed since that
-stamp: every commit after `611824e` touches documentation or CI configuration only, and the second
-command here prints nothing.
+two files under `.github/` — produced identical cell counts. On 2026-08-29 a reviewer with no
+access to how this repo was built cloned it fresh, installed from scratch and ran the same
+battery: same 869 cells, 7 of 7 PASS, 524 s. That pass also found things wrong here, and both
+halves of it are written down in [`docs/VERIFICATION.md`](docs/VERIFICATION.md).
+
+Since the `611824e` measurement four source files have changed, and the second command below
+prints exactly those four. Two are comment text only (`checks/check-hero.js`, `checks/lib/site.js`
+— historical claims relabelled as provenance after the review above). One is
+`contracts/hero-contract.json`, changed only in its `_`-prefixed note strings, which no checker
+reads: `grep -rn '_note' checks/ scripts/` prints nothing. One is `controls/run-controls.js`,
+where a single `defect:` label was reworded; that string is printed in a control's banner line and
+in no assertion. Nothing executable changed, so none of it can move a cell count — but read the
+diff rather than believing that sentence.
 
 ```
 git diff --stat 611824e..HEAD
 git diff --stat 611824e..HEAD -- checks controls contracts fixture scripts site.json package-lock.json
 ```
 
+**No CI run has ever executed, anywhere.** This repo has no remote, `demo/failing-gate` does not
+exist yet, and there is therefore no run to link. The two files under `.github/workflows/` are
+configuration that GitHub has never executed — `ci.yml` says so in its own header. Every number on
+this page was produced by running the battery on a developer machine, never by CI. That is the
+largest single hole in this repo's evidence, and it is recorded as unmet rather than as pending in
+[`docs/VERIFICATION.md`](docs/VERIFICATION.md).
+
 **Negative controls: 7 of 7 fired.** Those receipts come from a separate run at `sha=f94132d` and
 are pasted verbatim, exit codes included, into [`docs/CONTROLS.md`](docs/CONTROLS.md): per control
 the defect, the mechanism it was derived from, the baseline exit code and the mutated exit code.
 Command: `npm run build && npm run test:controls` (chromium). The same command re-run at
-`611824e` on the machine above fired 7 of 7 again, in 101 s.
+`611824e` on the machine above fired 7 of 7 again, in 101 s; the independent reviewer of
+2026-08-29, on their own clone and their own install, got 7 of 7 in 103 s.
 
 ## Quickstart
 
@@ -54,7 +71,8 @@ npm run test:controls                # the seven injected defects, chromium — 
 No API key. No network at runtime: the fixture is served from an ephemeral local port, and
 external URLs are noted rather than fetched. Every argument is forwarded to every checker, so
 `npm test -- --engines chromium` narrows the whole battery to one engine — 555 cells, 260 s on
-the same machine, and what `.github/workflows/ci.yml` runs on each push.
+the same machine, and what `.github/workflows/ci.yml` is *configured* to run on each push. That
+workflow has never been executed by anything; see the note above.
 
 ## The checks
 
@@ -105,9 +123,11 @@ true. A skip exists only where a contract declares one.
   from the pin spacer's own geometry* rather than copied from the site's script, the readout reads
   the authored literal, the reveal element is at opacity >= 0.9, and the scene is still in frame;
   under `reduce` the scrub is off rather than slower, probed by scrolling into the scrub range and
-  requiring that nothing moved. 0.5px because the measured spread is 0.000px in both engines at
-  every cell tried, so the tolerance is subpixel-only and a real regression clears it by an order
-  of magnitude.
+  requiring that nothing moved. 0.5px because the spread measured 0.000px at all 28 engine-cell
+  combinations of a 14-cell probe on 2026-08-29 in chromium and webkit, so the tolerance is
+  subpixel-only and a real regression clears it by an order of magnitude. That probe is an ad-hoc
+  script, *not* one this repo ships — `contracts/hero-contract.json`'s `_cells_note` states its
+  method and the command that re-runs the checker itself over the same 14 cells.
 - **deploy** (`checks/check-deploy.js`) — against a *running origin*, per declared page: HTTP 200,
   every response header `contracts/deploy-contract.json` declares at its declared value, the
   in-body `<meta name="robots">` the contract declares, and served bytes equal to the local built
@@ -220,9 +240,13 @@ Beyond that coverage count, these are holes in the instruments themselves:
   clean URL to its canonical form fails the 200 assertion. That is deliberate — following a
   redirect lets an origin answer for a URL other than the one declared — but it means a
   legitimately redirecting origin has to be probed at its final host.
-- **The `sha=` in every stamp degrades to `no-git`** in a tarball checkout with no `.git`
-  directory, unless `GIT_SHA` is set (`checks/lib/report.js:6-9`). A receipt whose as-of reads
-  `no-git` cannot be re-checked later.
+- **The `sha=` in every stamp is `git rev-parse HEAD` and nothing else** (`checks/lib/report.js:6-9`).
+  It degrades to `no-git` in a tarball checkout with no `.git` directory unless `GIT_SHA` is set,
+  and a receipt whose as-of reads `no-git` cannot be re-checked later. It also says nothing about
+  whether the working tree was clean: a run over uncommitted edits stamps the last commit, so a
+  stamp identifies the commit a run was *near*, not the bytes it measured. The receipt in
+  [`docs/VERIFICATION.md`](docs/VERIFICATION.md) is a worked example — it stamps a sha that is not
+  the tree it measured, and says so.
 - **This measures a built directory belonging to this repo.** `site.json` and `contracts/` are
   always read from the repo root by design, which is what lets `--root` point at a mutated copy
   while the policy stays pinned. Pointing the rig at an unrelated external site is out of scope:
@@ -231,18 +255,34 @@ Beyond that coverage count, these are holes in the instruments themselves:
   fixture's system sans stack at 1280x800, the same strings measure 15.9%-17.4% narrower in WebKit
   than in Chromium (`.stat-label` 280.84 -> 234.84px, the hero `h1` 965.02 -> 797.31px), while the
   monospace elements agree to within 0.01% — measured 2026-08-27 with an ad-hoc Range-rect probe
-  over both engines, *not* a script in this repo. The in-repo receipt for the same class of problem
-  is at `checks/measure-viewports.js:123-127`: before tap targets were compared in whole CSS
-  pixels, WebKit's float32 layout rects made a genuine 44px control measure 43.999755859375, and
-  the row went red in **6 of 12 identical runs**.
+  over both engines, *not* a script in this repo. The same class of problem is *recorded* at
+  `checks/measure-viewports.js:123-127`: before tap targets were compared in whole CSS pixels,
+  WebKit's float32 layout rects made a genuine 44px control measure 43.999755859375, and the row
+  went red in 6 of 12 identical runs. That is a comment, not a receipt. The runs it describes were
+  made while this rig was being extracted and **no log, artifact or commit in this repo witnesses
+  them**; what is checkable here is the rounding it justifies, which is three lines below it in the
+  code. Treat the 6-of-12 as provenance for a design decision, not as a measurement this repo can
+  hand you.
 - **Whole families of quality are simply out of scope**: performance and Core Web Vitals, SEO past
   a `robots` mechanism, ARIA correctness, form-label association, landmark semantics, keyboard-trap
   detection, colour-vision simulation, and anything that requires a real user.
 
 **Setup cost, honestly.** No API key and no network at runtime, but getting there needs `npm
-install` plus `npx playwright install` for two browser engines — a several-hundred-megabyte
-download — and `sharp` is a native dependency that resolves a prebuilt binary per platform. On a
-machine with none of that cached, "clone and run" is a download first.
+install` plus `npx playwright install`, and `sharp` is a native dependency that resolves a prebuilt
+binary per platform. The engines are the bulk of it: at the pinned playwright 1.62.1 on linux-x64,
+`npx playwright install chromium webkit` leaves **941 MB on disk** — chromium 388 MB, its headless
+shell 261 MB, webkit 292 MB, measured with `du --apparent-size` on 2026-08-29; chromium alone is
+649 MB of that. The *download* is compressed and is not that number, and I have not measured it:
+both the npm and the browser caches were already warm on every machine this has run on, so
+first-run wall time for a stranger is unmeasured here. "Clone and run" is a download first.
+
+**What an outsider found wrong.** The section you have just read is the author's own account of the
+limits, which is the least trustworthy kind. [`docs/VERIFICATION.md`](docs/VERIFICATION.md) is the
+other kind: a reviewer who saw only the brief and the repo graded it against its acceptance
+criteria, marked one of the seven unmet and two partial, and found unlabelled claims on this page —
+including one of the exact defect class this repo boasts about having purged. That file lists every
+finding, which ones were fixed, which were accepted unfixed and why, and what nobody has checked at
+all.
 
 ## Why not Lighthouse, axe or pa11y alone
 
