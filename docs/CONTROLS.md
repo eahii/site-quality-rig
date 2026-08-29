@@ -115,6 +115,19 @@ input to the ratio, the floor or the cell count. The receipts have not been re-c
 `f94132d` and are deliberately not edited to match: a receipt corrected to fit later bytes is not
 a receipt.
 
+**Correction, 2026-08-29, written beside the paragraph above rather than over it.** That paragraph
+is right about the three rows and wrong about the repo. The heading string is not an input to the
+ratio, the floor or the cell count — but it *was* an input to the contrast control's `expect` list
+in `controls/run-controls.js`, which requires that label on the same row as the ratio before it
+will credit the control as fired. Rewording the fixture heading therefore broke the contrast
+control, and the paragraph missed it by asking what the checker prints instead of what the harness
+requires. Nothing caught it locally because the control suite was not re-run after the rewording
+(`docs/VERIFICATION.md`, "Green after the fixes", records that decision). The first CI run this
+repo has ever had caught it: run 33255193219, `6/7 controls fired — 1 control(s) failed to fail:
+contrast (wrong failing line)`. The `expect` fragment is now the heading the fixture actually
+carries. The coupling is the thing to remember: **fixture copy quoted in an `expect` fragment is
+executable, and changing that copy is changing an assertion.**
+
 What is between the fences is that run's stdout. Two substitutions run through all of it and
 are the only edits: absolute paths are shortened to `<repo>/`, and the deploy control's
 ephemeral port to `PORT`. Every omission is marked with a bracketed line saying what was

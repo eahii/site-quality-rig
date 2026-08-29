@@ -97,7 +97,7 @@ const CONTROLS = [
     args: (root) => ['--root', root, '--engines', 'chromium', '--pages', 'index.html'],
     expect: [
       '< 3.0 (min 1.11,',
-      '#hero-title "Elevators that stay in service."',
+      '#hero-title "Lifts that stay in service."',
     ],
     sameLine: true,
   },
