@@ -301,7 +301,7 @@ replaced. The pass that resolves it needs to re-stamp these, and nothing else:
 |---|---|
 | `README.md` | 13, 29 (x2), 35, 45, 46, 56, 60, 169, 187, 202 (x2), 203 (x2), 216, 329 (x2) |
 | `docs/CONTROLS.md` | 85, 90, 93, 94, 132, 155, 181, 192, 252, 288, 331, 349, 384, 397, 425, 437, 482, 516, 546, 603 |
-| `docs/VERIFICATION.md` | this file — the `fdba9e0` stamps in the battery receipt above |
+| `docs/VERIFICATION.md` | this file — the `fdba9e0` stamps in the cold-clone and dirty-tree receipts, and the `473ccd8` stamps in the clean-tree re-run below them |
 | `.github/workflows/ci.yml` | 5 |
 | `.github/workflows/full-battery.yml` | 7 |
 
