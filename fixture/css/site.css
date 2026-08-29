@@ -146,9 +146,16 @@ code,
   margin: 0;
 }
 
+/* DELIBERATE DEFECT — this branch (demo/failing-gate) exists to be red.
+   The lede's colour was taken off the measured palette above and written as a one-off grey,
+   the way a "soften the intro paragraph" tweak actually reaches a stylesheet. It renders as
+   an unremarkable light grey and measures 2.75:1 on the page ground, 2.54:1 on the sunk
+   slabs, against the 4.5:1 floor WCAG AA sets for text at this size and weight.
+   checks/check-contrast.js is the gate that catches it. Restore the line to
+   `color: var(--ink-soft)` and this branch goes green. */
 .lede {
   font-size: clamp(1rem, 0.94rem + 0.42vw, 1.25rem);
-  color: var(--ink-soft);
+  color: oklch(0.68 0.014 252);
   max-width: 34em;
 }
 
