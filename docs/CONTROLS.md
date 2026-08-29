@@ -95,14 +95,25 @@ git diff --stat f94132d..HEAD
 git diff --stat f94132d..HEAD -- checks controls contracts fixture scripts site.json package-lock.json
 ```
 
-The second command prints four files, and this is the whole of what changed in them. Three are
-comment text only — `checks/check-hero.js` and `checks/lib/site.js` (historical claims relabelled
-as provenance after an independent review, 2026-08-29) — and `contracts/hero-contract.json`, whose
-change is confined to its `_`-prefixed note strings; no checker reads a `_`-prefixed key, so those
-cannot move a verdict. The fourth is `controls/run-controls.js`, where one `defect:` label was
-reworded. That label **is** printed, in the `== defect:` banner line of each control's console
-output — but no banner line appears inside any fence below, so no receipt on this page quotes it
-and none of them changed.
+The second command prints twelve files, and this is the whole of what changed in them.
+
+Five are annotation only. `checks/check-hero.js` and `checks/lib/site.js` are comment text
+(historical claims relabelled as provenance after an independent review, 2026-08-29).
+`contracts/hero-contract.json` and `contracts/harness-slots.json` changed only inside their
+`_`-prefixed note strings; no checker reads a `_`-prefixed key, so those cannot move a verdict.
+`controls/run-controls.js` had one `defect:` label reworded — that label **is** printed, in the
+`== defect:` banner line of each control's console output, but no banner line appears inside any
+fence below, so no receipt on this page quotes it.
+
+The other seven are the fixture's own pages, edited on 2026-08-29 for locale consistency: the
+telephone number, the plan prices, one invented staff surname, and the hero heading. **One of
+those edits is visible in a receipt below.** The contrast receipt quotes
+`#hero-title "Elevators that stay in service."` on three lines; that heading now reads *Lifts that
+stay in service.*, so a re-run today prints the new string in those three rows. Nothing else in
+them moves — the control recolours the heading, and the quoted string is the row's label, not an
+input to the ratio, the floor or the cell count. The receipts have not been re-captured since
+`f94132d` and are deliberately not edited to match: a receipt corrected to fit later bytes is not
+a receipt.
 
 What is between the fences is that run's stdout. Two substitutions run through all of it and
 are the only edits: absolute paths are shortened to `<repo>/`, and the deploy control's

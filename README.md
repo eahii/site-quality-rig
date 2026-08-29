@@ -32,14 +32,24 @@ access to how this repo was built cloned it fresh, installed from scratch and ra
 battery: same 869 cells, 7 of 7 PASS, 524 s. That pass also found things wrong here, and both
 halves of it are written down in [`docs/VERIFICATION.md`](docs/VERIFICATION.md).
 
-Since the `611824e` measurement four source files have changed, and the second command below
-prints exactly those four. Two are comment text only (`checks/check-hero.js`, `checks/lib/site.js`
-— historical claims relabelled as provenance after the review above). One is
-`contracts/hero-contract.json`, changed only in its `_`-prefixed note strings, which no checker
-reads: `grep -rn '_note' checks/ scripts/` prints nothing. One is `controls/run-controls.js`,
-where a single `defect:` label was reworded; that string is printed in a control's banner line and
-in no assertion. Nothing executable changed, so none of it can move a cell count — but read the
-diff rather than believing that sentence.
+Since the `611824e` measurement twelve source files have changed, and the second command below
+prints exactly those twelve. Five are annotation only: `checks/check-hero.js` and
+`checks/lib/site.js` are comment text (historical claims relabelled as provenance after the review
+above); `contracts/hero-contract.json` and `contracts/harness-slots.json` changed only in their
+`_`-prefixed note strings, which no checker reads (`grep -rn '_note' checks/ scripts/` prints
+nothing); and `controls/run-controls.js` had one `defect:` label reworded, a string printed in a
+control's banner line and in no assertion.
+
+The other seven are the fixture's own pages, edited on 2026-08-29 so that one fictional company
+reads as one place — the telephone number moved into `01632 96xxxx`, the range Ofcom reserves for
+fiction and drama, the plan prices to the currency that goes with it, one invented staff surname
+replaced, and the hero heading changed from "Elevators that stay in service." to "Lifts that stay
+in service." on a site that says *lift* everywhere else. That is real page content, so unlike the
+five above it *can* move a cell count. It was re-run: the one-engine battery on a clean tree at
+`sha=66b480d`, 2026-08-29, same machine — 555 of 555 cells, 7 of 7 checkers PASS, 261 s. **The
+two-engine table above has not been re-run since those edits**, and neither have the control
+receipts in [`docs/CONTROLS.md`](docs/CONTROLS.md), which quote the old hero heading on three
+lines and say so there. Read the diff rather than believing this paragraph.
 
 ```
 git diff --stat 611824e..HEAD
@@ -70,9 +80,11 @@ npm run test:controls                # the seven injected defects, chromium — 
 
 No API key. No network at runtime: the fixture is served from an ephemeral local port, and
 external URLs are noted rather than fetched. Every argument is forwarded to every checker, so
-`npm test -- --engines chromium` narrows the whole battery to one engine — 555 cells, 260 s on
-the same machine, and what `.github/workflows/ci.yml` is *configured* to run on each push. That
-workflow has never been executed by anything; see the note above.
+`npm test -- --engines chromium` narrows the whole battery to one engine — 555 cells, 260 s at
+`611824e` on the same machine, and 555 cells, 7 of 7 PASS, 261 s when it was re-run there on a
+clean tree at `66b480d` on 2026-08-29. That one-engine run is what
+`.github/workflows/ci.yml` is *configured* to execute on each push. That workflow has never been
+executed by anything; see the note above.
 
 ## The checks
 
@@ -263,7 +275,9 @@ Beyond that coverage count, these are holes in the instruments themselves:
   fixture's system sans stack at 1280x800, the same strings measure 15.9%-17.4% narrower in WebKit
   than in Chromium (`.stat-label` 280.84 -> 234.84px, the hero `h1` 965.02 -> 797.31px), while the
   monospace elements agree to within 0.01% — measured 2026-08-27 with an ad-hoc Range-rect probe
-  over both engines, *not* a script in this repo. The same class of problem is *recorded* at
+  over both engines, *not* a script in this repo, and on a build whose hero heading has been
+  reworded since, so the `h1` pair is an as-of for `611824e` rather than a figure a clone
+  re-derives. The same class of problem is *recorded* at
   `checks/measure-viewports.js:123-127`: before tap targets were compared in whole CSS pixels,
   WebKit's float32 layout rects made a genuine 44px control measure 43.999755859375, and the row
   went red in 6 of 12 identical runs. That is a comment, not a receipt. The runs it describes were
