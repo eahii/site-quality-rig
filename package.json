@@ -2,6 +2,11 @@
   "name": "site-quality-rig",
   "version": "0.1.0",
   "private": true,
+  "description": "Seven checkers that assert a built static site meets an explicit per-project contract, each with a negative control that proves it can go red.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eahii/site-quality-rig"
+  },
   "type": "commonjs",
   "license": "MIT",
   "engines": {
