@@ -26,11 +26,19 @@ against a clean tree — node v22.22.2, playwright 1.62.1, chromium + webkit, 53
 
 Every checker prints its own denominator and its own `sha=` stamp; the summary table is rebuilt
 from those stamps, so it structurally cannot report a number a checker did not print. The same 869
-cells have now come back from four full runs: two on 2026-08-27 at `60863e4` and `611824e`, whose
-only difference is two files under `.github/`; one on 2026-08-29 from a reviewer with no access to
-how this repo was built, on a fresh clone outside the project with a from-scratch install, 524 s;
-and the one stamped above, 536 s. That reviewer's pass also found things wrong here, and both
-halves of it are written down in [`docs/VERIFICATION.md`](docs/VERIFICATION.md).
+cells have now come back from five full runs. Four of them were on this machine: two on 2026-08-27
+at `60863e4` and `611824e`, whose only difference is two files under `.github/`; one on 2026-08-29
+from a reviewer with no access to how this repo was built, on a fresh clone outside the project
+with a from-scratch install, 524 s; and the one stamped above, 536 s. That reviewer's pass also
+found things wrong here, and both halves of it are written down in
+[`docs/VERIFICATION.md`](docs/VERIFICATION.md).
+
+The fifth was not on this machine. On 2026-08-29 `.github/workflows/full-battery.yml` executed for
+the first time and returned the same 869 — every per-checker denominator identical — on a GitHub
+`ubuntu-24.04` runner under node v20.20.2, at `85aedbe`, battery step 598 s; it is the third row of
+the CI table below. One run, on one runner image, on one day, so it is not a portability claim. What
+it does retire is the narrower one this section rested on until that day: that every two-engine 869
+this repo has ever printed came off a single machine.
 
 Twelve source files changed between `611824e` and the run above. Five are annotation only:
 `checks/check-hero.js` and `checks/lib/site.js` are comment text (historical claims relabelled as
@@ -63,17 +71,19 @@ That command prints nothing as this is written: the only commit between `44deb74
 is the one that writes these numbers down. If it prints a file, the numbers above are older than
 the code they claim to describe.
 
-**CI runs, and both outcomes are linkable.** `ci.yml` executed for the first time on 2026-08-29;
-until that date this section said no workflow here had ever run anywhere, which was true and was
-the largest single hole in this repo's evidence. Every run below is on a GitHub `ubuntu-24.04`
-runner under node v20.20.2 — not the author's v22.22.2, which is the point of pinning 20 in the
-workflow. For runs after this commit, read the
+**CI runs, and both outcomes are linkable.** Both workflows in `.github/workflows/` executed for
+the first time on 2026-08-29 — `ci.yml` on pushes, `full-battery.yml` by manual dispatch; until
+that date this section said no workflow here had ever run anywhere, which was true and was the
+largest single hole in this repo's evidence. Every run below is on a GitHub `ubuntu-24.04` runner
+under node v20.20.2 — not the author's v22.22.2, which is the point of pinning 20 in the workflows.
+For runs after this commit, read the
 [run history](https://github.com/eahii/site-quality-rig/actions) rather than this paragraph.
 
 | run | branch | commit | outcome | job | what it proves |
 |---|---|---|---|---|---|
 | [33256643910](https://github.com/eahii/site-quality-rig/actions/runs/33256643910) | `main` | `44deb74` | **green** | 449 s | battery 7/7 PASS, 555 cells; controls **7/7 fired** — the same tree the receipts above are stamped at |
 | [33257439952](https://github.com/eahii/site-quality-rig/actions/runs/33257439952) | `demo/failing-gate` | `264f7bb` | **red** | 329 s | battery **6/7** — `contrast FAIL 1/19`, 54 rows, on a defect committed on purpose |
+| [33258911560](https://github.com/eahii/site-quality-rig/actions/runs/33258911560) | `main` | `85aedbe` | **green** | 670 s | `full-battery.yml`'s first execution ever — battery 7/7 PASS, **869 cells across both engines** in 598 s: the two-engine denominator reproduced off the author's machine |
 
 **The red run is the point of the second row, and it is a branch rather than an accident.**
 `demo/failing-gate` is `44deb74` plus one commit changing one declaration in `fixture/css/site.css`
@@ -103,8 +113,23 @@ the same checker exits 0 on the pristine build, and on a deliberately broken fix
 can be green. The branch is a permanent artifact; the run's screenshot bundle is not,
 `retention-days: 7` in the workflow.
 
-**A third run is worth more than either, because nobody arranged it.** The very first CI execution
-this project ever had, [33255193219](https://github.com/eahii/site-quality-rig/actions/runs/33255193219)
+**The third row is the only one that is not `ci.yml`.** `full-battery.yml` runs the two-engine
+battery on a schedule and on demand, and had never executed on any runner until it was dispatched
+by hand against `main` on 2026-08-29. Its browser cache key had never been populated either, which
+is what a workflow that has never run looks like from outside. It came back with the seven
+denominators the Results table decomposes — 231 / 144 / 37 / 144 / 288 / 16 / 9, and `battery: 7/7
+checkers PASS` — every line stamped `sha=85aedbe`. Two wall times, and how they were derived: the
+battery step ran 14:57:49Z to 15:07:47Z, so 598 s, against 536 s for the same battery on the
+author's machine; the job ran 14:56:46Z to 15:07:56Z, so 670 s. Both are subtractions over the
+run's own step and job timestamps, because that job prints no wall time of its own. One honest
+annotation on it: GitHub warned that `actions/checkout@v4`, `actions/setup-node@v4` and
+`actions/cache@v4` target the deprecated Node 20 *action* runtime and were forced onto Node 24.
+That is the runtime those three actions themselves execute in; the node the battery ran under was
+v20.20.2 as pinned, and the two are not the same thing.
+
+**One more run is worth more than any row in that table, because nobody arranged it.** The very
+first CI execution this project ever had,
+[33255193219](https://github.com/eahii/site-quality-rig/actions/runs/33255193219)
 at `f25a18e`, went red on `6/7 controls fired — 1 control(s) failed to fail: contrast (wrong
 failing line)`. The contrast control asserted a hero heading the fixture had stopped carrying, so
 the checker still went red on the injected defect but the harness could no longer confirm it went
@@ -115,7 +140,7 @@ through is corrected in [`docs/CONTROLS.md`](docs/CONTROLS.md). **The first CI e
 project ever had found a gate that had quietly stopped working**, which is the argument this repo
 exists to make, arriving at the repo's own expense.
 
-**One limit on all three links.** The repository is **private** as this is written, so the URLs are
+**One limit on all four links.** The repository is **private** as this is written, so the URLs are
 404 to anyone without access; they become checkable when it is made public.
 
 **Negative controls: 7 of 7 fired**, re-run 2026-08-29 at `sha=44deb74` on a clean tree, chromium,
@@ -351,9 +376,12 @@ install` plus `npx playwright install`, and `sharp` is a native dependency that 
 binary per platform. The engines are the bulk of it: at the pinned playwright 1.62.1 on linux-x64,
 `npx playwright install chromium webkit` leaves **941 MB on disk** — chromium 388 MB, its headless
 shell 261 MB, webkit 292 MB, measured with `du --apparent-size` on 2026-08-29; chromium alone is
-649 MB of that. The *download* is compressed and is not that number, and I have not measured it:
-both the npm and the browser caches were already warm on every machine this has run on, so
-first-run wall time for a stranger is unmeasured here. "Clone and run" is a download first.
+649 MB of that. The *download* is compressed and is not that number, and I have not measured it.
+Every developer machine this has run on had warm npm and browser caches. The one cold two-engine
+install with a figure attached is a runner's: in run 33258911560 the cache key had never been
+populated and `npx playwright install --with-deps chromium webkit` took 52 s end to end, apt work
+included — GitHub's network and GitHub's mirrors, which bounds nothing for a clone at home. So
+first-run wall time for a stranger is still unmeasured here. "Clone and run" is a download first.
 
 **What an outsider found wrong.** The section you have just read is the author's own account of the
 limits, which is the least trustworthy kind. [`docs/VERIFICATION.md`](docs/VERIFICATION.md) is the

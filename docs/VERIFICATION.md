@@ -295,6 +295,10 @@ adding a check anyone would run. Recorded so a reader knows it was a decision.
   the timeouts and the branch condition that skips the controls on `demo/failing-gate` were all
   exercised; see the correction sections at the end of this file. `full-battery.yml` has still
   never executed on any runner.**
+  **— And that last sentence stopped being true later the same day. `full-battery.yml` was
+  dispatched by hand against `main` at `85aedbe` and returned `battery: 7/7 checkers PASS`,
+  869/869 cells, green — run 33258911560 on `ubuntu-24.04` under node v20.20.2. Both workflows in
+  this repo have now executed; see the third correction section at the end of this file.**
 - **A genuinely cold install.** Every run has been on a machine with warm npm and playwright
   caches. First-run download size and wall time for a stranger are unmeasured.
 - **Anything but this platform.** Linux, node v22.22.2, playwright 1.62.1, one machine.
@@ -302,6 +306,11 @@ adding a check anyone would run. Recorded so a reader knows it was a decision.
   **— Partly answered 2026-08-29: the full battery and all seven controls ran green on
   `ubuntu-24.04` under node v20.20.2. That is a second node major, not a second OS; Windows,
   macOS and node 18 remain untested, and `>=18` is still an untested lower bound.**
+  **— Answered a step further later the same day, and one word above needs correcting: "the full
+  battery" there was `ci.yml`'s chromium-only 555 cells, which is the whole battery but not the
+  full matrix. The two-engine matrix — 869 cells — has now also run green on `ubuntu-24.04` under
+  node v20.20.2, in run 33258911560. Windows, macOS and node 18 are still untested, and this is
+  still one image on one day rather than a portability result.**
 - **History from a private project of my own.** The 3px hero offset, the 6-of-12 WebKit flake, the 1600/1920
   nav wrap, the velocity-sensitive pin: none can be reproduced from this repo, all are now labelled
   as such, and a reader should treat every one of them as an unverifiable story that explains a
@@ -353,15 +362,18 @@ grep -rnoE '\b[0-9a-f]{7}\b' README.md docs/*.md .github/workflows/*.yml
 
 | file | sha citations |
 |---|---|
-| `README.md` | 34 |
+| `README.md` | 37 |
 | `docs/CONTROLS.md` | 27 |
-| `docs/VERIFICATION.md` | 42 (this file) |
+| `docs/VERIFICATION.md` | 52 (this file) |
 | `.github/workflows/ci.yml` | 1 |
-| `.github/workflows/full-battery.yml` | 1 |
+| `.github/workflows/full-battery.yml` | 5 |
 
-105 citations of 15 distinct shas, counted on 2026-08-29 over the tree this commit records. The
-command above has no false positives in this repo today, but it matches any seven-character hex
-token, so it is a starting point for a reader rather than an oracle.
+122 citations of 16 distinct shas, re-counted on 2026-08-29 over the tree this commit records — 17
+more citations and one more sha than the row of numbers this table first carried, every one of them
+added by the run recorded in the last correction of this file. Re-deriving it beat trusting it, and
+that is the whole reason this is a command and a count rather than a list. The command has no false
+positives in this repo today, but it matches any seven-character hex token, so it is a starting
+point for a reader rather than an oracle.
 
 `contracts/hero-contract.json` deliberately carries no sha; it uses the date-and-method style of
 `contracts/fold-contract.json` so this pass adds no new sha debt.
@@ -477,8 +489,9 @@ the browser cache: restore 5 s, install 20 s against 26 s on a miss. The cache i
 about 6 s, not 26 — `--with-deps` still does its apt work on a hit — which is recorded because a
 speed-up nobody has measured is the kind of claim this repo is supposed to refuse. Still not
 measured:
-`full-battery.yml`, which has still never executed on any runner; and anything on Windows, macOS
-or node 18. Criterion 4 is now **partly** met rather than unmet: CI has run, but
+`full-battery.yml`, which has still never executed on any runner *(superseded later the same day —
+see the last correction section)*; and anything on Windows, macOS or node 18. Criterion 4 is now
+**partly** met rather than unmet: CI has run, but
 `demo/failing-gate` still does not exist, so there is no preserved intentional red run to link.
 The red run above is an accident that is being kept, which is not the same artifact.
 
@@ -523,6 +536,65 @@ strings in the control receipts changed, all named in `docs/CONTROLS.md`. **No n
 the previous pass had argued could not move** — but it is now a measurement rather than an
 argument, which is the only reason to trust it.
 
-*This file describes work at `fdba9e0`, the changes made on top of it on 2026-08-29, and the two
+---
+
+## Correction: the two-engine battery on a runner, 2026-08-29
+
+Appended, again, rather than written over what it corrects. Three places in this file said the
+two-engine battery had never run anywhere but the author's machine — the *CI has never run* bullet,
+the *Anything but this platform* bullet, and the *what still is not measured* paragraph in the
+first correction above. Each keeps its wording and now carries a pointer here.
+
+`full-battery.yml` had never executed on any runner since the day it was committed: it has no push
+trigger, and its schedule had not yet fired. It was dispatched by hand — `gh workflow run
+full-battery.yml --ref main` — and went green:
+[33258911560](https://github.com/eahii/site-quality-rig/actions/runs/33258911560), `main`,
+`85aedbe`, `ubuntu-24.04`, node v20.20.2, playwright 1.62.1. Its output, verbatim from
+`gh run view 33258911560 --log`:
+
+```
+links: 231/231 cells OK — PASS  [sha=85aedbe root=dist pages=7 strict=false]
+viewports: 144/144 cells OK — PASS  [sha=85aedbe root=dist engines=chromium+webkit cells=12 pages=6]
+contrast: 37/37 cells OK — PASS  [sha=85aedbe root=dist engines=chromium+webkit cells=3 pages=6]
+motion: 144/144 cells OK — PASS  [sha=85aedbe root=dist engines=chromium+webkit cells=3]
+harden: 288/288 cells OK — PASS  [sha=85aedbe root=dist engines=chromium+webkit cells=4 components=3 grids=2]
+hero: 16/16 cells OK — PASS  [sha=85aedbe root=dist contract=contracts/hero-contract.json page=index.html engines=chromium+webkit cells=2]
+deploy: 9/9 cells OK — PASS  [sha=85aedbe origin=local-fixture root=dist pages=6 drift=0 form=3-probes strict=false]
+battery: 7/7 checkers PASS
+```
+
+**What that adds, stated no larger than it is.** 231 + 144 + 37 + 144 + 288 + 16 + 9 = 869: the
+same cells, in the same seven denominators the README's Results table decomposes, now returned by a
+different machine, a different OS image and a different node major than the author's v22.22.2.
+Every 869 this repo had before this run came off one machine. This is one run, on one runner image,
+on one day — a second data point, not a portability result, and nobody should read it as one.
+
+**The wall times here are derived, not printed.** That job emits no `WALL_SECONDS`: the local
+wrapper prints one and the workflow step does not. Both figures below are subtractions over the
+run's own step and job timestamps as the API records them
+(`gh api repos/eahii/site-quality-rig/actions/runs/33258911560/jobs`):
+
+| what | from | to | seconds |
+|---|---|---|---|
+| battery step | 14:57:49Z | 15:07:47Z | 598 |
+| whole job | 14:56:46Z | 15:07:56Z | 670 |
+
+598 s against the 536 s the same battery took on the author's machine at `44deb74` is 11.6% longer
+— just under, not inside, the 12-16% per-step band `ci.yml`'s note recorded for the chromium job,
+and a figure from one run either way. The 670 s job is well under the workflow's 60-minute timeout. It also paid for two engine installs — `npx playwright
+install --with-deps chromium webkit`, 52 s — off a cache MISS, `Cache not found for input keys:
+Linux-playwright-1.62.1-chromium-webkit`, because a key is only ever populated by a run, and this
+job had never had one.
+
+**One annotation on the run, and what it does not mean.** GitHub warned that `actions/checkout@v4`,
+`actions/setup-node@v4` and `actions/cache@v4` target the deprecated Node 20 *action* runtime and
+were forced onto Node 24. That is the runtime those three actions execute in. It is not the node
+the battery ran under, which the setup step logged as `node: v20.20.2`. Reading that warning as
+"the battery ran on node 24" would be exactly the class of claim error this file exists to catch,
+so it is written down rather than left for a reader to trip over in the log.
+
+---
+
+*This file describes work at `fdba9e0`, the changes made on top of it on 2026-08-29, and the three
 corrections above. The identity decision it was waiting on is now resolved, in the section that
 records it: the history is not rewritten, so the shas quoted throughout this file stay valid.*

@@ -21,7 +21,10 @@ name: ci
 #     was being extracted and no artifact in this repo witnesses them: that comment is
 #     provenance for this split, not a receipt. A required gate is still the worst place for
 #     that class of red, and a dated nightly is the right place;
-#   - webkit is not dropped. full-battery.yml runs both engines daily and on demand.
+#   - webkit is not dropped. full-battery.yml runs both engines daily and on demand, and that
+#     is no longer only a claim about a file: it was dispatched on demand for the first time on
+#     2026-08-29 and went green on all 869 two-engine cells (run 33258911560, 598 s of battery
+#     against this job's 290 s of chromium). Its own header carries the figures.
 #
 # Measured on a runner for the first time on 2026-08-29, run 33255702213, ubuntu-24.04, node
 # v20.20.2, playwright 1.62.1, cold browser install:

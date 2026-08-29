@@ -12,6 +12,20 @@ name: full-battery
 #
 # No push trigger: a daily run bounds a webkit-only regression to under 24 h, which is the
 # honest trade at this repo's commit rate.
+#
+# Executed for the first time on 2026-08-29, dispatched by hand against main at 85aedbe: run
+# 33258911560, green, ubuntu-24.04, node v20.20.2, playwright 1.62.1. The browser cache key
+# below missed, because a key is only populated by a run and this job had never had one.
+#
+#   npm test                  chromium+webkit   869 cells   598 s  (536 s local at 44deb74)
+#   npx playwright install    both engines                   52 s  (--with-deps, cache MISS)
+#   whole job                                               670 s
+#
+# Those two wall times are derived, not printed — this job emits no WALL_SECONDS. They are
+# subtractions over the run's own timestamps: battery step 14:57:49Z-15:07:47Z, job
+# 14:56:46Z-15:07:56Z. So the runner took 11.6% longer than the 536 s the same battery took
+# locally at 44deb74, and 13.9% longer than the 525 s at 611824e above — the same order as the
+# 12-16% per-step gap ci.yml measured for the chromium job. One run is not a distribution.
 
 on:
   schedule:
@@ -30,8 +44,10 @@ jobs:
   two-engine:
     name: full battery (chromium + webkit)
     runs-on: ubuntu-24.04
-    # 525 s measured for the battery itself (2026-08-27), plus two engine installs on a runner
-    # slower than the machine that number came from by an unmeasured factor.
+    # 525 s measured for the battery itself (2026-08-27) plus two engine installs, on a runner
+    # whose slowdown was an unmeasured factor when this was written. It is measured now: the
+    # first execution of this job, 2026-08-29, took 670 s end to end (598 s of it the battery),
+    # i.e. about 5x headroom under the hour. Left at 60 — one run is not a distribution.
     timeout-minutes: 60
 
     steps:
