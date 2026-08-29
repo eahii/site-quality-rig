@@ -1,13 +1,18 @@
 /* check-hero — the pinned hero scene's GEOMETRY, asserted against a contract.
 
-   Why this instrument exists: the hero this was extracted from shipped for weeks with the
-   moving element sitting 3px left of the line it travels on — a leftover negative margin
-   from a narrower shape. It survived two reviewers and every other gate that was green at
-   the time, because nothing in the battery ever asserted WHERE the element was. Overflow,
-   tap targets, fold height, contrast and painted text were all measured; the one thing the
-   scene IS — an object on a line, moving between two ends — was not. A checker family can
-   be complete and still be blind in the middle of the frame. That is what a geometry
-   contract is for.
+   Why this instrument exists — provenance, not evidence: a hero in a private project of my
+   own shipped for weeks with the moving element sitting 3px left of the line it travels on,
+   a leftover negative margin from a narrower shape. It survived two reviewers and every
+   other gate that was green at the time, because nothing in that battery ever asserted
+   WHERE the element was. Overflow, tap targets, fold height, contrast and painted text were
+   all measured; the one thing the scene IS — an object on a line, moving between two ends —
+   was not. A checker family can be complete and still be blind in the middle of the frame.
+   That is what a geometry contract is for.
+
+   That history carries no denominator and CANNOT BE REPRODUCED FROM THIS REPO — no run, log
+   or commit here witnesses it, and nothing below rests on it. What can be reproduced is
+   controls/hero/setup.js, which injects the same defect class into this fixture and requires
+   this checker to catch it on a build whose pristine baseline was green first.
 
    Every selector, literal and tolerance lives in contracts/hero-contract.json. This file
    holds only the assertion structure, per engine x cell:
@@ -146,10 +151,14 @@ function railTy(selector) {
 
    The stepped approach is for velocity-sensitive pinning: implementations that pin early in
    proportion to scroll velocity latch their state at the velocity of the scroll that
-   entered it, and an instant jump is effectively infinite velocity — in the origin project
-   that produced "pinned" readings at positions the same code then landed on as 160px past
-   the end, differing between two consecutive runs. Twelve-pixel steps are roughly the
-   approach a thumb makes. */
+   entered it, and an instant jump is effectively infinite velocity. In the private project
+   this was extracted from, that produced "pinned" readings at positions the same code then
+   landed on as 160px past the end, differing between two consecutive runs — provenance for
+   the design, not evidence, and not reproducible from this repo: this fixture's scrub is a
+   pure function of pageYOffset with no velocity term (fixture/js/site.js `update`), so the
+   stepped approach cannot be shown to earn its keep here. It is kept as insurance for sites
+   whose pin is velocity-sensitive, and that is a design bet, not a measured one.
+   Twelve-pixel steps are roughly the approach a thumb makes. */
 function approachAndRead(arg) {
   const el = document.querySelector(arg.scene);
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -177,9 +186,10 @@ function approachAndRead(arg) {
    is static geometry: it is padded by exactly the pin distance, so `spacerHeight -
    sceneHeight` IS the scrub distance, and a future edit to the site's scroll distance moves
    this measurement with it. Searching for the release boundary instead was not reproducible
-   in the origin project — the same position read as pinned during the search and unpinned
-   on the next visit. The derivation is VERIFIED by the end-state frame assertion below: if
-   it were wrong, the scene would not be where it says it is. */
+   in the private project this was extracted from — the same position read as pinned during
+   the search and unpinned on the next visit; provenance for the design choice, not evidence,
+   and not reproducible from this repo. The derivation is VERIFIED by the end-state frame
+   assertion below: if it were wrong, the scene would not be where it says it is. */
 async function findPinEnd(page, cfg) {
   await page.evaluate(approachAndRead, { y: 0, scene: cfg.sel.scene });
   const geo = await page.evaluate((c) => {

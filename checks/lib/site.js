@@ -75,8 +75,10 @@ const DEFAULT_VIEWPORTS = [
   { w: 1920, h: 1080, label: 'fhd' },
   /* The matrix used to stop at 1920, which is exactly why a desktop-nav wrap that starts
      at 1600 (webkit) / 1920 (chromium) shipped: no checker ever looked at a viewport wider
-     than the bug's own threshold. Real readers sit in front of ultrawide monitors; the rig
-     now does too. */
+     than the bug's own threshold. That wrap was in the private project this rig was
+     extracted from — provenance for the extra row, not evidence, and not reproducible from
+     this repo. What is reproducible is that the row exists and runs. Real readers sit in
+     front of ultrawide monitors; the rig now does too. */
   { w: 2560, h: 1440, label: 'ultrawide' },
 ];
 
