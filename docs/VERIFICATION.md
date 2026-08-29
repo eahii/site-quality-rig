@@ -196,7 +196,7 @@ consults), and still tell the reader to run the diff instead of believing the se
 
 ### FIXED — origin-project history stated as if it were measurement
 
-Six places asserted history from the private project this rig was extracted from as though it were
+Six places asserted history from a private project of my own as though it were
 evidence produced here: `checks/check-hero.js` (three sites — the 3px offset, a velocity-sensitive
 pin producing readings 160px past the end, and an unreproducible release-boundary search),
 `checks/lib/site.js` (a desktop-nav wrap at 1600/1920 that justifies the 2560px matrix row), and
@@ -211,10 +211,10 @@ because it could not be defended: the stepped scroll approach in `check-hero.js`
 earn its keep on this fixture, whose scrub is a pure function of `pageYOffset` with no velocity
 term, so it is now stated as a design bet rather than as a lesson learned.
 
-### FIXED — vocabulary residue from the origin project's trade
+### FIXED — vocabulary residue from another trade than the fixture's
 
 One `defect:` label in `controls/run-controls.js` named the thing the hero's tip travels along
-using a noun from the origin project's trade rather than this fixture's — on a fixture whose
+using a noun from the trade of a private project of my own rather than this fixture's — on a fixture whose
 subject is lift maintenance and whose selector is `.guide-rail`. It identified nobody, and the
 sanitization pass's identifier sweep did not catch it, because it is not an identifier. The
 fresh-context reviewer caught it by reading. Reworded to the fixture's own vocabulary. The lesson
@@ -266,12 +266,13 @@ adding a check anyone would run. Recorded so a reader knows it was a decision.
   caches. First-run download size and wall time for a stranger are unmeasured.
 - **Anything but this platform.** Linux, node v22.22.2, playwright 1.62.1, one machine.
   `package.json` declares `node >=18` and nothing has ever tested that claim.
-- **The origin project's history.** The 3px hero offset, the 6-of-12 WebKit flake, the 1600/1920
+- **History from a private project of my own.** The 3px hero offset, the 6-of-12 WebKit flake, the 1600/1920
   nav wrap, the velocity-sensitive pin: none can be reproduced from this repo, all are now labelled
   as such, and a reader should treat every one of them as an unverifiable story that explains a
   design rather than as evidence for it.
-- **That the fixture is not a rebranded derivation** of the site this rig was extracted from. The
-  origin project was a forbidden input to the reviewer, so this was assessed indirectly — different
+- **That the fixture is not a rebranded derivation** of the site this rig was extracted from. That
+  site — a private project of my own — was a forbidden input to the reviewer, so this was
+  assessed indirectly — different
   business domain, self-contained assets, zero identifier hits across the whole object database —
   and not confirmed against the original.
 - **The adversarial audit of `f94132d` as a historical event.** Its worksheet is not in this repo,

@@ -45,8 +45,9 @@ Steps 2 and 3 together are what turn "the checker went red" into "the checker we
 
 ### Why exit codes alone were not enough
 
-The harness this was ported from judged a control by one number: did the checker exit 1. That
-cannot distinguish four different situations, three of which are failures of the control:
+The harness this was ported from — a private project of my own — judged a control by one number:
+did the checker exit 1. That cannot distinguish four different situations, three of which are
+failures of the control:
 
 - the checker caught the injected defect (what the control claims);
 - the checker was already red for an unrelated reason, and the injection changed nothing that
@@ -632,5 +633,5 @@ the row exists for, and it needs a healthy-in-every-other-respect origin to prod
 ## Provenance
 
 The harness pattern — fixture builder with vacuity guards, table-driven runner, one defect per
-named assertion — is ported from the author's own earlier tooling. The four upgrades in the
+named assertion — is ported from a private project of my own. The four upgrades in the
 table above, the derivations, every defect and every receipt on this page are this repo's.
