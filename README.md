@@ -200,8 +200,16 @@ unresolvable-colour branch was demonstrated, when every cell reports `0 unresolv
 branch never executes; a checker citing "a negative control proved it" for a control this repo does
 not contain; and an "assertions not armed" table that read as exhaustive while covering a small
 fraction of the never-fired assertions. All nine were fixed in `f94132d` and `60863e4` — read both
-commit bodies with `git show f94132d 60863e4`. The audit's own worksheet is not in this repo; those
-two commits are.
+commit bodies with `git show f94132d 60863e4`.
+
+**Nine is the audit's own count, and it cannot be re-derived from this repo.** The audit's
+worksheet is not here; those two commits are, and what a reader can actually count in them is
+twelve bullets — five in `f94132d`, seven in `60863e4`. Twelve is not nine renumbered. Four of
+`60863e4`'s bullets are consequences of one decision, re-capturing every receipt verbatim, and two
+of `f94132d`'s are hardening the findings prompted rather than findings themselves:
+`scripts/count-emit-sites.js`, which turned a reading into a re-runnable census, and the rule that
+a control's expected fragments must co-occur on one printed line. Which bullet closes which
+finding is not recoverable here, so count the bullets and judge those rather than the headline.
 
 *Provenance, not evidence:* the hero geometry contract exists because a hero in a private project
 of my own shipped with its moving element a few pixels off the line it travels on, while every
@@ -324,9 +332,10 @@ rather than as verdicts.
 
 An independent adversarial pass with no access to the build reasoning then tamper-tested that
 layer — neutralised injections, an already-red baseline, a falsified substring — and the harness
-rejected all three. The same pass found nine defects, every one in the annotation layer rather than
-the mechanics: comments and docs claiming more than the runs showed. All nine were fixed in
-`f94132d` and `60863e4`.
+rejected all three. The same pass reported nine defects, every one in the annotation layer rather
+than the mechanics: comments and docs claiming more than the runs showed. They were fixed across
+`f94132d` and `60863e4`, whose twelve bullets do not map one-to-one onto that nine — the section
+above says why, and why the count is the audit's rather than this repo's.
 
 ## License
 
