@@ -103,7 +103,7 @@ const CONTROLS = [
   },
   {
     name: 'hero',
-    defect: '.car-tip pushed 8px off the drill line - the exact defect class the instrument was written for',
+    defect: '.car-tip pushed 8px off the guide rail it travels on - the exact defect class the instrument was written for',
     script: 'checks/check-hero.js',
     args: (root) => ['--root', root, '--cells', '390x844', '--shots', '0', '--engines', 'chromium'],
     expect: [
