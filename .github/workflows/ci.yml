@@ -15,10 +15,12 @@ name: ci
 #
 #   - the negative controls are chromium-only by design, so this job is already a one-engine
 #     instrument; adding webkit to it mixes two cadences in one required check;
-#   - the one engine-specific flake this repo has a receipt for is a webkit one — float32
-#     layout rects made a genuine 44px control measure 43.999755859375 and the row went red in
-#     6 of 12 identical runs (checks/measure-viewports.js:123-127). A required gate is the
-#     worst place for that class of red and a dated nightly receipt is the right place;
+#   - the one engine-specific flake anyone here has seen is a webkit one — float32 layout rects
+#     made a genuine 44px control measure 43.999755859375 and the row went red in 6 of 12
+#     identical runs (checks/measure-viewports.js:123-127). Those runs happened while this rig
+#     was being extracted and no artifact in this repo witnesses them: that comment is
+#     provenance for this split, not a receipt. A required gate is still the worst place for
+#     that class of red, and a dated nightly is the right place;
 #   - webkit is not dropped. full-battery.yml runs both engines daily and on demand.
 #
 # What is measured nowhere: any of this on a GitHub runner. No workflow in this repo has ever

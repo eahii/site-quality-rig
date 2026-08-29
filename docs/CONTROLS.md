@@ -87,14 +87,21 @@ narrowed matrix — the receipt is that the assertion can fire in this repo, not
 matrix; the full two-engine matrix runs green separately under `npm test`.
 
 **Every receipt below was captured from one run of `npm run build && npm run test:controls` at
-`f94132d`. Nothing these receipts were produced by has changed since: every commit after that
-one touches documentation or CI configuration only.** Check that rather than believing it — the
-second command prints nothing:
+`f94132d`.** Check what has changed under them rather than believing a sentence:
 
 ```
 git diff --stat f94132d..HEAD
 git diff --stat f94132d..HEAD -- checks controls contracts fixture scripts site.json package-lock.json
 ```
+
+The second command prints four files, and this is the whole of what changed in them. Three are
+comment text only — `checks/check-hero.js` and `checks/lib/site.js` (historical claims relabelled
+as provenance after an independent review, 2026-08-29) — and `contracts/hero-contract.json`, whose
+change is confined to its `_`-prefixed note strings; no checker reads a `_`-prefixed key, so those
+cannot move a verdict. The fourth is `controls/run-controls.js`, where one `defect:` label was
+reworded. That label **is** printed, in the `== defect:` banner line of each control's console
+output — but no banner line appears inside any fence below, so no receipt on this page quotes it
+and none of them changed.
 
 What is between the fences is that run's stdout. Two substitutions run through all of it and
 are the only edits: absolute paths are shortened to `<repo>/`, and the deploy control's
