@@ -151,9 +151,9 @@ function railTy(selector) {
 
    The stepped approach is for velocity-sensitive pinning: implementations that pin early in
    proportion to scroll velocity latch their state at the velocity of the scroll that
-   entered it, and an instant jump is effectively infinite velocity. In the private project
-   this was extracted from, that produced "pinned" readings at positions the same code then
-   landed on as 160px past the end, differing between two consecutive runs — provenance for
+   entered it, and an instant jump is effectively infinite velocity. In a private project of
+   my own, that produced "pinned" readings at positions the same code then landed on as
+   160px past the end, differing between two consecutive runs — provenance for
    the design, not evidence, and not reproducible from this repo: this fixture's scrub is a
    pure function of pageYOffset with no velocity term (fixture/js/site.js `update`), so the
    stepped approach cannot be shown to earn its keep here. It is kept as insurance for sites
@@ -186,8 +186,8 @@ function approachAndRead(arg) {
    is static geometry: it is padded by exactly the pin distance, so `spacerHeight -
    sceneHeight` IS the scrub distance, and a future edit to the site's scroll distance moves
    this measurement with it. Searching for the release boundary instead was not reproducible
-   in the private project this was extracted from — the same position read as pinned during
-   the search and unpinned on the next visit; provenance for the design choice, not evidence,
+   in a private project of my own — the same position read as pinned during the search and
+   unpinned on the next visit; provenance for the design choice, not evidence,
    and not reproducible from this repo. The derivation is VERIFIED by the end-state frame
    assertion below: if it were wrong, the scene would not be where it says it is. */
 async function findPinEnd(page, cfg) {
