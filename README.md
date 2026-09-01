@@ -96,7 +96,7 @@ machine, and 7 of 7 in 103 s on the independent reviewer's own clone and install
 npm install && npx playwright install chromium webkit
 npm run build && npm test            # the battery, both engines — 869 cells, 536 s above
 npm run test:controls                # the seven injected defects, chromium — 102 s, same machine
-npm run test:known-miss              # three documented limits, demonstrated — 102 s, same machine
+npm run test:known-miss              # three documented limits, demonstrated — 102 s at 2ab542b
 ```
 
 No API key. No network at runtime: the fixture is served from an ephemeral local port, and

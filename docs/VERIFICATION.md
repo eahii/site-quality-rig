@@ -598,3 +598,55 @@ so it is written down rather than left for a reader to trip over in the log.
 *This file describes work at `fdba9e0`, the changes made on top of it on 2026-08-29, and the three
 corrections above. The identity decision it was waiting on is now resolved, in the section that
 records it: the history is not rewritten, so the shas quoted throughout this file stay valid.*
+
+---
+
+## The 2026-09-01 pass — six increments, graded cold
+
+Seven commits landed on 2026-09-01 (`eb1d063`..`38dc441`): run records and a comparator with its
+own control, a ten-run repeatability series, a meta-evaluation of the contrast checker, a
+known-miss suite, and a failure ledger. The same rule as before applied: the author does not
+verify his own work. A fresh-context agent was given a checklist and the public repo — a cold
+clone at `38dc441`, `npm install` from the lockfile — with the builder's summary deliberately
+withheld. Its instruction was to treat NEEDS WORK as the default and earn any PASS from evidence
+it produced itself.
+
+**The verdict was PASS on all six checklist items — the first item-level PASS in this file's
+history — and it was earned, not granted.** The pass recomputed all 30 Part A analytic truths
+independently from the manifest's hex pairs (0 mismatches), hand-verified the Wilson lower bound,
+re-derived the sabotage control's 9-case flip set from `cases.json` before re-running it and
+watching it fire on exactly those 9, recounted the repeatability series from the committed
+records (189 checker-field comparisons, 0 flips, every wall time inside the README's stated
+band), and re-derived every count in `docs/FAILURES.md` from its own table. It also attacked
+rather than read: it blinded the comparator's verdict axis in a scratch copy and the six-leg
+control went red; it attempted two vacuous known-miss passes — a neutralised twin and a
+neutralised band — and the suite's coupling witness and proof leg rejected both, exit 1.
+
+**It found two defects, both in the annotation layer, both fixed in the commit that carries this
+section** — and both are now rows F45 and F46 of [`docs/FAILURES.md`](FAILURES.md), where they
+extend the ledger's strongest pattern (claims break here more often than code):
+
+- `docs/EVIDENCE.md` said "Eleven distinct blindings of the comparator are now each caught by a
+  named leg" as if a clone could re-derive the eleven; they live only in a review transcript this
+  repo does not contain. The sentence now labels the count as the review's own as-of and states
+  what a clone can actually verify.
+- The Quickstart's known-miss timing carried no as-of and inherited a date by proximity; it now
+  names its sha, and the receipt's disclosed dirty-tree caveat stays where it was, in
+  `docs/CONTROLS.md`.
+
+**Two observations were recorded rather than fixed**, so a reader knows they were seen: the
+`/tmp/...` strings in `docs/CONTROLS.md` and `scripts/count-emit-sites.js` are documented example
+commands, not machine receipts; and `meta-eval/control-sabotage.js` overwrites its committed
+receipt in place on every FIRED run, so a careless commit after a local re-run would replace the
+receipt's date — the only guard is `runs/README.md`'s rule that committing a record is a
+deliberate act.
+
+**What that pass did not check, in its own words:** the full two-engine battery and the 7-control
+suite were not re-run locally (the latest green CI run and the committed `eb1d063` record carry
+both); the worst-decile sabotage variant was read, not re-run; `capture-shots.js` was not
+re-executed (its committed record was recounted); ten of the eleven claimed comparator blindings;
+and everything predating the seven commits. The Part B agreement number does not exist yet and
+was verified to be claimed nowhere.
+
+*This section describes the tree at `38dc441` and the two fixes made on top of it. The labelling
+pass it leaves open is the next dated section this file should expect.*

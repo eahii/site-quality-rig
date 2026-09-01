@@ -200,8 +200,15 @@ The comparator those 189 comparisons ran through is itself controlled.
 `if: always()`. The legs were earned during review by a blinding pass: under the first two-leg
 version, three advertised behaviours — the refusal of incomparable records, name-based checker
 matching, and "stamps and durations are never counted" — could each be deleted from the code with
-the control still reporting every leg green. Eleven distinct blindings of the comparator are now
-each caught by a named leg. The same review pass found the cleanliness flag answering a question
+the control still reporting every leg green. Eleven distinct blindings of the comparator were
+attempted in that review's re-verification and each was caught by a named leg — but the eleven are
+itemised only in the review's own transcript, not in this repo, so treat that count as the
+review's, an as-of of 2026-09-01. What a clone can re-derive is smaller and still real: the six
+legs themselves, and that a blinding is caught — the 2026-09-01 fresh-context pass recorded in
+[`docs/VERIFICATION.md`](VERIFICATION.md) re-blinded the verdict axis independently and the
+control went red *(labelled 2026-09-01; the original
+sentence here carried the eleven as if this repo could hand them over, which it cannot)*. The same
+review pass found the cleanliness flag answering a question
 about itself: `git status --porcelain` counts untracked files, so the recorder's own output under
 `runs/` turned every record after the first `dirty: true` on an untouched source tree, until
 `runs/` was excluded from the question the flag asks.
