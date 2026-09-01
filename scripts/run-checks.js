@@ -290,6 +290,11 @@ function writeRecord(startedAt, wallMs, results, red) {
          a path spelled ../../../.. names nothing a reader can act on. */
       const rel = path.relative(REPO, file);
       console.log(`record: ${rel.startsWith('..') ? file : rel}  (+ ${path.basename(log)})`);
+      /* argv and scopeEnv are the comparability keys and are never rewritten, so a run scoped by
+         an absolute path carries that path INSIDE the record — the file type this repo commits.
+         The warning is the mechanism; runs/README.md is the rule. */
+      const carried = [...PASSTHROUGH, ...Object.values(scopeEnv())].filter((v) => String(v).startsWith('/'));
+      if (carried.length) console.error(`warn: this record carries filesystem path(s) in argv/scopeEnv (${carried.join(', ')}) — if machine-absolute, committing it would put a local path in a tracked file`);
     } catch (e) {
       /* The battery above ran and its verdict stands. An unwritable runs/ is a fact about the
          disk, not about the site, and it may not change what this process exits with. */
