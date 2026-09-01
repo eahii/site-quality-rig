@@ -17,6 +17,7 @@
     "serve": "node scripts/serve-fixture.js",
     "test": "node scripts/run-checks.js",
     "test:controls": "node controls/run-controls.js",
+    "test:known-miss": "node controls/known-miss/run-known-miss.js",
     "test:repeat": "node scripts/measure-repeatability.js",
     "check:viewports": "node checks/measure-viewports.js",
     "check:hero": "node checks/check-hero.js",

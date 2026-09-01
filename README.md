@@ -96,6 +96,7 @@ machine, and 7 of 7 in 103 s on the independent reviewer's own clone and install
 npm install && npx playwright install chromium webkit
 npm run build && npm test            # the battery, both engines — 869 cells, 536 s above
 npm run test:controls                # the seven injected defects, chromium — 102 s, same machine
+npm run test:known-miss              # three documented limits, demonstrated — 102 s, same machine
 ```
 
 No API key. No network at runtime: the fixture is served from an ephemeral local port, and
@@ -103,8 +104,9 @@ external URLs are noted rather than fetched. Every argument is forwarded to ever
 `npm test -- --engines chromium` narrows the whole battery to one engine — 555 cells, and 7 of 7
 PASS every time it has been run: 260 s at `611824e` and 261 s at `66b480d` on this machine, 289 s
 on the CI runner at `44deb74`. That one-engine run is what `.github/workflows/ci.yml` executes on
-every push to `main` and to `demo/failing-gate`, followed by the control suite on `main` only; the
-green and red runs it has produced are linked above.
+every push to `main` and to `demo/failing-gate`, followed on `main` only by the control suite and
+then the known-miss suite — both are skipped on `demo/failing-gate`, which by design has no green
+baseline for either to start from. The green and red runs it has produced are linked above.
 
 ## The checks
 
@@ -180,6 +182,12 @@ Three kinds of evidence, in descending order of how much they prove:
    not the code. That count cannot be re-derived from this repo, and the reasons are written down
    in [`docs/EVIDENCE.md`](docs/EVIDENCE.md).
 
+Everything this project has recorded finding wrong with *itself* — 44 receipted events as of
+2026-09-01, counted by class, severity and the layer that caught them, three of them accepted
+rather than fixed, and 15 of them claims outrunning their evidence rather than code computing the
+wrong thing — is ledgered in [`docs/FAILURES.md`](docs/FAILURES.md), capped by the caveat that a
+ledger of found failures counts catches, not defects, and is censored by where the project looked.
+
 ### Seven injected defects, each proven to fire
 
 Each control copies the build, injects one targeted defect, and requires the matching checker to
@@ -242,7 +250,9 @@ Beyond that coverage count, these are holes in the instruments themselves:
 
 - **Contrast skips text that does not fit the viewport.** The rect filter keeps only text rects
   wholly inside the cell, so a heading taller or wider than the viewport is never graded — a
-  coverage limit, not a pass. The checker's own header says so.
+  coverage limit, not a pass. The checker's own header says so. *(This limit is executable:
+  `npm run test:known-miss`, case `viewport-clip` — a 1.12:1 ticker line the checker passes,
+  beside a twin carrying the same colours that it fails.)*
 - **In `--local` mode the deploy checker's byte-identity assertion is near-vacuous**: the server is
   serving the very directory the bytes are compared against, so it can only fail if the response is
   corrupted in flight. The checker prints that caveat on every `--local` run. Its only real

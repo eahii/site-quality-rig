@@ -124,6 +124,14 @@ jobs:
         if: github.ref_name != 'demo/failing-gate' && github.head_ref != 'demo/failing-gate'
         run: npm run test:controls
 
+      # The mirror image of the step above: three cases where a real defect is injected and the
+      # checker stays GREEN on purpose, each pinned between a green baseline and a red proof that
+      # the defect exists. Same branch condition, and for the same reason — every case starts from
+      # a baseline run on the pristine build, and demo/failing-gate has no green baseline to offer.
+      - name: Known misses (3 documented limits, demonstrated)
+        if: github.ref_name != 'demo/failing-gate' && github.head_ref != 'demo/failing-gate'
+        run: npm run test:known-miss
+
       # The comparison tool that reads run records has its own six-leg control, and it is the
       # cheapest thing in this job: no browsers, no fixture, synthetic records in memory. It
       # says nothing about the site, only about whether a diff of two runs can be trusted to

@@ -667,3 +667,306 @@ the row exists for, and it needs a healthy-in-every-other-respect origin to prod
 The harness pattern — fixture builder with vacuity guards, table-driven runner, one defect per
 named assertion — is ported from a private project of my own. The four upgrades in the
 table above, the derivations, every defect and every receipt on this page are this repo's.
+
+## The mirror image: documented misses, demonstrated
+
+Everything above proves a gate can go red. This section is the other half: **three cases where a
+real defect is injected and the checker stays green on purpose**, because the defect sits outside
+what the instrument looks at. `npm run test:known-miss`, runner at
+`controls/known-miss/run-known-miss.js`, cases under `controls/known-miss/<case>/setup.js`.
+
+The reason to build it: a limits section is the part of a document nobody can check. It is also the
+part most worth checking, because a limit that has quietly stopped being true is a checker that got
+better and a document that got dishonest, and a limit that was never true is worse. Prose cannot
+tell those apart. A run can.
+
+### Why a miss needs three legs
+
+**A green run is the weakest evidence there is.** An injection whose selector rotted, a fixture
+that was never mutated, a page that failed to load — every one of them produces exactly the green
+this suite is looking for. So a miss is never credited alone. Each case is pinned between two runs
+that cannot both be satisfied by an accident:
+
+| leg | what runs | required |
+|---|---|---|
+| **(a) baseline** | the checker on the pristine `dist/`, identical argv | exit 0 — without it, a green mutated run says nothing, because the site could be green for its own reasons |
+| **(b) miss** | the checker on the mutated copy, the **same** argv | exit 0 |
+| **(c0) proof-scope baseline** | the pristine build under leg (c)'s scope, *only when (c) changes the scope* | exit 0 — otherwise a red at a cell the build was never healthy at would be the cell's fault, not the defect's |
+| **(c) proof** | the same instrument where it *can* see the defect | exit 1, **and** the row this defect produces matched by verbatim substring |
+
+One `args(root)` builder is written per case and every leg of that case is handed the same one, so
+legs (a) and (b) cannot drift apart by an edit to one of them: they differ in the root they measure
+and in nothing else, and the proof leg reuses that builder too.
+Leg (c) is what stops the suite being a machine for manufacturing green.
+Two of its three cases prove the defect on a **twin** fixture — same colours, one geometric
+declaration changed — because `check-contrast.js`'s three cells are a module constant with no knob
+to widen (`check-contrast.js:35-39`). The third does the stronger thing: the same bytes, the same
+argv, one environment variable, and the checker goes red. A red for the wrong reason fails the leg,
+the same rule the controls above are judged by.
+
+**What a red leg (b) would mean.** If the checker catches one of these defects, the fixture is not
+what is broken: a sentence in `README.md` or on this page is false, and the documentation is what
+has to change. The runner says so in its failure text, because the reflex on a red is to fix the
+test.
+
+Vacuity is guarded as it is above — fixtures are built from the real `dist/` by
+`controls/fixture.js`, which throws when a mutation changes zero bytes — plus three checks this
+suite needs and the controls above do not, because here *green is the expected outcome*:
+
+- **The scope witness.** Each case compares its baseline's and its miss's finish-line stamps with
+  the `root=` removed, so a miss that silently measured fewer cells than its baseline is not
+  credited as a miss. Leg (a) must additionally carry the scope the case declares
+  (`engines=chromium cells=12 pages=1` for `between-cells`, `cells=3` for the two contrast cases),
+  so editing the default matrix cannot turn a case into a different case that still passes.
+- **The coupling witness**, for the two twin cases. Before any browser starts, the miss page and
+  the proof page are read back off disk and the miss's declared token is substituted for the
+  proof's; the result must equal the proof page byte for byte. This is the runtime form of the
+  sentence *"geometry is the only thing that changed"*, and it exists because that sentence was
+  otherwise enforced by nothing but the setup script's good intentions: a miss fixture whose defect
+  was neutralised — a legible colour, an injection that landed nowhere — is green for a reason that
+  has nothing to do with the limit, while its untouched twin still goes red, and the case would
+  have been credited. **Measured both ways** on 2026-09-01, by changing the miss fixture's
+  declaration to `white-space:nowrap;color:#333333` — a legible dark-on-white ticker, no defect
+  left — and touching nothing else: with the coupling witness removed the suite printed
+  `1/1 documented misses demonstrated ... legs=3/3` and exited **0**; with it in place the same
+  tamper prints *"substituting … does NOT reproduce the proof page"*, credits no legs, and exits
+  **1**.
+- **The environment scrub.** Every knob these two checkers read — `SITE_ROOT`, `PAGES`, `WIP`,
+  `ENGINES`, `RIG_VIEWPORTS`, `SHOTS`, `SHOT_LABELS`, `OUT_DIR`, `FOLD_CONTRACT`, all resolved at
+  `checks/lib/site.js:24-26` — is deleted from every child's environment, and only what a leg sets
+  itself is put back. The receipt's first line says so and counts how many were set in the calling
+  shell. Without it, an ambient `RIG_VIEWPORTS` narrows `between-cells`' baseline *and* its miss by
+  the same amount: the scope witness sees two matching lines, and the twelve-cell walk-past the
+  case is named after never runs. **Measured both ways** on 2026-09-01 with
+  `RIG_VIEWPORTS=320x568 node controls/known-miss/run-known-miss.js between-cells`: with the old
+  `{...process.env}` pass-through restored, leg (a) reported
+  `viewports: 1/1 cells OK — PASS [... cells=1 pages=1]`; with the scrub, the same command reports
+  `12/12 ... cells=12 pages=1` and the run's first line reads `1 of 9 were set in this shell:
+  RIG_VIEWPORTS`. The two guards are independent: even with the pass-through restored, the scope
+  assertion caught the narrowed baseline and failed the case rather than crediting it.
+
+**These are the makeable limits, not all of them.** *"Whole families of quality are out of scope"*
+cannot be demonstrated by a fixture, and nothing here pretends otherwise. **What is executable, split
+honestly:** `viewport-clip` executes one bullet of README's *"What this does not catch"* — the rect
+filter — and that bullet carries a pointer back to it. The other two do **not** execute README
+limits, because the README does not state them: it presents the matrix's reach and the worst-decile
+grade as strengths, which they are, and says nothing about the cost each one carries. `between-cells`
+and `sub-decile` execute those costs, stated as limits here and in the case headers and nowhere
+else in this repo. One README bullet, then, plus two limits this section is the first place to
+admit to — not three README bullets.
+
+### The three cases
+
+**`viewport-clip` — contrast skips text that does not fit the viewport.** The limit is the rect
+filter at `check-contrast.js:113` and the skip at `:117`: a rect not wholly inside the cell is
+dropped, and a node whose every rect was dropped is `continue`d — not counted as measured, not
+counted as unpainted, not counted. *Defect:* a marquee ticker line, `#f2f2f2` on `#ffffff` at
+20px/400, which is **1.12:1 against a 4.5:1 floor** — the same defect class the contrast control
+above injects into the hero, where the checker catches it every time. Its text rect measures
+**1683.97px wide**, so `r.right <= vw` is false at all three cells (320, 390, 1280) and **0 of 1
+rects survive the filter in every one**. *Proof:* the twin, differing in exactly one declaration —
+`white-space:normal` instead of `nowrap` — wraps to the wrapper's width, keeps 3 of 6 rects at
+320x568, and is graded 1.12:1 and red. Colour identical, geometry different, verdict different.
+The 1683.97px and the rect counts come from the same throwaway probe named under `sub-decile`
+below and are why the fixture is shaped this way; what the suite reproduces is the verdict pair.
+
+**`between-cells` — the viewport matrix is a list, not a range.** `checks/lib/site.js:64-82` holds
+twelve cells; everything between two adjacent widths is unmeasured. README argues the same
+mechanism in the other direction — *"a matrix that stops at 1920 structurally cannot see a defect
+whose own threshold is 1920"* — and read backwards that sentence is this case. *Defect:* an in-flow
+150vw block, the same shape the viewports control injects at 320x568, gated by media query to
+480–700px, a band inside the 414 → 768 gap. Outside the band it is `display:none`, which
+`measure-viewports.js:53-61` rejects before the offender list is built, so all twelve cells see a
+healthy page. The band has 66px of clearance below and 68px above, because `vw` units and a media
+query resolve against slightly different widths when a classic scrollbar is present. *Proof:* the
+same fixture, the same argv, `RIG_VIEWPORTS=600x800` (`checks/lib/site.js:85`) — **300px of
+horizontal overflow and the offender named**. 414 → 768 is not the widest gap in the list (1920 →
+2560 is 640px); it was picked because a split-view width is where a real layout most often has an
+untested breakpoint, and because the pristine build is green at 600x800, which leg (c0) checks
+rather than assumes.
+
+**`sub-decile` — the grade is the 10th-percentile pixel, and every percentile is a blind spot below
+itself.** `WORST_DECILE = 0.10` at `check-contrast.js:41`, read at `:189`, compared at `:323`.
+README states the design as a strength, and it is one — *"the worst decile rather than the mean,
+because a mean passes text laid over a bright patch of a dark surface"* — but the other half of it
+is nowhere in that document: a region of unreadable text smaller than a tenth of the sampled pixels
+cannot move `ratios[floor(0.10 * n)]`. *Defect:* a 13px `#333333` caption with a `#0b0b0b` stripe
+under **4% of its box = 104 of 2743 sampled pixels (3.79%)**. Over the stripe the pair measures
+**1.56:1**; over the rest, 12.63:1; the grade returns 12.63:1 and the cell is green. *Proof:* the
+same colours with the stripe at **60% = 1651 of 2743 samples (60.19%)**, which is above the decile
+the grade reads — **1.56:1, red, row named**.
+
+*The boundary, because a case built on a threshold owes the threshold.* A sweep of 2/4/6/8/10/12/
+15/20/60% stripes over this caption gave patch shares of 1.90 / 3.79 / 5.69 / 8.06 / 9.95 / 11.85 /
+14.69 / 19.91 / 60.19 percent of sampled pixels, and the verdict flipped between the 10% stripe
+(9.95% of samples, still graded 12.63:1) and the 12% stripe (11.85%, graded 1.56:1). The flip is at
+the constant, not near it. **Provenance, stated rather than implied: that sweep was measured with a
+throwaway probe replicating `check-contrast.js:165-193`, not with a script in this repo, and no
+artifact here witnesses it.** What this repo reproduces on demand is the pair — 4% green, 60% red,
+both through the real instrument. Treat the boundary as the reason those two fractions were chosen,
+not as a receipt this page hands you. Shares rather than counts throughout, because the sample
+count is not stable: the stride is derived from the rect's area (`check-contrast.js:173`) and a
+sub-pixel difference in the rect's top samples 13 rows instead of 12, flipping the stride from 1 to
+2 (2743 samples vs 742, seen at 1280x640) while the patch *share* moved 0.03 percentage points.
+
+*Honest about size:* 4% of that caption is about 8.5 CSS px, roughly one character on the dark
+stripe. That is a small defect and calling it a scandal would be dishonest. The claim is the
+threshold, not the severity — below a tenth of the rect this instrument cannot see a region at
+**any** contrast, 1.56:1 included.
+
+### The receipt
+
+`sha=2ab542b`, node v22.22.2, playwright 1.62.1, chromium, 2026-09-01, 102 s, **3 of 3
+demonstrated, 10 of 10 legs**. Command: `npm run test:known-miss`, over a `dist/` freshly built by
+`npm run build` in the same shell; the 109 lines below are that command's stdout and nothing else.
+
+Two caveats about this stamp, both of which the README's own limits section predicts. The tree was
+**not clean** when this ran, so `2ab542b` names the commit this run was *near*, not the bytes it
+measured. The uncommitted set was: `controls/known-miss/` (untracked — the runner and the three
+`setup.js` files), plus modifications to `README.md`, `docs/CONTROLS.md` (this page),
+`package.json` (which defines the very script the command above runs) and
+`.github/workflows/ci.yml`. What is load-bearing is that **every checker is unmodified at that
+commit** — `git status --porcelain checks/ contracts/ fixture/ scripts/ site.json` was empty, so
+the instruments doing the measuring are exactly `2ab542b`'s. And the suite was run six times around
+this capture: all six stdouts were **byte-identical, 0 differing lines of 113 captured** (the 109
+pasted below plus npm's four-line preamble), at 101.6, 101.7, 101.5, 102.1, 101.8 and 101.5 s wall
+clock. Six runs on one machine in one session is not a distribution;
+`scripts/measure-repeatability.js` is what this repo uses when the question is actually
+repeatability, and it has never been pointed at this suite.
+
+Below is the second run's stdout. One substitution runs through it, the same one used above:
+absolute paths are shortened to `<repo>/`. Nothing else is edited and nothing is omitted.
+
+```
+environment: 9 checker knobs dropped from every child (0 of 9 were set in this shell); each leg pins its own scope in argv
+
+==============================================================================
+== viewport-clip  (checks/check-contrast.js)
+== limit:  README "What this does not catch": contrast skips text that does not fit the viewport — the rect filter at check-contrast.js:113, the skip at :117, the three cells at :35-39
+== defect: a marquee ticker line, #f2f2f2 on #ffffff at 20px/400 = 1.12:1 against a 4.5:1 floor, on a text rect 1683.97px wide — wider than all three cells (320, 390, 1280)
+==============================================================================
+fixture miss: dist -> controls/known-miss/viewport-clip/miss/dist, mutated dist/index.html (markup), dist/index.html (style)
+fixture proof: dist -> controls/known-miss/viewport-clip/proof/dist, mutated dist/index.html (markup), dist/index.html (style)
+coupling: the proof page IS the miss page with "white-space:nowrap" -> "white-space:normal", 16153 -> 16153 bytes, nothing else differs
+
+(a) BASELINE  the pristine build, must be GREEN
+    $ node checks/check-contrast.js --root dist --engines chromium --pages index.html
+    -> contrast: 4/4 cells OK — PASS  [sha=2ab542b root=dist engines=chromium cells=3 pages=1]  exit=0
+
+(b) MISS      the same argv against the mutated copy, must ALSO be GREEN
+    $ node checks/check-contrast.js --root controls/known-miss/viewport-clip/miss/dist --engines chromium --pages index.html
+    -> contrast: 4/4 cells OK — PASS  [sha=2ab542b root=controls/known-miss/viewport-clip/miss/dist engines=chromium cells=3 pages=1]  exit=0
+    witness: baseline and miss measured the same scope — yes  contrast: 4/4 cells OK — PASS  [sha=2ab542b engines=chromium cells=3 pages=1]
+
+(c) PROOF     the injected defect is real: the same colours on a wrapped twin — one declaration different, white-space:normal, so every rect fits a cell and the node is graded
+    $ node checks/check-contrast.js --root controls/known-miss/viewport-clip/proof/dist --engines chromium --pages index.html
+contrast: root=<repo>/controls/known-miss/viewport-clip/proof/dist pages=1 registers=footer-inverse(.site-foot), filled-control(.btn:not(.btn-hero):not(.btn-ghost))
+
+FAIL  chromium se1 index.html [133 nodes (base:116 footer-inverse:16 filled-control:1), 30 unpainted, 0 unresolvable]
+        1.12:1 < 4.5 (min 1.12, 20px/400) html.js>body>section.km-ticker>p.km-ticker-line "Serviced today, running tomorrow. Lift m"
+FAIL  chromium iphone-pro index.html [109 nodes (base:92 footer-inverse:16 filled-control:1), 30 unpainted, 0 unresolvable]
+        1.12:1 < 4.5 (min 1.12, 20px/400) html.js>body>section.km-ticker>p.km-ticker-line "Serviced today, running tomorrow. Lift m"
+FAIL  chromium laptop-720 index.html [149 nodes (base:132 footer-inverse:16 filled-control:1), 25 unpainted, 0 unresolvable]
+        1.12:1 < 4.5 (min 1.12, 20px/400) html.js>body>section.km-ticker>p.km-ticker-line "Serviced today, running tomorrow. Lift m"
+note  warn: dead-selector guard not evaluated — measured 1 of 6 declared pages, and a register may legitimately live on a page this run skipped
+
+contrast: 1/4 cells OK — FAIL  [sha=2ab542b root=controls/known-miss/viewport-clip/proof/dist engines=chromium cells=3 pages=1]
+    exit=1
+
+DEMONSTRATED  viewport-clip: baseline exit 0 on dist, miss exit 0 on controls/known-miss/viewport-clip/miss/dist (the documented limit holds), proof exit 1 matching "1.12:1 < 4.5 (min 1.12, 20px/400)" + "html.js>body>section.km-ticker>p.km-ticker-line" on one row
+
+==============================================================================
+== between-cells  (checks/measure-viewports.js)
+== limit:  the viewport matrix is a list of twelve cells, not a range — checks/lib/site.js:64-82, resolved at :84-92; everything between two adjacent widths is unmeasured
+== defect: an in-flow 150vw block gated to 480-700px, a band inside the 414 -> 768 gap; display:none outside it, so `rendered` (measure-viewports.js:53-61) rejects it at every cell
+==============================================================================
+fixture miss: dist -> controls/known-miss/between-cells/miss/dist, mutated dist/index.html (markup), dist/index.html (style)
+coupling: the proof leg re-runs the miss fixture itself — one page, nothing to couple
+
+(a) BASELINE  the pristine build, must be GREEN
+    $ node checks/measure-viewports.js --root dist --engines chromium --pages index.html --shots 0
+    -> viewports: 12/12 cells OK — PASS  [sha=2ab542b root=dist engines=chromium cells=12 pages=1]  exit=0
+
+(b) MISS      the same argv against the mutated copy, must ALSO be GREEN
+    $ node checks/measure-viewports.js --root controls/known-miss/between-cells/miss/dist --engines chromium --pages index.html --shots 0
+    -> viewports: 12/12 cells OK — PASS  [sha=2ab542b root=controls/known-miss/between-cells/miss/dist engines=chromium cells=12 pages=1]  exit=0
+    witness: baseline and miss measured the same scope — yes  viewports: 12/12 cells OK — PASS  [sha=2ab542b engines=chromium cells=12 pages=1]
+
+(c0) PROOF-SCOPE BASELINE  the pristine build under the proof leg's scope, must be GREEN
+    $ RIG_VIEWPORTS=600x800 node checks/measure-viewports.js --root dist --engines chromium --pages index.html --shots 0
+    -> viewports: 1/1 cells OK — PASS  [sha=2ab542b root=dist engines=chromium cells=1 pages=1]  exit=0
+
+(c) PROOF     the injected defect is real: the SAME fixture and the SAME argv, one in-gap cell added through the checker's own env knob (checks/lib/site.js:85) — nothing about the build changed
+    $ RIG_VIEWPORTS=600x800 node checks/measure-viewports.js --root controls/known-miss/between-cells/miss/dist --engines chromium --pages index.html --shots 0
+viewports: root=<repo>/controls/known-miss/between-cells/miss/dist pages declared=1 built=1 contract=<repo>/contracts/fold-contract.json status=FILLED
+
+FAIL  chromium 600x800 600x800 index.html
+        h-overflow 300px (documentElement.scrollWidth 900 > 600)
+        h-overflow on body 300px
+        overflowing (unclipped): html.js>body>div.km-gap-band[0..900]
+
+viewports: 0/1 cells OK — FAIL  [sha=2ab542b root=controls/known-miss/between-cells/miss/dist engines=chromium cells=1 pages=1]
+    exit=1
+
+DEMONSTRATED  between-cells: baseline exit 0 on dist, miss exit 0 on controls/known-miss/between-cells/miss/dist (the documented limit holds), proof exit 1 matching "h-overflow 300px (documentElement.scrollWidth 900 > 600)" + "overflowing (unclipped): html.js>body>div.km-gap-band[0..900]"
+
+==============================================================================
+== sub-decile  (checks/check-contrast.js)
+== limit:  the grade is the 10th-percentile pixel — WORST_DECILE at check-contrast.js:41, read at :189, compared at :323; a region under a tenth of the sampled pixels cannot move it
+== defect: #333333 caption with a #0b0b0b stripe under 4% of its box = 3.79% of sampled pixels; 1.56:1 over the stripe, 12.63:1 over the rest, graded 12.63:1
+==============================================================================
+fixture miss: dist -> controls/known-miss/sub-decile/miss/dist, mutated dist/index.html (markup), dist/index.html (style)
+fixture proof: dist -> controls/known-miss/sub-decile/proof/dist, mutated dist/index.html (markup), dist/index.html (style)
+coupling: the proof page IS the miss page with "#0b0b0b 0 4%,rgba(0,0,0,0) 4%" -> "#0b0b0b 0 60%,rgba(0,0,0,0) 60%", 16063 -> 16065 bytes, nothing else differs
+
+(a) BASELINE  the pristine build, must be GREEN
+    $ node checks/check-contrast.js --root dist --engines chromium --pages index.html
+    -> contrast: 4/4 cells OK — PASS  [sha=2ab542b root=dist engines=chromium cells=3 pages=1]  exit=0
+
+(b) MISS      the same argv against the mutated copy, must ALSO be GREEN
+    $ node checks/check-contrast.js --root controls/known-miss/sub-decile/miss/dist --engines chromium --pages index.html
+    -> contrast: 4/4 cells OK — PASS  [sha=2ab542b root=controls/known-miss/sub-decile/miss/dist engines=chromium cells=3 pages=1]  exit=0
+    witness: baseline and miss measured the same scope — yes  contrast: 4/4 cells OK — PASS  [sha=2ab542b engines=chromium cells=3 pages=1]
+
+(c) PROOF     the injected defect is real: the same colours with the stripe widened to 60% of the box = 60.19% of sampled pixels, which is above the decile the grade reads
+    $ node checks/check-contrast.js --root controls/known-miss/sub-decile/proof/dist --engines chromium --pages index.html
+contrast: root=<repo>/controls/known-miss/sub-decile/proof/dist pages=1 registers=footer-inverse(.site-foot), filled-control(.btn:not(.btn-hero):not(.btn-ghost))
+
+FAIL  chromium se1 index.html [133 nodes (base:116 footer-inverse:16 filled-control:1), 30 unpainted, 0 unresolvable]
+        1.56:1 < 4.5 (min 1.56, 13px/400) html.js>body>section.km-band>p.km-caption "Certificates issued the same day."
+FAIL  chromium iphone-pro index.html [109 nodes (base:92 footer-inverse:16 filled-control:1), 30 unpainted, 0 unresolvable]
+        1.56:1 < 4.5 (min 1.56, 13px/400) html.js>body>section.km-band>p.km-caption "Certificates issued the same day."
+FAIL  chromium laptop-720 index.html [149 nodes (base:132 footer-inverse:16 filled-control:1), 25 unpainted, 0 unresolvable]
+        1.56:1 < 4.5 (min 1.56, 13px/400) html.js>body>section.km-band>p.km-caption "Certificates issued the same day."
+note  warn: dead-selector guard not evaluated — measured 1 of 6 declared pages, and a register may legitimately live on a page this run skipped
+
+contrast: 1/4 cells OK — FAIL  [sha=2ab542b root=controls/known-miss/sub-decile/proof/dist engines=chromium cells=3 pages=1]
+    exit=1
+
+DEMONSTRATED  sub-decile: baseline exit 0 on dist, miss exit 0 on controls/known-miss/sub-decile/miss/dist (the documented limit holds), proof exit 1 matching "1.56:1 < 4.5 (min 1.56, 13px/400)" + "html.js>body>section.km-band>p.km-caption" on one row
+
+==============================================================================
+3/3 documented misses demonstrated (each: baseline green, miss green, defect proven red)  [sha=2ab542b engines=chromium legs=10/10]
+```
+
+### What this suite still does not do
+
+- **It is chromium-only**, like the controls above. The two contrast cases are pure geometry and
+  the arithmetic is engine-independent, but WebKit measures this fixture's strings 15.9–17.4%
+  narrower (README) — a rect width is exactly the kind of number that moves, and nothing here has
+  been run in WebKit.
+- **It executes one bullet of the README's limits section, not three.** That section lists seven
+  holes in the instruments; `viewport-clip` demonstrates the first one. `between-cells` and
+  `sub-decile` demonstrate the costs of two choices the README states only as strengths, which is
+  useful and is also a smaller claim. Nothing counts what fraction of anything that is, and no such
+  fraction is claimed. Whether those two costs should become README bullets is an open question this
+  suite raises rather than settles.
+- **The two contrast cases prove their defect on a twin, not on the same bytes.** What is
+  established is that the colours are a failure this instrument prints and that geometry is the
+  only thing that changed — the coupling witness now enforces that second half at runtime rather
+  than asserting it — but not that the clipped rect itself would fail if the filter let it through.
+  Only `between-cells` does the same-bytes version, and only because `measure-viewports.js` has a
+  cell knob.
+- **A green here is a claim about this fixture, not about every site.** `sub-decile` shows that a
+  region under a tenth of a rect cannot move the grade *for this caption at this size*; the
+  threshold is structural but the fractions were measured on one element.
