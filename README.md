@@ -66,6 +66,23 @@ the same tree (869/869, 558 s). Any run leaves such a record with `npm test -- -
 `node scripts/compare-runs.js <a.json> <b.json>` diffs two records — or refuses when they measured
 different things — and its own six-leg self-test runs in CI on every push.
 
+**One checker has now been measured against an independent yardstick.** [`meta-eval/`](meta-eval/)
+grades the contrast checker the way the checkers grade the site: 30 solid-ground specimens whose
+WCAG ratios are computed analytically by an independent implementation
+(`meta-eval/lib/wcag.js`, anchors hand-verified against published values), injected into copies of
+the fixture's own pages and run through the real instrument — with a deliberately-failing canary
+beside every specimen, because this checker prints failing rows only, and without the canary
+"never measured" is indistinguishable from "passed". Run 2026-09-01 at `sha=83704ec`, chromium and
+chromium+webkit: **30/30 verdict agreement** (95% Wilson interval 0.8865–1.0000), worst
+printed-vs-analytic ratio delta 0.002 over the 15 failing cases, zero refusals. The meter carries
+its own negative control: a copy of the checker with both AA floors raised by 1.0 must crash the
+agreement — it fired at 21/30 with exactly the 9 pre-registered flips, all in the false-fail
+direction, receipt committed at `meta-eval/runs/sabotage-floor.json`. 24 further cases over
+gradients, plates and stripes — grounds where no analytic truth exists, and exactly where this
+checker claims superiority over an ancestor-walk — await a blind labelling pass; no agreement
+number is claimed for them yet. The design, its limits, and who the one annotator will be are in
+[`meta-eval/METHOD.md`](meta-eval/METHOD.md).
+
 **Negative controls: 7 of 7 fired**, re-run 2026-08-29 at `sha=44deb74` on a clean tree, chromium,
 102 s. The receipts are pasted verbatim, exit codes included, into
 [`docs/CONTROLS.md`](docs/CONTROLS.md): per control the defect, the mechanism it was derived from,

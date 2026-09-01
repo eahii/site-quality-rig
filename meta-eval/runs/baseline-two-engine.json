@@ -1,0 +1,874 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-01T03:30:19.471Z",
+  "sha": "83704ec",
+  "checker": "checks/check-contrast.js",
+  "engines": "chromium+webkit",
+  "checkerExit": 1,
+  "checkerArgs": [
+    "--root",
+    "meta-eval/dist",
+    "--pages",
+    "services/index.html,maintenance-plans/index.html,about/index.html,contact/index.html",
+    "--engines",
+    "chromium,webkit"
+  ],
+  "sabotageFloors": null,
+  "finish": {
+    "name": "contrast",
+    "ok": 1,
+    "total": 25,
+    "verdict": "FAIL",
+    "stamp": "sha=83704ec root=meta-eval/dist engines=chromium+webkit cells=3 pages=4"
+  },
+  "clean": true,
+  "refusals": [],
+  "offSpecimen": [],
+  "partA": {
+    "cases": 30,
+    "usable": 30,
+    "unusable": 0,
+    "unusableIds": [],
+    "inconsistent": 0,
+    "inconsistentIds": [],
+    "agree": 30,
+    "disagree": 0,
+    "disagreeIds": [],
+    "falsePass": 0,
+    "falseFail": 0,
+    "truePass": 15,
+    "trueFail": 15,
+    "wilson": {
+      "successes": 30,
+      "n": 30,
+      "p": 1,
+      "lo": 0.886486605238548,
+      "hi": 1
+    },
+    "ratioDelta": {
+      "n": 15,
+      "max": 0.0017469428372485218,
+      "worst": "a14"
+    },
+    "unstable": []
+  },
+  "partB": {
+    "cases": 24,
+    "usable": 24,
+    "unusable": 0,
+    "unusableIds": [],
+    "inconsistent": 0,
+    "inconsistentIds": [],
+    "verdicts": {
+      "b01": "fail",
+      "b02": "fail",
+      "b03": "fail",
+      "b04": "fail",
+      "b05": "fail",
+      "b06": "fail",
+      "b07": "fail",
+      "b08": "fail",
+      "b09": "fail",
+      "b10": "pass",
+      "b11": "fail",
+      "b12": "fail",
+      "b13": "pass",
+      "b14": "fail",
+      "b15": "fail",
+      "b16": "fail",
+      "b17": "fail",
+      "b18": "fail",
+      "b19": "pass",
+      "b20": "fail",
+      "b21": "fail",
+      "b22": "pass",
+      "b23": "fail",
+      "b24": "fail"
+    },
+    "labelled": 0,
+    "unsure": 0,
+    "agree": null,
+    "checkerPassHumanStrained": null,
+    "checkerFailHumanFine": null,
+    "wilson": null
+  },
+  "cases": [
+    {
+      "id": "a01",
+      "part": "A",
+      "page": "services/index.html",
+      "truth": "fail",
+      "floor": 4.5,
+      "analyticRatio": 2.9499345197010878,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        2.95
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a02",
+      "part": "A",
+      "page": "services/index.html",
+      "truth": "fail",
+      "floor": 4.5,
+      "analyticRatio": 3.9991957962121716,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        4
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a03",
+      "part": "A",
+      "page": "services/index.html",
+      "truth": "fail",
+      "floor": 4.5,
+      "analyticRatio": 4.400063084492708,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        4.4
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a04",
+      "part": "A",
+      "page": "services/index.html",
+      "truth": "fail",
+      "floor": 4.5,
+      "analyticRatio": 4.450567047393763,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        4.45
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a05",
+      "part": "A",
+      "page": "services/index.html",
+      "truth": "pass",
+      "floor": 4.5,
+      "analyticRatio": 4.548717831270177,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "pass",
+      "printedRatios": [],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a06",
+      "part": "A",
+      "page": "services/index.html",
+      "truth": "pass",
+      "floor": 4.5,
+      "analyticRatio": 4.601290976692416,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "pass",
+      "printedRatios": [],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a07",
+      "part": "A",
+      "page": "services/index.html",
+      "truth": "pass",
+      "floor": 4.5,
+      "analyticRatio": 4.998600893051606,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "pass",
+      "printedRatios": [],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a08",
+      "part": "A",
+      "page": "services/index.html",
+      "truth": "pass",
+      "floor": 4.5,
+      "analyticRatio": 6.049235222683575,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "pass",
+      "printedRatios": [],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a09",
+      "part": "A",
+      "page": "services/index.html",
+      "truth": "fail",
+      "floor": 4.5,
+      "analyticRatio": 1.2505784553012884,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        1.25
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a10",
+      "part": "A",
+      "page": "services/index.html",
+      "truth": "pass",
+      "floor": 4.5,
+      "analyticRatio": 14.001383754167096,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "pass",
+      "printedRatios": [],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a11",
+      "part": "A",
+      "page": "services/index.html",
+      "truth": "fail",
+      "floor": 3,
+      "analyticRatio": 1.44905682183513,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        1.45
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a12",
+      "part": "A",
+      "page": "services/index.html",
+      "truth": "fail",
+      "floor": 3,
+      "analyticRatio": 2.498483153714466,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        2.5
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a13",
+      "part": "A",
+      "page": "services/index.html",
+      "truth": "fail",
+      "floor": 3,
+      "analyticRatio": 2.8999515402588028,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        2.9
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a14",
+      "part": "A",
+      "page": "services/index.html",
+      "truth": "fail",
+      "floor": 3,
+      "analyticRatio": 2.9517469428372487,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        2.95
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a15",
+      "part": "A",
+      "page": "services/index.html",
+      "truth": "pass",
+      "floor": 3,
+      "analyticRatio": 3.0498762025752133,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "pass",
+      "printedRatios": [],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a16",
+      "part": "A",
+      "page": "maintenance-plans/index.html",
+      "truth": "pass",
+      "floor": 3,
+      "analyticRatio": 3.100326858744343,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "pass",
+      "printedRatios": [],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a17",
+      "part": "A",
+      "page": "maintenance-plans/index.html",
+      "truth": "pass",
+      "floor": 3,
+      "analyticRatio": 3.499285857210072,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "pass",
+      "printedRatios": [],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a18",
+      "part": "A",
+      "page": "maintenance-plans/index.html",
+      "truth": "pass",
+      "floor": 3,
+      "analyticRatio": 4.5483162199071066,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "pass",
+      "printedRatios": [],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a19",
+      "part": "A",
+      "page": "maintenance-plans/index.html",
+      "truth": "fail",
+      "floor": 3,
+      "analyticRatio": 1.2505238314865423,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        1.25
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a20",
+      "part": "A",
+      "page": "maintenance-plans/index.html",
+      "truth": "pass",
+      "floor": 3,
+      "analyticRatio": 13.998663585826307,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "pass",
+      "printedRatios": [],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a21",
+      "part": "A",
+      "page": "maintenance-plans/index.html",
+      "truth": "fail",
+      "floor": 3,
+      "analyticRatio": 1.4496536072615536,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        1.45
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a22",
+      "part": "A",
+      "page": "maintenance-plans/index.html",
+      "truth": "fail",
+      "floor": 3,
+      "analyticRatio": 2.4989418086350033,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        2.5
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a23",
+      "part": "A",
+      "page": "maintenance-plans/index.html",
+      "truth": "fail",
+      "floor": 3,
+      "analyticRatio": 2.8998808419862834,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        2.9
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a24",
+      "part": "A",
+      "page": "maintenance-plans/index.html",
+      "truth": "fail",
+      "floor": 3,
+      "analyticRatio": 2.951197174908679,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        2.95
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a25",
+      "part": "A",
+      "page": "maintenance-plans/index.html",
+      "truth": "pass",
+      "floor": 3,
+      "analyticRatio": 3.0499384601795563,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "pass",
+      "printedRatios": [],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a26",
+      "part": "A",
+      "page": "maintenance-plans/index.html",
+      "truth": "pass",
+      "floor": 3,
+      "analyticRatio": 3.0993261891583934,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "pass",
+      "printedRatios": [],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a27",
+      "part": "A",
+      "page": "maintenance-plans/index.html",
+      "truth": "pass",
+      "floor": 3,
+      "analyticRatio": 3.4995799998450066,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "pass",
+      "printedRatios": [],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a28",
+      "part": "A",
+      "page": "maintenance-plans/index.html",
+      "truth": "pass",
+      "floor": 3,
+      "analyticRatio": 4.55123048391594,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "pass",
+      "printedRatios": [],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a29",
+      "part": "A",
+      "page": "maintenance-plans/index.html",
+      "truth": "fail",
+      "floor": 3,
+      "analyticRatio": 1.249697281678342,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        1.25
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "a30",
+      "part": "A",
+      "page": "maintenance-plans/index.html",
+      "truth": "pass",
+      "floor": 3,
+      "analyticRatio": 14.001383754167096,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "pass",
+      "printedRatios": [],
+      "ratioSpread": 0
+    },
+    {
+      "id": "b01",
+      "part": "B",
+      "page": "about/index.html",
+      "truth": null,
+      "floor": 4.5,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        3.11
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "b02",
+      "part": "B",
+      "page": "about/index.html",
+      "truth": null,
+      "floor": 4.5,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        1.4
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "b03",
+      "part": "B",
+      "page": "about/index.html",
+      "truth": null,
+      "floor": 3,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        2.27,
+        2.3
+      ],
+      "ratioSpread": 0.029999999999999805
+    },
+    {
+      "id": "b04",
+      "part": "B",
+      "page": "about/index.html",
+      "truth": null,
+      "floor": 4.5,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        3.7
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "b05",
+      "part": "B",
+      "page": "about/index.html",
+      "truth": null,
+      "floor": 4.5,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        1.25
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "b06",
+      "part": "B",
+      "page": "about/index.html",
+      "truth": null,
+      "floor": 3,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        2.78
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "b07",
+      "part": "B",
+      "page": "about/index.html",
+      "truth": null,
+      "floor": 4.5,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        3,
+        3.04
+      ],
+      "ratioSpread": 0.040000000000000036
+    },
+    {
+      "id": "b08",
+      "part": "B",
+      "page": "about/index.html",
+      "truth": null,
+      "floor": 3,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        2.47
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "b09",
+      "part": "B",
+      "page": "about/index.html",
+      "truth": null,
+      "floor": 4.5,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        1.04
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "b10",
+      "part": "B",
+      "page": "about/index.html",
+      "truth": null,
+      "floor": 4.5,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "pass",
+      "printedRatios": [],
+      "ratioSpread": 0
+    },
+    {
+      "id": "b11",
+      "part": "B",
+      "page": "about/index.html",
+      "truth": null,
+      "floor": 4.5,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        2.23,
+        2.27
+      ],
+      "ratioSpread": 0.040000000000000036
+    },
+    {
+      "id": "b12",
+      "part": "B",
+      "page": "about/index.html",
+      "truth": null,
+      "floor": 3,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        1.18
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "b13",
+      "part": "B",
+      "page": "about/index.html",
+      "truth": null,
+      "floor": 4.5,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "pass",
+      "printedRatios": [],
+      "ratioSpread": 0
+    },
+    {
+      "id": "b14",
+      "part": "B",
+      "page": "about/index.html",
+      "truth": null,
+      "floor": 4.5,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        3.14,
+        3.15
+      ],
+      "ratioSpread": 0.009999999999999787
+    },
+    {
+      "id": "b15",
+      "part": "B",
+      "page": "about/index.html",
+      "truth": null,
+      "floor": 4.5,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        3.57
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "b16",
+      "part": "B",
+      "page": "contact/index.html",
+      "truth": null,
+      "floor": 3,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        2.56
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "b17",
+      "part": "B",
+      "page": "contact/index.html",
+      "truth": null,
+      "floor": 4.5,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        1.16
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "b18",
+      "part": "B",
+      "page": "contact/index.html",
+      "truth": null,
+      "floor": 4.5,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        1
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "b19",
+      "part": "B",
+      "page": "contact/index.html",
+      "truth": null,
+      "floor": 3,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "pass",
+      "printedRatios": [],
+      "ratioSpread": 0
+    },
+    {
+      "id": "b20",
+      "part": "B",
+      "page": "contact/index.html",
+      "truth": null,
+      "floor": 4.5,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        3.13
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "b21",
+      "part": "B",
+      "page": "contact/index.html",
+      "truth": null,
+      "floor": 3,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        1.07,
+        1.09
+      ],
+      "ratioSpread": 0.020000000000000018
+    },
+    {
+      "id": "b22",
+      "part": "B",
+      "page": "contact/index.html",
+      "truth": null,
+      "floor": 3,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "pass",
+      "printedRatios": [],
+      "ratioSpread": 0
+    },
+    {
+      "id": "b23",
+      "part": "B",
+      "page": "contact/index.html",
+      "truth": null,
+      "floor": 4.5,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        1.1
+      ],
+      "ratioSpread": 0
+    },
+    {
+      "id": "b24",
+      "part": "B",
+      "page": "contact/index.html",
+      "truth": null,
+      "floor": 3,
+      "analyticRatio": null,
+      "cellsSeen": 6,
+      "cellsUsable": 6,
+      "verdict": "fail",
+      "printedRatios": [
+        1.24
+      ],
+      "ratioSpread": 0
+    }
+  ]
+}

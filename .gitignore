@@ -11,3 +11,5 @@ private/
 # run transcripts carry machine-absolute paths — the records commit, the transcripts stay local
 # (runs/README.md states the rule; this line is its mechanism. git add -f for a deliberate exception.)
 runs/**/*.stdout.txt
+# a crashed sabotage control must not be able to stage a damaged instrument
+checks/.check-contrast.sabotaged.js

@@ -1,0 +1,1156 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-01T03:36:21.746Z",
+  "sha": "83704ec",
+  "root": "meta-eval/dist",
+  "element": ".mev-ground-<id>",
+  "captureViewport": "1280x640 (laptop-720)",
+  "gates": {
+    "note": "the only two conditions that make this script exit nonzero",
+    "layoutBoxMismatches": 0,
+    "repeatabilityFailures": 0
+  },
+  "outDir": "meta-eval/labeling/shots",
+  "shots": [
+    {
+      "id": "b01",
+      "groundKind": "linear",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 2417.46875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.46875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 5214,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 1194,
+        "maxChannelDelta": 1,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 4797.015625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.015625
+      }
+    },
+    {
+      "id": "b02",
+      "groundKind": "linear",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 2513.46875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.46875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 4890,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 1136,
+        "maxChannelDelta": 1,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 4893.015625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.015625
+      }
+    },
+    {
+      "id": "b03",
+      "groundKind": "linear",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 2609.46875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.46875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 4947,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 1677,
+        "maxChannelDelta": 1,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 4989.015625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.015625
+      }
+    },
+    {
+      "id": "b04",
+      "groundKind": "linear",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 2705.46875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.46875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 4954,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 896,
+        "maxChannelDelta": 8,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 5085.015625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.015625
+      }
+    },
+    {
+      "id": "b05",
+      "groundKind": "linear",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 2801.46875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.46875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 4493,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 1704,
+        "maxChannelDelta": 1,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 5181.015625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.015625
+      }
+    },
+    {
+      "id": "b06",
+      "groundKind": "linear",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 2897.46875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.46875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 3921,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 1688,
+        "maxChannelDelta": 1,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 5277.015625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.015625
+      }
+    },
+    {
+      "id": "b07",
+      "groundKind": "linear-vertical",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 2993.46875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.46875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 4412,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 1529,
+        "maxChannelDelta": 1,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 5373.015625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.015625
+      }
+    },
+    {
+      "id": "b08",
+      "groundKind": "linear-vertical",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 3089.46875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.46875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 4347,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 4820,
+        "maxChannelDelta": 8,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 5469.015625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.015625
+      }
+    },
+    {
+      "id": "b09",
+      "groundKind": "linear-vertical",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 3185.46875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.46875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 3363,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 2601,
+        "maxChannelDelta": 1,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 5565.015625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.015625
+      }
+    },
+    {
+      "id": "b10",
+      "groundKind": "radial",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 3281.46875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.46875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 7141,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 1327,
+        "maxChannelDelta": 1,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 5661.015625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.015625
+      }
+    },
+    {
+      "id": "b11",
+      "groundKind": "radial",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 3377.46875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.46875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 7096,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 1759,
+        "maxChannelDelta": 1,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 5757.015625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.015625
+      }
+    },
+    {
+      "id": "b12",
+      "groundKind": "radial",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 3473.46875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.46875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 6842,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 910,
+        "maxChannelDelta": 8,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 5853.015625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.015625
+      }
+    },
+    {
+      "id": "b13",
+      "groundKind": "plate-over-linear",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 3569.46875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.46875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 9570,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 3575,
+        "maxChannelDelta": 1,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 5949.015625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.015625
+      }
+    },
+    {
+      "id": "b14",
+      "groundKind": "plate-over-linear",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 3665.46875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.46875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 9834,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 3777,
+        "maxChannelDelta": 1,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 6045.015625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.015625
+      }
+    },
+    {
+      "id": "b15",
+      "groundKind": "plate-over-linear",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 3761.46875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.46875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 8332,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 1366,
+        "maxChannelDelta": 1,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 6141.015625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.015625
+      }
+    },
+    {
+      "id": "b16",
+      "groundKind": "plate-over-linear",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 1898.546875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.546875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 9263,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 12375,
+        "maxChannelDelta": 238,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 3491.390625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.390625
+      }
+    },
+    {
+      "id": "b17",
+      "groundKind": "stripes",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 1994.546875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.546875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 2881,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 1692,
+        "maxChannelDelta": 238,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 3587.390625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.390625
+      }
+    },
+    {
+      "id": "b18",
+      "groundKind": "stripes",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 2090.546875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.546875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 1788,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 1111,
+        "maxChannelDelta": 238,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 3683.390625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.390625
+      }
+    },
+    {
+      "id": "b19",
+      "groundKind": "stripes",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 2186.546875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.546875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 4202,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 2860,
+        "maxChannelDelta": 212,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 3779.390625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.390625
+      }
+    },
+    {
+      "id": "b20",
+      "groundKind": "stripes",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 2282.546875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.546875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 4242,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 2915,
+        "maxChannelDelta": 212,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 3875.390625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.390625
+      }
+    },
+    {
+      "id": "b21",
+      "groundKind": "linear",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 2378.546875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.546875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 4045,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 8544,
+        "maxChannelDelta": 244,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 3971.390625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.390625
+      }
+    },
+    {
+      "id": "b22",
+      "groundKind": "linear",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 2474.546875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.546875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 4031,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 8364,
+        "maxChannelDelta": 243,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 4067.390625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.390625
+      }
+    },
+    {
+      "id": "b23",
+      "groundKind": "radial",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 2570.546875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.546875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 6444,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 9683,
+        "maxChannelDelta": 232,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 4163.390625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.390625
+      }
+    },
+    {
+      "id": "b24",
+      "groundKind": "stripes",
+      "box": {
+        "w": 272,
+        "h": 56,
+        "x": 504,
+        "y": 2666.546875
+      },
+      "subPixelPhase": {
+        "x": 0,
+        "y": 0.546875
+      },
+      "pngWidth": 272,
+      "pngHeight": 57,
+      "bytes": 3142,
+      "repeatability": {
+        "identical": true,
+        "geometry": null,
+        "differingPixels": 0,
+        "maxChannelDelta": 0,
+        "pixels": 15504
+      },
+      "viewportIndependence": {
+        "identical": false,
+        "geometry": null,
+        "differingPixels": 1616,
+        "maxChannelDelta": 238,
+        "pixels": 15504
+      },
+      "altBox": {
+        "w": 272,
+        "h": 56,
+        "x": 24,
+        "y": 4259.390625
+      },
+      "altSubPixelPhase": {
+        "x": 0,
+        "y": 0.390625
+      }
+    }
+  ],
+  "viewportIndependence": {
+    "gated": false,
+    "note": "a recorded observation, not a check: identical rasters across two viewports are not expected, and this script's exit code is unaffected by this block. See METHOD.md, \"what a Part B label is scoped to\".",
+    "captureViewport": "1280x640",
+    "verifyViewport": "320x568",
+    "compared": 24,
+    "identicalRasters": 0,
+    "repeatableAtCaptureViewport": "24/24",
+    "sameLayoutBox": 24,
+    "differing": [
+      {
+        "id": "b01",
+        "geometry": null,
+        "differingPixels": 1194,
+        "maxChannelDelta": 1
+      },
+      {
+        "id": "b02",
+        "geometry": null,
+        "differingPixels": 1136,
+        "maxChannelDelta": 1
+      },
+      {
+        "id": "b03",
+        "geometry": null,
+        "differingPixels": 1677,
+        "maxChannelDelta": 1
+      },
+      {
+        "id": "b04",
+        "geometry": null,
+        "differingPixels": 896,
+        "maxChannelDelta": 8
+      },
+      {
+        "id": "b05",
+        "geometry": null,
+        "differingPixels": 1704,
+        "maxChannelDelta": 1
+      },
+      {
+        "id": "b06",
+        "geometry": null,
+        "differingPixels": 1688,
+        "maxChannelDelta": 1
+      },
+      {
+        "id": "b07",
+        "geometry": null,
+        "differingPixels": 1529,
+        "maxChannelDelta": 1
+      },
+      {
+        "id": "b08",
+        "geometry": null,
+        "differingPixels": 4820,
+        "maxChannelDelta": 8
+      },
+      {
+        "id": "b09",
+        "geometry": null,
+        "differingPixels": 2601,
+        "maxChannelDelta": 1
+      },
+      {
+        "id": "b10",
+        "geometry": null,
+        "differingPixels": 1327,
+        "maxChannelDelta": 1
+      },
+      {
+        "id": "b11",
+        "geometry": null,
+        "differingPixels": 1759,
+        "maxChannelDelta": 1
+      },
+      {
+        "id": "b12",
+        "geometry": null,
+        "differingPixels": 910,
+        "maxChannelDelta": 8
+      },
+      {
+        "id": "b13",
+        "geometry": null,
+        "differingPixels": 3575,
+        "maxChannelDelta": 1
+      },
+      {
+        "id": "b14",
+        "geometry": null,
+        "differingPixels": 3777,
+        "maxChannelDelta": 1
+      },
+      {
+        "id": "b15",
+        "geometry": null,
+        "differingPixels": 1366,
+        "maxChannelDelta": 1
+      },
+      {
+        "id": "b16",
+        "geometry": null,
+        "differingPixels": 12375,
+        "maxChannelDelta": 238
+      },
+      {
+        "id": "b17",
+        "geometry": null,
+        "differingPixels": 1692,
+        "maxChannelDelta": 238
+      },
+      {
+        "id": "b18",
+        "geometry": null,
+        "differingPixels": 1111,
+        "maxChannelDelta": 238
+      },
+      {
+        "id": "b19",
+        "geometry": null,
+        "differingPixels": 2860,
+        "maxChannelDelta": 212
+      },
+      {
+        "id": "b20",
+        "geometry": null,
+        "differingPixels": 2915,
+        "maxChannelDelta": 212
+      },
+      {
+        "id": "b21",
+        "geometry": null,
+        "differingPixels": 8544,
+        "maxChannelDelta": 244
+      },
+      {
+        "id": "b22",
+        "geometry": null,
+        "differingPixels": 8364,
+        "maxChannelDelta": 243
+      },
+      {
+        "id": "b23",
+        "geometry": null,
+        "differingPixels": 9683,
+        "maxChannelDelta": 232
+      },
+      {
+        "id": "b24",
+        "geometry": null,
+        "differingPixels": 1616,
+        "maxChannelDelta": 238
+      }
+    ]
+  }
+}
