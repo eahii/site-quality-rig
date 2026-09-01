@@ -124,6 +124,16 @@ jobs:
         if: github.ref_name != 'demo/failing-gate' && github.head_ref != 'demo/failing-gate'
         run: npm run test:controls
 
+      # The comparison tool that reads run records has its own six-leg control, and it is the
+      # cheapest thing in this job: no browsers, no fixture, synthetic records in memory. It
+      # says nothing about the site, only about whether a diff of two runs can be trusted to
+      # name the right checker — so `if: always()` rather than the default `if: success()`,
+      # which would skip it on demo/failing-gate, the one branch where the battery above is
+      # red by design. Same reason the artifact step below carries `if: failure()`.
+      - name: Control (compare-runs self-test)
+        if: always()
+        run: node scripts/compare-runs.js --control
+
       # Only on red: a green run's screenshots are not evidence of anything worth downloading.
       - name: Preserve screenshots from the red run
         if: failure()
