@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-01T02:05:49.290Z",
+  "sha": "eb1d063",
+  "dirty": false,
+  "node": "v22.22.2",
+  "playwrightVersion": "1.62.1",
+  "os": {
+    "platform": "linux",
+    "release": "6.6.87.2-microsoft-standard-WSL2"
+  },
+  "argv": [
+    "--engines",
+    "chromium"
+  ],
+  "scopeEnv": {},
+  "engines": "chromium",
+  "partial": false,
+  "wallMs": 276954,
+  "checkers": [
+    {
+      "name": "links",
+      "script": "checks/check-links.js",
+      "verdict": "PASS",
+      "ok": 231,
+      "total": 231,
+      "stamp": "sha=eb1d063 root=dist pages=7 strict=false",
+      "exitCode": 0,
+      "durationMs": 32
+    },
+    {
+      "name": "viewports",
+      "script": "checks/measure-viewports.js",
+      "verdict": "PASS",
+      "ok": 72,
+      "total": 72,
+      "stamp": "sha=eb1d063 root=dist engines=chromium cells=12 pages=6",
+      "exitCode": 0,
+      "durationMs": 68701
+    },
+    {
+      "name": "contrast",
+      "script": "checks/check-contrast.js",
+      "verdict": "PASS",
+      "ok": 19,
+      "total": 19,
+      "stamp": "sha=eb1d063 root=dist engines=chromium cells=3 pages=6",
+      "exitCode": 0,
+      "durationMs": 56886
+    },
+    {
+      "name": "motion",
+      "script": "checks/check-motion.js",
+      "verdict": "PASS",
+      "ok": 72,
+      "total": 72,
+      "stamp": "sha=eb1d063 root=dist engines=chromium cells=3",
+      "exitCode": 0,
+      "durationMs": 41725
+    },
+    {
+      "name": "harden",
+      "script": "checks/check-harden.js",
+      "verdict": "PASS",
+      "ok": 144,
+      "total": 144,
+      "stamp": "sha=eb1d063 root=dist engines=chromium cells=4 components=3 grids=2",
+      "exitCode": 0,
+      "durationMs": 100894
+    },
+    {
+      "name": "hero",
+      "script": "checks/check-hero.js",
+      "verdict": "PASS",
+      "ok": 8,
+      "total": 8,
+      "stamp": "sha=eb1d063 root=dist contract=contracts/hero-contract.json page=index.html engines=chromium cells=2",
+      "exitCode": 0,
+      "durationMs": 8622
+    },
+    {
+      "name": "deploy",
+      "script": "checks/check-deploy.js",
+      "verdict": "PASS",
+      "ok": 9,
+      "total": 9,
+      "stamp": "sha=eb1d063 origin=local-fixture root=dist pages=6 drift=0 form=3-probes strict=false",
+      "exitCode": 0,
+      "durationMs": 76
+    }
+  ],
+  "battery": {
+    "pass": true,
+    "red": [],
+    "partial": false
+  }
+}

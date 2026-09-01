@@ -9,14 +9,16 @@
 
 Every checker prints its own denominator and its own `sha=` stamp; the summary table is rebuilt
 from those stamps, so it structurally cannot report a number a checker did not print. The same 869
-cells have now come back from five full runs. Four of them were on this machine: two on 2026-08-27
+cells have now come back from six full runs; the sixth, on 2026-09-01 at `eb1d063`, is the first
+whose record is committed rather than described — [`runs/20260901-0142-eb1d063-full.json`](../runs/20260901-0142-eb1d063-full.json),
+869/869, 7/7 PASS, 558 s, `dirty=false`. Four of the other five were on this machine: two on 2026-08-27
 at `60863e4` and `611824e`, whose only difference is two files under `.github/`; one on 2026-08-29
 from a reviewer with no access to how this repo was built, on a fresh clone outside the project
 with a from-scratch install, 524 s; and the one stamped in the README's results table, 536 s. That reviewer's pass also
 found things wrong here, and both halves of it are written down in
 [`docs/VERIFICATION.md`](VERIFICATION.md).
 
-The fifth was not on this machine. On 2026-08-29 `.github/workflows/full-battery.yml` executed for
+The fifth of those was not on this machine. On 2026-08-29 `.github/workflows/full-battery.yml` executed for
 the first time and returned the same 869 — every per-checker denominator identical — on a GitHub
 `ubuntu-24.04` runner under node v20.20.2, at `85aedbe`, battery step 598 s; it is the third row of the CI table in the README. One run, on one runner image, on one day, so it is not a portability claim. What
 it does retire is the narrower one this section rested on until that day: that every two-engine 869
@@ -168,3 +170,38 @@ of my own shipped with its moving element a few pixels off the line it travels o
 other gate stayed green — a defect that carries no denominator here and **cannot be reproduced from
 this repo**. What can be reproduced is the control above, which injects that defect class into this
 fixture and catches it.
+
+
+## Whether the battery says the same thing twice
+
+
+Until 2026-09-01, every number in the README was a single run, and a single run cannot tell a
+stable measurement from a lucky one. On that date, at `eb1d063`, on the author's machine (WSL2,
+node v22.22.2, playwright 1.62.1, otherwise idle — the battery's own header warns that checkers on
+a starved machine produce flaky reds, so nothing else ran during the series),
+`scripts/measure-repeatability.js --runs 10 --engines chromium` ran the full build-plus-battery ten
+times in sequence and compared every run to the first through `scripts/compare-runs.js`: **0 flips
+across 189 checker-field comparisons** — 7 checkers x 3 compared fields (verdict, ok/total, exit
+code) x 9 comparisons — with all ten runs `battery: 7/7 checkers PASS` at 555/555 cells and per-run
+wall times between 276.5 and 277.1 s. The series is committed at
+[`runs/repeatability-eb1d063-20260901-014245/`](../runs/repeatability-eb1d063-20260901-014245/),
+one record per run.
+
+The claim is deliberately narrower than "the runs were identical". A flip is a checker changing
+verdict, denominator or exit code; a passing cell drifting inside its threshold, compensating flips
+within one checker, and a note appearing or disappearing are all invisible to the counts — the
+header of `scripts/measure-repeatability.js` enumerates each, with which of them a transcript diff
+could still catch. The transcripts themselves stay local as a rule (checkers print machine-absolute
+paths, which this repo keeps out of tracked files; [`runs/README.md`](../runs/README.md) states the
+rule), so the committed series supports the count-level claim and not a byte-level one.
+
+The comparator those 189 comparisons ran through is itself controlled.
+`scripts/compare-runs.js --control` is a six-leg self-test, run by CI on every push under
+`if: always()`. The legs were earned during review by a blinding pass: under the first two-leg
+version, three advertised behaviours — the refusal of incomparable records, name-based checker
+matching, and "stamps and durations are never counted" — could each be deleted from the code with
+the control still reporting every leg green. Eleven distinct blindings of the comparator are now
+each caught by a named leg. The same review pass found the cleanliness flag answering a question
+about itself: `git status --porcelain` counts untracked files, so the recorder's own output under
+`runs/` turned every record after the first `dirty: true` on an untouched source tree, until
+`runs/` was excluded from the question the flag asks.

@@ -32,7 +32,7 @@ against a clean tree — node v22.22.2, playwright 1.62.1, chromium + webkit, 53
 
 Every checker prints its own denominator and its own `sha=` stamp; the summary table is rebuilt
 from those stamps, so it structurally cannot report a number a checker did not print. The same 869
-cells have come back from five full runs — four on the author's machine, one on a GitHub runner —
+cells have come back from six full runs — five on the author's machine, one on a GitHub runner —
 and one of those was an independent reviewer's fresh clone, whose pass also found things wrong
 here. Both halves of that are in [`docs/VERIFICATION.md`](docs/VERIFICATION.md); the run-by-run
 forensics, including what changed between runs and why it could not move a number, are in
@@ -53,6 +53,18 @@ For runs after this commit, read the
 | [33258911560](https://github.com/eahii/site-quality-rig/actions/runs/33258911560) | `main` | `85aedbe` | **green** | 670 s | `full-battery.yml`'s first execution ever — battery 7/7 PASS, **869 cells across both engines** in 598 s: the two-engine denominator reproduced off the author's machine |
 
 
+
+**One run is one sample, and whether the battery repeats itself is its own measurement.** Made
+2026-09-01 at `sha=eb1d063` on the author's machine, otherwise idle: ten consecutive
+build-plus-battery runs, chromium, every run compared to the first — **0 flips across 189
+checker-field comparisons** (7 checkers x 3 fields x 9 comparisons), all ten runs 7/7 PASS at
+555/555 cells, 276–277 s each. A flip is a checker changing its verdict, its ok/total or its exit
+code over the same source; a passing cell drifting inside its threshold is invisible to this
+measurement, and the header of `scripts/measure-repeatability.js` enumerates what else it cannot
+see. The series' records are committed under [`runs/`](runs/), beside a recorded two-engine run of
+the same tree (869/869, 558 s). Any run leaves such a record with `npm test -- --record`;
+`node scripts/compare-runs.js <a.json> <b.json>` diffs two records — or refuses when they measured
+different things — and its own six-leg self-test runs in CI on every push.
 
 **Negative controls: 7 of 7 fired**, re-run 2026-08-29 at `sha=44deb74` on a clean tree, chromium,
 102 s. The receipts are pasted verbatim, exit codes included, into
