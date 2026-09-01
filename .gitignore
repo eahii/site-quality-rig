@@ -1,6 +1,6 @@
 node_modules/
 dist/
-shots/
+/shots/
 controls/*/dist/
 *.log
 .DS_Store
